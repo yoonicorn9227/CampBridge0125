@@ -1,0 +1,39 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- FBoardMapper.java 연결 -->
+<mapper namespace="com.java.www.mapper.FBoardMapper">
+	<!-- 4.자유게시판 - 전체가져오기 -->
+	<select id="fselectAll" resultType="com.java.www.dto.FBoardDto">
+		select * from
+		(select
+		row_number() over(order by f_bgroup desc, f_bstep asc) rnum, a.* from
+		f_board a)
+		where rnum between #{startRow} and #{endRow}
+	</select>
+
+	<!-- 4.자유게시판 - 게시글 검색 전체가져오기 -->
+	<select id="fSelectSearch" resultType="com.java.www.dto.FBoardDto">
+		select * from(select row_number() over(order by f_bgroup desc, f_bstep asc) rnum, a.* from f_board a where ${searchTitle} like '%'||#{searchWord}||'%')
+		where rnum between #{startRow} and #{endRow}
+	</select>
+
+
+	<!-- 4.자유게시판 - 게시글 총갯수 -->
+	<select id="fSelcountAll" resultType="int">
+		select count(*) from f_board
+	</select>
+	<!-- 4.자유게시판 - 게시글 검색갯수 -->
+	<select id="fSearchCount" resultType="int">
+		select count(*) from f_board where ${searchTitle} like '%'||#{searchWord}||'%'
+	</select>
+
+	<!-- 4.자유게시판 - 게시글 1개가져오기 -->
+	<select id="fSelectOne" resultType="com.java.www.dto.FBoardDto">
+		select * from f_board where
+		f_bno=#{f_bno}
+	</select>
+
+
+
+</mapper>
