@@ -1,12 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>캠핑꿀팁(Tip) 게시판</title>
+		<title>파티원 모집</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	    <meta content="" name="description">
 	    <meta content="" name="keywords">
@@ -30,7 +28,7 @@
 	    <!-- Template Main CSS File -->
 	    <link href="../assets/css/main2.css" rel="stylesheet">
 		<link href="../assets/css/header.css" rel="stylesheet">
-		<link href="../assets/css/commuinty/listStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
@@ -38,8 +36,8 @@
 	<!-- End Header -->
 	
 		<section class="notice">
-			<!-- 꿀팁게시판 리스트 -->
-	    	<h1 style="margin: 10px; font-weight: 700; position: relative; top: 40px; left: -550px; ">캠핑꿀팁(Tip)</h1>
+			<!-- 공지사항 리스트 -->
+	    	<h1 style="margin: 10px; font-weight: 700; position: relative; top: 70px; left: -560px; ">파티원 모집</h1>
 		    <!-- 검색창 -->
 		    <div class="searchDiv">
 			  <form action="" method="get" name="searchFrm">
@@ -57,94 +55,129 @@
 		  		<div class="page-title">
 			      <colgroup>
 			        <col width="10%">
-			        <col width="55%">
-			        <col width="15%">
+			        <col width="10%">
+			        <col width="30%">
+			        <col width="10%">
+			        <col width="10%">
+			        <col width="10%">
 			        <col width="10%">
 			        <col width="10%">
 			      </colgroup>
 			      <tr>
 			        <th>No.</th>
+			        <th>캠핑유형</th>
 			        <th>제목</th>
 			        <th>작성자</th>
+			        <th>지역</th>
+			        <th>모집인원</th>
 			        <th>작성일</th>
-			        <th>조회수</th>
+			        <th>모집상태</th>
 			      </tr>
 			      <tr>
 			        <td id="No">1</td>
-			        <td class="table-title"><a href="tView">게시글 내용이 들어갑니다.</a></td>
-			        <td>관리자</td>
+			        <td>오토캠핑</td>
+			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
+			        <td>캠브릿지</td>
+			        <td>양평</td>
+			        <td>1/5</td>
 			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td>모집중</td>
 			      </tr>
 			      <tr>
 			        <td id="No">2</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
+			        <td>오토캠핑</td>
+			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
+			        <td>송승민</td>
+			        <td>서울</td>
+			        <td>1/5</td>
 			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td>모집중</td>
 			      </tr>
 			      <tr>
 			        <td id="No">3</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
+			        <td>오토캠핑</td>
+			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
+			        <td>조민진</td>
+			        <td>천안</td>
+			        <td>1/5</td>
 			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td>모집중</td>
 			      </tr>
 			      <tr>
 			        <td id="No">4</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
+			        <td>오토캠핑</td>
+			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
+			        <td>정보람</td>
+			        <td>서천</td>
+			        <td>1/5</td>
 			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td>모집중</td>
 			      </tr>
 			      <tr>
 			        <td id="No">5</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
+			        <td>오토캠핑</td>
+			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
+			        <td>최창윤</td>
+			        <td>서울</td>
+			        <td>1/5</td>
 			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td>모집중</td>
 			      </tr>
 			      <tr>
-			        <td id="No">6</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
+			        <td id=오토캠핑>6</td>
+			        <td>박은경</td>
+			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
+			        <td>박은경</td>
+			        <td>광명</td>
+			        <td>1/5</td>
 			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td>모집중</td>
 			      </tr>
 			      <tr>
 			        <td id="No">7</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
+			        <td>오토캠핑</td>
+			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
+			        <td>박현수</td>
+			        <td>광주</td>
+			        <td>1/5</td>
 			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td>모집중</td>
 			      </tr>
 			      <tr>
 			        <td id="No">8</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
+			        <td>오토캠핑</td>
+			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
+			        <td>김승우</td>
+			        <td>광주</td>
+			        <td>1/5</td>
 			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td>모집중</td>
 			      </tr>
 			      <tr>
 			        <td id="No">9</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
+			        <td>오토캠핑</td>
+			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
+			        <td>지피티</td>
+			        <td>양평</td>
+			        <td>1/5</td>
 			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td>모집중</td>
 			      </tr>
 			      <tr>
 			        <td id="No">10</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
+			        <td>오토캠핑</td>
+			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
+			        <td>손발을</td>
+			        <td>양평</td>
+			        <td>1/5</td>
 			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td>모집중</td>
 			      </tr>
 		  		</div>
 		    </table>
-			 	<a href="tWrite"><button class="write">글쓰기</button></a>
+			 	<a href="pWrite"><button class="write">글쓰기</button></a>
   			 	<button class="write" onclick="location.href='/'">메인홈</button>
 	    	
-	    	<!-- 하단넘버링 시작 -->
 		     <ul class="page-num">
 			      <li class="first"></li>
 			      <li class="prev"></li>
@@ -161,7 +194,6 @@
 			      <li class="next"></li>
 			      <li class="last"></li>
    			 </ul>
-   			 <!-- 하단넘버링 끝 -->
 		</section>
 		
 		<!-- ======= Footer ======= -->

@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>공지사항_글수정</title>
+		<title>캠핑꿀팁(Tip)_글수정</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	    <meta content="" name="description">
 	    <meta content="" name="keywords">
@@ -30,9 +30,9 @@
 	    <!-- Template Main CSS File -->
  		<link href="../assets/css/main2.css" rel="stylesheet">
        	<link href="../assets/css/header.css" rel="stylesheet">
-		<link href="../assets/css/commuinty/listStyle.css" rel="stylesheet">
-		<link href="../assets/css/commuinty/viewStyle.css" rel="stylesheet">
-		<link href="../assets/css/commuinty/writeStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/viewStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/writeStyle.css" rel="stylesheet">
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
@@ -41,8 +41,9 @@
 	
 		<section class="notice">
 		
-			<!-- 공지사항 글수정 -->
-	    	<h1 style="float: left; margin: 40px; font-weight: 700; position: relative; left:235px; top: 30px;">공지사항 수정</h1>
+		   
+			<!-- 꿀팁 게시판 글수정 -->
+	    	<h1 style="float: left; margin: 40px; font-weight: 700; position: relative; left:235px; top: 30px;">꿀팁게시글 수정</h1>
 			<form action="" name="freeFrm" method="post" enctype="multipart/form-data">
 			    <table>
 			     <colgroup>
@@ -52,29 +53,24 @@
 			        <col width="10%">
 	   			</colgroup>
 			      <tr>
-			        <th style="text-align: center;">
-		        	 	<select name="bType" id="bType" class="bType">
-					       <option value="nOtice">공지사항</option>
-					       <option value="eVent">이벤트</option>
-					    </select>
-			        </th>
-			        <th colspan="3" style="text-align: left;"><input type="text" id="f_btitle" placeholder=" ※ 게시글 제목을 입력해주세요."> </span></th>
+			        <th colspan="4" style="text-align: left;"><input type="text" id="f_btitle" placeholder=" ※ 게시글 제목을 입력해주세요."> </span></th>
 			      </tr>
 			      <tr style="border-bottom: 2px solid #009223">
-			        <td style="text-align: center;"><strong>작성자 | </strong style="text-align: center;"></td>
-			        <td><input type="text" value="관리자" readonly="readonly" style="border: 1px solid transparent;"> </td>
+			        <td colspan="4"><strong>작성자 | </strong style="text-align: center;">
+			        <input type="text" value="aaa" readonly="readonly" style="border: 1px solid transparent;">
+			        </td>
 			      </tr>
 			      <tr>
 			        <td colspan="4" class="article"><textarea rows="9" name="f_bcontent" id="f_bcontent" placeholder=" ※ 게시글 내용을 입력해주세요."></textarea> </td>
 			      </tr>
 			      <tr style="border-bottom: 2px solid #009223; line-height: 20px;">
-			        <td colspan="4" class="article"><input type="file" name="n_bfile" id="n_bfile"></td>
+			        <td colspan="4" class="article"><input type="file" name="f_bfile" id="f_bfile"></td>
 			      </tr>
 			    </table>
 			</form>
 			<div class="listBtn">
 		    	<a href="#"><div class="list">수정</div></a>
-		    	<a href="nList"><div class="list">취소</div></a>
+		    	<a href="tView"><div class="list">취소</div></a>
 			</div>
  		 </section>
 		

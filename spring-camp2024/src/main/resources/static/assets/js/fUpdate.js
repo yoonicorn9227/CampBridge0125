@@ -1,5 +1,5 @@
 /**
- * fWrite.jsp파일
+ * fUpdate.jsp파일
  */
 $(function() {
 	$('#summernote').summernote({
@@ -43,7 +43,7 @@ $(function() {
 
 	});//summernote	
 
-	$("#saveBtn").click(function() {
+	$("#updateSaveBtn").click(function() {
 		if ($("#f_btitle").val().length < 1) {
 			alert("게시글 제목을 입력해주세요.");
 			$("#f_btitle").focus();
@@ -56,16 +56,16 @@ $(function() {
 			return false;
 		}//if(게시글 내용 미입력시)
 
-		freeFrm.submit();
+		freeUpdateFrm.submit();
 
-	});//#saveBtn
+	});//#updateSaveBtn
 
 });//제이쿼리 최신
 
 //♠ajax로 파일을 서버에 전송하는 부분
 function uploadFile(file, this_location) {//매개변수 - file: 이미지 파일, 현재위치값(this_location)
 	var fdata = new FormData(); //ajax에서 전송할때 form형태로 전송
-	fdata.append("fFile", file);//file이미지를 첨부
+	fdata.append("uFile", file);//file이미지를 첨부
 	//♠ajax
 	$.ajax({
 		url: "/community/summernoteUpload",

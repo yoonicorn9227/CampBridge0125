@@ -30,7 +30,8 @@
 	    <!-- Template Main CSS File -->
 	    <link href="../assets/css/main2.css" rel="stylesheet">
 		<link href="../assets/css/header.css" rel="stylesheet">
-		<link href="../assets/css/commuinty/listStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	</head>
 	<script>
 		$(function(){
@@ -40,7 +41,7 @@
 					$("#searchWord").focus();
 					return false;
 				}//if
-				alert("입려하신 검색어로 검색합니다.");
+				alert("입력하신 검색어로 검색합니다.");
 				fsearchFrm.submit();
 				
 			});//#searchBtn
@@ -56,7 +57,7 @@
 	    	<h1 style="margin: 10px; font-weight: 700; position: relative; top: 40px; left: -570px; ">자유 게시판</h1>
 		    <!-- 검색창 -->
 		    <div class="searchDiv">
-			  <form action="fsearch" name="fsearchFrm" method="get" >
+			  <form action="fList" name="fsearchFrm" method="get" >
 			    <select name="searchTitle" id="searchTitle" class="searchTitle">
 			       <option value="all">전체</option>
 			       <option value="f_btitle">제목</option>
@@ -85,6 +86,11 @@
 			        <th>작성일</th>
 			        <th>조회수</th>
 			      </tr>
+			      <c:if test="${map.list.size()==0 }">
+			            <tr>
+				        <td colspan="6"> <strong>※ 게시글이 존재 하지 않습니다.</strong></td>
+				      </tr>
+			      </c:if>
 			      <c:forEach var="fbdto" items="${map.list }">
 				      <tr>
 				        <td id="No">${fbdto.f_bno }</td>
@@ -103,32 +109,35 @@
 	    	
 	    	<!-- 하단넘버링 시작 -->
 		     <ul class="page-num">
-			      <a href="fList?page=1"><li class="first"></li></a>
+			      <a href="fList?page=1&searchTitle=${map.searchTitle}&searchWord=${map.searchWord}"><li class="first"></li></a>
 			      
 			      <c:if test="${map.page<=1 }">
 			      	<li class="prev"></li>
 			      </c:if>
 			      <c:if test="${map.page>1 }">
-			      	<a href="fList?page=${map.page-1 }"><li class="prev"></li></a>
+			      	<a href="fList?page=${map.page-1 }&searchTitle=${map.searchTitle}&searchWord=${map.searchWord}"><li class="prev"></li></a>
 			      </c:if>
+			      <c:if test="${map.list.size()==0 }">
+			      	<a href="fList?page=1"><i class="fa-solid fa-clock-rotate-left" style="font-size: 33px; color: #009223;"></i></a>
+			      </c:if> 
 			      
 			      <c:forEach var="i" begin="${map.startPageNum }" end="${map.endPageNum }" step="1">
 				      <c:if test="${map.page==i }">
 					      <li class="num on">${i}</li>
 				      </c:if>
-				      <c:if test="${map.page!=i }">
-				      	<a href="fList?page=${i }"><li class="num">${i}</li></a>
+				      <c:if test="${map.page!=i}">
+				      	<a href="fList?page=${i}&searchTitle=${map.searchTitle}&searchWord=${map.searchWord}"><li class="num">${i}</li></a>
 				      </c:if>
 			      </c:forEach>
 			     
 			     <c:if test="${map.page<map.maxPageNum }">
-			      	<a href="fList?page=${map.page+1 }"><li class="next"></li></a>
+			      	<a href="fList?page=${map.page+1 }&searchTitle=${map.searchTitle}&searchWord=${map.searchWord}"><li class="next"></li></a>
 			     </c:if>
 			     <c:if test="${map.page>=map.maxPageNum }">
 			      	<li class="next"></li>
 			     </c:if>
 			      
-			      <a href="fList?page=${map.maxPageNum }"><li class="last"></li></a>
+			      <a href="fList?page=${map.maxPageNum }&searchTitle=${map.searchTitle}&searchWord=${map.searchWord}"><li class="last"></li></a>
    			 </ul>
    			 <!-- 하단넘버링 끝 -->
 		</section>

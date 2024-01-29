@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>캠핑꿀팁(Tip)_글작성</title>
+		<title>자유게시판_글작성</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	    <meta content="" name="description">
 	    <meta content="" name="keywords">
@@ -30,16 +30,15 @@
 	    <!-- Template Main CSS File -->
  		<link href="../assets/css/main2.css" rel="stylesheet">
        	<link href="../assets/css/header.css" rel="stylesheet">
-		<link href="../assets/css/commuinty/listStyle.css" rel="stylesheet">
-		<link href="../assets/css/commuinty/viewStyle.css" rel="stylesheet">
-		<link href="../assets/css/commuinty/writeStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/viewStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/writeStyle.css" rel="stylesheet">
 		<script src="../assets/js/summernote-lite.js"></script>
         <script src="../assets/js/summernote/lang/summernote-ko-KR.js"></script>
 		<link href="../assets/css/summernote-lite.css" rel="stylesheet">
 		
 		<!-- Template nWrite JS File -->
-  		<script src="../assets/js/tWrite.js"></script>
-		
+  		<script src="../assets/js/pWrite.js"></script>
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
@@ -48,35 +47,53 @@
 	
 		<section class="notice">
 		
-			<!-- 꿀팁 게시판 글쓰기 -->
-	    	<h1 style="float: left; margin: 40px; font-weight: 700; position: relative; left:235px; top: 30px;">꿀팁게시판 작성</h1>
+		   
+			<!-- 글쓰기 -->
+	    	<h1 style="float: left; margin: 40px; font-weight: 700; position: relative; left:235px; top: 30px;">파티원모집 작성</h1>
 			<form action="" name="freeFrm" method="post" enctype="multipart/form-data">
 			    <table>
 			     <colgroup>
-			        <col width="5%">
-			        <col width="75%">
 			        <col width="10%">
+			        <col width="68%">
 			        <col width="10%">
+			        <col width="12%">
 	   			</colgroup>
 			      <tr>
-			        <th colspan="4" style="text-align: left;"><input type="text" id="t_btitle" placeholder=" ※ 게시글 제목을 입력해주세요."> </span></th>
+			      <th style="text-align: left;"><strong>글제목 | </strong></th>
+			        <th style="text-align: left;"><input type="text" id="p_btitle" placeholder=" ※ 게시글 제목을 입력해주세요."></th>
+			        <th style="text-align: left;">
+		        	 	<select name="p_bType" id="p_bType" class="p_bType">
+					       <option value="freeCont">캠핑유형</option>
+					       <option value="foodGood">오토캠핑</option>
+					       <option value="sParty">노지캠핑</option>
+					       <option value="sParty">국민여가</option>
+					    </select>
+			        </th>
+			        <th style="text-align: left;">
+		        	 	<select name="p_bType" id="p_bType" class="p_bType">
+					       <option value="freeCont">파티인원</option>
+					       <option value="foodGood">1</option>
+					       <option value="sParty">2</option>
+					       <option value="sParty">3</option>
+					       <option value="sParty">4</option>
+					    </select>
+			        </th>
 			      </tr>
 			      <tr style="border-bottom: 2px solid #009223">
-			        <td colspan="4"><strong>작성자 | </strong style="text-align: center;">
-			        <input type="text" value="aaa" readonly="readonly" style="border: 1px solid transparent;">
-			        </td>
+			        <td style="text-align: left;"><strong>작성자 | </strong></td>
+			        <td><input type="text" value="aaa" readonly="readonly" style="border: 1px solid transparent; margin-left: -40px;"> </td>
 			      </tr>
 			      <tr>
-			        <td colspan="4" class="article"><textarea rows="9" name="t_bcontent" id="summernote" placeholder=" ※ 게시글 내용을 입력해주세요."></textarea> </td>
+			        <td colspan="4" class="article"><textarea rows="9" name="p_bcontent" id="summernote" placeholder=" ※ 게시글 내용을 입력해주세요."></textarea> </td>
 			      </tr>
 			      <tr style="border-bottom: 2px solid #009223; line-height: 20px;">
-			        <td colspan="4" class="article"><input type="file" name="t_bfile" id="t_bfile"></td>
+			        <td colspan="4" class="article"><input type="file" name="p_bfile" id="p_bfile"></td>
 			      </tr>
 			    </table>
 			</form>
 			<div class="listBtn">
-		    	<a href="#"><div class="list" id="saveBtn">저장</div></a>
-		    	<a href="tList"><div class="list">취소</div></a>
+		    	<div class="list">저장</div>
+		    	<a href="pList"><div class="list">취소</div></a>
 			</div>
  		 </section>
 		

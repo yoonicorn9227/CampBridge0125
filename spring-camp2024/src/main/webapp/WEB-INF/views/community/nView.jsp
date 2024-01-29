@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>자유게시판_게시글</title>
+		<title>공지사항_글보기</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	    <meta content="" name="description">
 	    <meta content="" name="keywords">
@@ -30,8 +30,8 @@
 	    <!-- Template Main CSS File -->
  		<link href="../assets/css/main2.css" rel="stylesheet">
        	<link href="../assets/css/header.css" rel="stylesheet">
-		<link href="../assets/css/commuinty/listStyle.css" rel="stylesheet">
-		<link href="../assets/css/commuinty/viewStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/viewStyle.css" rel="stylesheet">
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
@@ -40,8 +40,8 @@
 	
 		<section class="notice">
 		
-			<!-- 자유게시글 보기 -->
-	    	<h1 style="float: left; margin: 40px 0 0 700px; font-weight: 700; position: relative; left:50px;">자유게시판 게시글</h1>
+			<!-- 공지사항 글보기 -->
+	    	<h1 style="float: left; margin: 40px 0 0 700px; font-weight: 700; position: relative; left:50px;">공지사항 게시글</h1>
 		    <table>
 		     <colgroup>
 		        <col width="10%">
@@ -49,45 +49,36 @@
 		        <col width="15%">
 		        <col width="12%">
    			</colgroup>
-		      <tr>
-		        <th style="text-align: center;"><strong>${fbdto.f_bno }</strong></th>
-		        <th style="text-align: left;"><span>${fbdto.f_btitle }</span></th>
+		     <tr>
+		        <th style="text-align: center;"><strong>1007</strong></th>
+		        <th style="text-align: left;"><span>게시글 제목이 들어갑니다.</span></th>
 		        <th style="text-align: right;"><strong>작성일</strong></th>
-		        <th><fmt:formatDate value="${fbdto.f_bdate}" pattern="yyyy-MM-dd"/></th>
+		        <th>2019-12-11</th>
 		      </tr>
 		      <tr style="border-bottom: 2px solid #009223">
 		        <td style="text-align: center;"><strong>작성자</strong style="text-align: center;"></td>
-		        <td>${fbdto.id }</td>
+		        <td>관리자</td>
 		        <td style="text-align: right;"><strong>조회수</strong></td>
-		        <td>${fbdto.f_bhit }</td>
+		        <td>123</td>
 		      </tr>
 		      <tr>
-		        <td colspan="4" class="article">${fbdto.f_bcontent }<br><br>
-		          <c:if test="${fbdto.f_bfile!=null }">
-		        	<img src="/upload/${fbdto.f_bfile }">
-		          </c:if>
-		        <br><br><br><br><br></td>
+		        <td colspan="4" class="article">게시글 내용이 들어갑니다.<br><br><br><br><br></td>
 		      </tr>
 		       <tr style="border-bottom: 2px solid #009223;">
 		        <td class="article" style="text-align: center;"><strong>첨부파일 </strong>
 		        </td>
-		        <c:if test="${fbdto.f_bfile!=null }">
-		       	 	<td colspan="3">${fbdto.f_bfile }</td>
-		        </c:if>
-		        <c:if test="${fbdto.f_bfile==null }">
-		        	<td colspan="3">※첨부파일 없음</td>
-		        </c:if>
+		        <td colspan="3">※첨부파일 없음</td>
 		      </tr>
 		    </table>
 		    
 		    <!-- 버튼 -->
 		    <div class="listBtn">
 		    	<button class="list">삭제</button>
-		    	<a href="fUpdate"><button class="list">수정</button></a>
-		    	<a href="fList"><button class="list">목록</button></a>
+		    	<a href="nUpdate"><button class="list">수정</button></a>
+		    	<a href="nList"><button class="list">목록</button></a>
 		    </div>
 		    
-		    <!-- 댓글입력-->
+		     <!-- 댓글입력-->
 		    <table id="replyPw">
 			    <tr>
 				    <td id="replyBorder">
@@ -119,7 +110,7 @@
 		      <td style="font-weight: 700">총<strong style="color: #009223">&nbsp;&nbsp;5</strong>&nbsp;개의 댓글이 등록되었습니다.</td>
 			  <tr>
 				<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12 15:27:23:00]</span>
-				<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
+				<li id="replyTxt">&nbsp;&nbsp;댓글내1용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
 				<li id="replyBtn">
 					<button id="rDelBtn">삭제</button>
 					<button id="rUBtn">수정</button>
@@ -165,7 +156,6 @@
 			  
 		    </table>
 		    <!-- 댓글보기 끝-->
-		    
  		 </section>
 		
 		<!-- ======= Footer ======= -->

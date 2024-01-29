@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>공지사항_글보기</title>
+		<title>캠핑꿀팁(Tip) 게시글</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	    <meta content="" name="description">
 	    <meta content="" name="keywords">
@@ -30,8 +30,8 @@
 	    <!-- Template Main CSS File -->
  		<link href="../assets/css/main2.css" rel="stylesheet">
        	<link href="../assets/css/header.css" rel="stylesheet">
-		<link href="../assets/css/commuinty/listStyle.css" rel="stylesheet">
-		<link href="../assets/css/commuinty/viewStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/viewStyle.css" rel="stylesheet">
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
@@ -40,8 +40,9 @@
 	
 		<section class="notice">
 		
-			<!-- 공지사항 글보기 -->
-	    	<h1 style="float: left; margin: 40px 0 0 700px; font-weight: 700; position: relative; left:50px;">공지사항 게시글</h1>
+		   
+			<!-- 꿀팁게시글 보기-->
+	    	<h1 style="float: left; margin: 40px 0 0 700px; font-weight: 700; position: relative; left:50px;">꿀팁 게시글</h1>
 		    <table>
 		     <colgroup>
 		        <col width="10%">
@@ -49,7 +50,7 @@
 		        <col width="15%">
 		        <col width="12%">
    			</colgroup>
-		     <tr>
+		    <tr>
 		        <th style="text-align: center;"><strong>1007</strong></th>
 		        <th style="text-align: left;"><span>게시글 제목이 들어갑니다.</span></th>
 		        <th style="text-align: right;"><strong>작성일</strong></th>
@@ -74,11 +75,11 @@
 		    <!-- 버튼 -->
 		    <div class="listBtn">
 		    	<button class="list">삭제</button>
-		    	<a href="nUpdate"><button class="list">수정</button></a>
-		    	<a href="nList"><button class="list">목록</button></a>
+		    	<a href="tUpdate"><button class="list">수정</button></a>
+		    	<a href="tList"><button class="list">목록</button></a>
 		    </div>
 		    
-		     <!-- 댓글입력-->
+		    <!-- 댓글입력-->
 		    <table id="replyPw">
 			    <tr>
 				    <td id="replyBorder">
@@ -156,6 +157,7 @@
 			  
 		    </table>
 		    <!-- 댓글보기 끝-->
+		    
  		 </section>
 		
 		<!-- ======= Footer ======= -->
