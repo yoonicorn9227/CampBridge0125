@@ -3,6 +3,7 @@ package com.java.www.service;
 import java.util.Map;
 
 import com.java.www.dto.FBoardDto;
+import com.java.www.dto.FCommentDto;
 
 public interface FService {
 
@@ -12,8 +13,8 @@ public interface FService {
 	// 4. 자유게시판 - 게시글 검색
 	Map<String, Object> fselectSearch(int page, String searchTitle, String searchWord);
 
-	// 4. 자유게시판 - 게시글 1개 가져오기
-	FBoardDto fselectOne(int f_bno);
+	// 4. 자유게시판 - 게시글 1개 가져오기 - 현재글
+	Map<String, Object> fselectOne(int f_bno);
 
 	// 4. 자유게시판 - 게시글 저장(파일저장)
 	void fWrite(FBoardDto fbdto);
@@ -23,5 +24,8 @@ public interface FService {
 
 	// 4. 자유게시판 - 게시글 수정저장
 	void doFUpdate(FBoardDto fbdto);
+
+	// 4. 자유게시판 - 게시글 1개 가져오기 - 댓글 1개저장 후 댓글 1개 가져오기
+	FCommentDto fCommentInsert(FCommentDto fcdto);
 
 }// FService

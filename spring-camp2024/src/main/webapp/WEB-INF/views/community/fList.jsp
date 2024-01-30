@@ -93,8 +93,8 @@
 			      </c:if>
 			      <c:forEach var="fbdto" items="${map.list }">
 				      <tr>
-				        <td id="No">${fbdto.f_bno }</td>
-				        <td>${fbdto.f_btype }</td>
+				        <td id="No"><span style="background: #009223; color: #ffce32; border-radius: 3px; ">${fbdto.f_bno }</span></td>
+				        <td><strong>${fbdto.f_btype }</strong></td>
 				        <td class="table-title"><a href="fView?f_bno=${fbdto.f_bno }">${fbdto.f_btitle}</a></td>
 				        <td>${fbdto. id}</td>
 				        <td>

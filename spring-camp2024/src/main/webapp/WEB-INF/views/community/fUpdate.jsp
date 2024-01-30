@@ -52,8 +52,8 @@
 			<!-- 자유게시판 글수정 -->
 	    	<h1 style="float: left; margin: 40px; font-weight: 700; position: relative; left:235px; top: 30px;">자유게시판 글수정</h1>
 			<form action="doFUpdate" name="freeUpdateFrm" method="post" enctype="multipart/form-data">
-			    <input type="hidden" name="fFile" value="${fbdto.f_bfile }">
-			    <input type="hidden" name="f_bno" value="${fbdto.f_bno }">
+			    <input type="hidden" name="fFile" value="${map.fbdto.f_bfile }">
+			    <input type="hidden" name="f_bno" value="${map.fbdto.f_bno }">
 			    <table>
 			     <colgroup>
 			        <col width="5%">
@@ -64,28 +64,28 @@
 			      <tr>
 			        <th style="text-align: center;">
 		        	 	<select name="f_btype" id="bType" class="bType">
-					       <option value="자유게시" <c:if test="${fn:contains(fbdto.f_btype,'자유게시')}">selected</c:if>>자유게시</option>
-					       <option value="맛집추천" <c:if test="${fn:contains(fbdto.f_btype,'맛집추천')}">selected</c:if>>맛집추천</option>
-					       <option value="소모임" <c:if test="${fn:contains(fbdto.f_btype,'소모임')}">selected</c:if>>소모임</option>
+					       <option value="자유게시" <c:if test="${fn:contains(map.fbdto.f_btype,'자유게시')}">selected</c:if>>자유게시</option>
+					       <option value="맛집추천" <c:if test="${fn:contains(map.fbdto.f_btype,'맛집추천')}">selected</c:if>>맛집추천</option>
+					       <option value="소모임" <c:if test="${fn:contains(map.fbdto.f_btype,'소모임')}">selected</c:if>>소모임</option>
 					    </select>
 			        </th>
-			        <th colspan="3" style="text-align: left;"><input type="text" id="f_btitle" name="f_btitle" value="${fbdto.f_btitle }"></th>
+			        <th colspan="3" style="text-align: left;"><input type="text" id="f_btitle" name="f_btitle" value="${map.fbdto.f_btitle }"></th>
 			      </tr>
 			      <tr style="border-bottom: 2px solid #009223">
 			        <td style="text-align: center;"><strong>작성자 | </strong style="text-align: center;"></td>
 			        <td><input type="text" value="aaa" readonly="readonly" style="border: 1px solid transparent;"> </td>
 			      </tr>
 			      <tr>
-			        <td colspan="4" class="article"><textarea rows="9" name="f_bcontent" id="summernote" placeholder=" ※ 게시글 내용을 입력해주세요.">${fbdto.f_bcontent }</textarea> </td>
+			        <td colspan="4" class="article"><textarea rows="9" name="f_bcontent" id="summernote" placeholder=" ※ 게시글 내용을 입력해주세요.">${map.fbdto.f_bcontent }</textarea> </td>
 			      </tr>
-			      <c:if test="${fbdto.f_bfile==null}">
+			      <c:if test="${map.fbdto.f_bfile==null}">
 				      <tr style="border-top: 2px solid #009223; line-height: 20px;">
 				        <td colspan="4" class="article"><strong>업로드 파일 | </strong>※첨부파일 없음</td>
 				      </tr>
 			      </c:if>
-			      <c:if test="${fbdto.f_bfile!=null}">
+			      <c:if test="${map.fbdto.f_bfile!=null}">
 				      <tr style="border-top: 2px solid #009223; line-height: 20px;">
-				        <td colspan="4" class="article"><strong>업로드 파일 | </strong>${fbdto.f_bfile}</td>
+				        <td colspan="4" class="article"><strong>업로드 파일 | </strong>${map.fbdto.f_bfile}</td>
 				      </tr>
 			      </c:if>
 			      <tr style="border-bottom: 2px solid #009223; line-height: 20px;">
@@ -95,7 +95,7 @@
 			</form>
 			<div class="listBtn">
 		    	<a href="#"><div class="list" id="updateSaveBtn">수정</div></a>
-		    	<a href="fView?f_bno=${fbdto.f_bno }"><div class="list">취소</div></a>
+		    	<a href="fView?f_bno=${map.fbdto.f_bno }"><div class="list">취소</div></a>
 			</div>
  		 </section>
 		

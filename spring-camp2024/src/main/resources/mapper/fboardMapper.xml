@@ -26,26 +26,59 @@
         </if>
 	</select>
 	
-	<!-- 4.자유게시판 - 게시글 1개가져오기 -->
+	<!-- 4.자유게시판 - 게시글 1개가져오기 : 현재글 -->
 	<select id="fSelectOne" resultType="com.java.www.dto.FBoardDto">
 		select * from f_board where f_bno=#{f_bno}
 	</select>
+	
+	<!-- 4.자유게시판 - 게시글 1개가져오기 : 이전글 -->
+	<select id="fSelectOnePrev" resultType="com.java.www.dto.FBoardDto">
+		select * from (select rownum rnum, a.* from 
+		(select * from f_board order by f_bno desc) a )
+		where rnum =(select rnum from (select rownum rnum, a.* from 
+		(select * from f_board order by f_bno desc) a)
+		where f_bno=#{f_bno})+1		
+	</select>
+	
+	<!-- 4.자유게시판 - 게시글 1개가져오기 : 다음글 -->
+	<select id="fSelectOneNext" resultType="com.java.www.dto.FBoardDto">
+		select * from (select rownum rnum, a.* from 
+		(select * from f_board order by f_bno desc) a )
+		where rnum =(select rnum from (select rownum rnum, a.* from 
+		(select * from f_board order by f_bno desc) a)
+		where f_bno=#{f_bno})-1		
+	</select>
+	
+	<select id="fCommentSelectAll" resultType="com.java.www.dto.FCommentDto">
+		select * from f_comment where f_bno=#{f_bno} order by f_cno desc	
+	</select>
+	
+	<!-- 4.자유게시판 - 조회수 1증가 -->
+	<update id="fHitUp">
+		update f_board set f_bhit=f_bhit+1 where f_bno=#{f_bno}
+	</update>
 	
 	<!-- 4.자유게시판 - 게시글 저장(파일저장) -->
 	<insert id="fWrite">
 	 	insert into f_board values(f_board_seq.nextval,'aaa',#{f_btype},#{f_btitle},#{f_bcontent},sysdate,0,f_board_seq.currval,0,0,#{f_bfile})
 	</insert>
 	
+	<!-- 4.자유게시판 - 게시글 수정저장 -->
+	<update id="doFUpdate">
+		update f_board set f_btype=#{f_btype},f_btitle=#{f_btitle},f_bcontent=#{f_bcontent},f_bdate=sysdate,f_bfile=#{f_bfile} where f_bno=#{f_bno}
+	</update>
+	
 	<!-- 4.자유게시판 - 게시글 삭제 -->
 	<delete id="fDelete">
 		delete f_board where f_bno=#{f_bno}
 	</delete>
 	
-	<!-- 4.자유게시판 - 게시글 수정저장 -->
-	<update id="doFUpdate">
-		update f_board set f_btype=#{f_btype},f_btitle=#{f_btitle},f_bcontent=#{f_bcontent},f_bdate=sysdate,f_bfile=#{f_bfile} where f_bno=#{f_bno}
-	</update>
-
-
+	<insert id="fCommentInsert">
+		<selectKey resultType="int" keyProperty="f_cno" order="BEFORE">
+			select f_comment_seq.nextval from dual
+		</selectKey>
+		insert into f_comment values(#{f_cno},#{f_bno},'aaa',#{f_cpw},#{f_ccontent},sysdate)
+	</insert>
+	
 
 </mapper>

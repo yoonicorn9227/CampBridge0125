@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.java.www.dto.FBoardDto;
+import com.java.www.dto.FCommentDto;
 import com.java.www.mapper.FBoardMapper;
 
 @Service
@@ -15,7 +16,7 @@ public class FServiceImpl implements FService {
 	@Autowired
 	FBoardMapper fboardMapper;
 
-	@Override //자유게시판 검색어 리스트
+	@Override // 자유게시판 검색어 리스트
 	public Map<String, Object> fselectSearch(int page, String searchTitle, String searchWord) {
 		// 게시글 전체가져오기
 		// ♠하단넘버링 (page, rowPerPage : 1pg당 게시글 갯수, startPage, endPage, maxPage)
@@ -86,37 +87,57 @@ public class FServiceImpl implements FService {
 
 		return map;
 	}// fselectAll(page)
-	
-	@Override //자유게시판 - 게시글 저장(파일저장) 
+
+	@Override // 자유게시판 - 게시글 저장(파일저장)
 	public void fWrite(FBoardDto fbdto) {
 		fboardMapper.fWrite(fbdto);
-	}//fWrite(fbdto)
+	}// fWrite(fbdto)
 
-	@Override // 자유게시판-자유게시글 1개 가져오기
-	public FBoardDto fselectOne(int f_bno) {
+	@Override // 자유게시판-자유게시글 1개 가져오기 - 현재글
+	public Map<String, Object> fselectOne(int f_bno) {
 		System.out.println("FServiceImpl FselectOne f_bno : " + f_bno);
 
-		FBoardDto fbdto = fboardMapper.fSelectOne(f_bno);
+		FBoardDto fbdto = fboardMapper.fSelectOne(f_bno); //현재글
+		FBoardDto prevFbdto = fboardMapper.fSelectOnePrev(f_bno); //이전글
+		FBoardDto nextFbdto = fboardMapper.fSelectOneNext(f_bno); //다음글
+		
+		//하단댓글 모두 가져오기
+		ArrayList<FCommentDto> fCmmtlist = fboardMapper.fCommentSelectAll(f_bno);
+		
+		//조회수 1증가
+		fboardMapper.fHitUp(f_bno);
+		
+		//Map으로 전송
+		Map<String, Object> map = new HashMap<>();
+		map.put("fbdto", fbdto);
+		map.put("prevFbdto", prevFbdto);
+		map.put("nextFbdto", nextFbdto);
+		map.put("fCmmtlist", fCmmtlist);
 
-		return fbdto;
+		return map;
 	}// fselectOne(f_bno)
 
-	@Override// 자유게시판 -자유게시글 1개 삭제
+	@Override // 자유게시판 -자유게시글 1개 삭제
 	public void fDelete(int f_bno) {
-		
+
 		fboardMapper.fDelete(f_bno);
-		
-	}//fDelete(f_bno)
 
-	@Override //자유게시판 - 자유게시글 수정저장
+	}// fDelete(f_bno)
+
+	@Override // 자유게시판 - 자유게시글 수정저장
 	public void doFUpdate(FBoardDto fbdto) {
-		System.out.println("FServiceImpl doFUpdate f_bno : " + fbdto.getF_bno());
-		System.out.println("FServiceImpl doFUpdate f_btype : " + fbdto.getF_btype());
-		System.out.println("FServiceImpl doFUpdate f_btitle : " + fbdto.getF_btitle());
-		System.out.println("FServiceImpl doFUpdate f_bcontent: " + fbdto.getF_bcontent());
-		System.out.println("FServiceImpl doFUpdate f_bfile : " + fbdto.getF_bfile());
 		fboardMapper.doFUpdate(fbdto);
-	}//doFUpdate(fbdto)
+	}// doFUpdate(fbdto)
 
+	@Override // 자유게시판 - 자유게시글 1개 가져오기 - 댓글1개저장 및 댓글 1개 가져오기
+	public FCommentDto fCommentInsert(FCommentDto fcdto) {
+		
+		FCommentDto fCommentDto = new FCommentDto(); 
+		fboardMapper.fCommentInsert(fcdto); //댓글폼에서 입력한 글자 저장
+		
+		System.out.println("서비스 임플 f_cno : "+fcdto.getF_bno());
+		
+		return fcdto;
+	}//fCommentInsert(fcdto)
 
 }// FServiceImpl

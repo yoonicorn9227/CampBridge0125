@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.java.www.dto.FBoardDto;
+import com.java.www.dto.FCommentDto;
 import com.java.www.service.FService;
 
 @Controller
@@ -137,13 +138,25 @@ public class CController {
 	@GetMapping("fView")
 	public String fView(@RequestParam(defaultValue = "1") int f_bno, Model model) {
 		System.out.println("CController fView f_bno : " + f_bno);
-		// service 연결(fbdto)
-		FBoardDto fbdto = fService.fselectOne(f_bno);
+		// service 연결(fbdto), 이전글,현재글, 다음글 가져오기
+		Map<String, Object> map = fService.fselectOne(f_bno); // 현재글
 
 		// model 전송
-		model.addAttribute("fbdto", fbdto);
+		model.addAttribute("map", map);
 		return "/community/fView";
 	}// fView()
+		
+	// 4.자유 게시글 - 하단댓글 1개저장
+	@PostMapping("fCommentInsert")
+	@ResponseBody //ajax - 데이터 전송
+	public FCommentDto fCommentInsert(FCommentDto fcdto) {
+		System.out.println("CController fView f_ccontent : " + fcdto.getF_ccontent());
+		// service 연결 - 저장시간, f_cno
+		FCommentDto fCommentDto = fService.fCommentInsert(fcdto); // 현재글
+		System.out.println("CController fView f_bno : " + fcdto.getF_bno());
+
+		return fCommentDto;
+	}// fCommentInsert(fcdto)
 
 	// 4.자유 게시글 삭제
 	@PostMapping("fDelete")
@@ -176,28 +189,27 @@ public class CController {
 			long time = System.currentTimeMillis();
 			String upFName = time + "_" + oriFName;
 			String fupload = "c:/upload/";
-			
+
 			// 파일업로드 부분
 			File f = new File(fupload + upFName);
 			fFile.transferTo(f);
-			
+
 			// fbdto f_bfile추가
 			fbdto.setF_bfile(upFName);
-			
 		} else {
 			fbdto.setF_bfile("");
 		} // if-else
-		
+
 		System.out.println("파일첨부 이름 : " + fbdto.getF_bfile());
-		
+
 		// service연결 - 파일저장
 		fService.fWrite(fbdto);
-		
+
 		// model
 		model.addAttribute("result", "fWrite-Save");
 		return "/community/doFBoard";
 	}// fWrite()
-	
+
 	// 4.SummerNote 내용부분 - 이미지 추가시 파일업로드
 	@PostMapping("summernoteUpload")
 	@ResponseBody
@@ -219,8 +231,7 @@ public class CController {
 		} // if
 
 		return urlLink;
-	}//summerNote
-
+	}// summerNote
 
 	// 4.자유게시글 수정Pg
 	@PostMapping("fUpdate")
@@ -228,42 +239,42 @@ public class CController {
 
 		System.out.println("CController fUpdate f_bno : " + f_bno);
 		// service 연결(fbdto)
-		FBoardDto fbdto = fService.fselectOne(f_bno); //게시글 1개 가져오기
+		Map<String, Object> map = fService.fselectOne(f_bno); // 게시글 1개 가져오기
 
 		// model 전송
-		model.addAttribute("fbdto", fbdto);
+		model.addAttribute("map", map);
 
 		return "/community/fUpdate";
 	}// fUpdate()
 
 	// 4.자유게시글 수정저장
 	@PostMapping("doFUpdate")
-	public String doFUpdate(FBoardDto fbdto, @RequestPart MultipartFile uFile,Model model) throws Exception {
+	public String doFUpdate(FBoardDto fbdto, @RequestPart MultipartFile uFile, Model model) throws Exception {
 
-		//fbdto ->fFile
-		System.out.println("CController doFUpdate f_bno : "+fbdto.getF_bno());
-		if(!uFile.isEmpty()) {
-			String oriFName=uFile.getOriginalFilename();
+		// fbdto ->fFile
+		System.out.println("CController doFUpdate f_bno : " + fbdto.getF_bno());
+		if (!uFile.isEmpty()) {
+			String oriFName = uFile.getOriginalFilename();
 			long time = System.currentTimeMillis();
-			String upFName=time+"_"+oriFName; //String upName = String.format("%s_%d", oriFName, time)
-			String upload = "c:/upload/"; //파일업로드 위치
-			
-			//파일업로드
-			File f =  new File(upload+upFName);
+			String upFName = time + "_" + oriFName; // String upName = String.format("%s_%d", oriFName, time)
+			String upload = "c:/upload/"; // 파일업로드 위치
+
+			// 파일업로드
+			File f = new File(upload + upFName);
 			uFile.transferTo(f);
-			
-			//fbdto파일이름 저장
+
+			// fbdto파일이름 저장
 			fbdto.setF_bfile(upFName);
-		} else{
+		} else {
 			fbdto.setF_bfile("");
-		}//if(uFile)
-			
-		//service연결
-		fService.doFUpdate(fbdto); //새로운 파일업로드가 없으면 기존파일이름 그대로 사용
-		
+		} // if(uFile)
+
+		// service연결
+		fService.doFUpdate(fbdto); // 새로운 파일업로드가 없으면 기존파일이름 그대로 사용
+
 		// model
 		model.addAttribute("result", "fUpdate-Save");
-		
+
 		return "/community/doFBoard";
 	}// doFUpdate
 

@@ -9,6 +9,12 @@ section {
 	color: black;
 }
 
+.table-title:hover{
+	text-decoration: underline;
+	font-weight: 700;
+}
+	
+
 .container {
 	margin: 0 auto;
 }

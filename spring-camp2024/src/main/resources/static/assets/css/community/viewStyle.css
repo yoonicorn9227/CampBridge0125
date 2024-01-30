@@ -1,4 +1,4 @@
-ssection {
+section {
   text-align: center;
   margin: 150px 50px;
 	
@@ -88,6 +88,8 @@ textarea{border-radius:10px; border: 2px solid #009223;}
 .participant_img{width: 70px; height: 70px; margin: 17px 30px;}
 .participant_in{float: left; text-align: left; margin: -78px 0 0 120px;}
 .reply_body{margin-top: -160px;}
+.selNextPrev{color: red; font-weight: 700; }
+.selNextPrev:hover{text-decoration: underline; color: olive; font-weight: 700; }
 
 
 
