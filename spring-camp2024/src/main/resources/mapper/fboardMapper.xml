@@ -73,6 +73,7 @@
 		delete f_board where f_bno=#{f_bno}
 	</delete>
 	
+	<!-- 4.자유게시판 - 게시글 하단댓글 저장 -->
 	<insert id="fCommentInsert">
 		<selectKey resultType="int" keyProperty="f_cno" order="BEFORE">
 			select f_comment_seq.nextval from dual
@@ -80,5 +81,9 @@
 		insert into f_comment values(#{f_cno},#{f_bno},'aaa',#{f_cpw},#{f_ccontent},sysdate)
 	</insert>
 	
+	<!-- 4.자유게시판 - 게시글 하단댓글 삭제 -->
+	<delete id="fCommentDelete">
+		delete f_comment where f_cno=#{f_cno}
+	</delete>
 
 </mapper>

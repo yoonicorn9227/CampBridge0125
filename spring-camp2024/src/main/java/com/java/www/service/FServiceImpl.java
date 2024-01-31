@@ -129,7 +129,7 @@ public class FServiceImpl implements FService {
 		fboardMapper.doFUpdate(fbdto);
 	}// doFUpdate(fbdto)
 
-	@Override // 자유게시판 - 자유게시글 1개 가져오기 - 댓글1개저장 및 댓글 1개 가져오기
+	@Override // 자유게시판 - 자유게시글 1개 가져오기 - 하단 댓글1개저장 및 댓글 1개 가져오기
 	public FCommentDto fCommentInsert(FCommentDto fcdto) {
 		
 		FCommentDto fCommentDto = new FCommentDto(); 
@@ -139,5 +139,13 @@ public class FServiceImpl implements FService {
 		
 		return fcdto;
 	}//fCommentInsert(fcdto)
+
+	@Override // 자유게시판 - 자유게시글 1개 가져오기 - 하단댓글 1개삭제
+	public String fCommentDelete(int f_cno) {
+		String result="";
+		int re=fboardMapper.fCommentDelete(f_cno);
+
+		return result+re;
+	}
 
 }// FServiceImpl

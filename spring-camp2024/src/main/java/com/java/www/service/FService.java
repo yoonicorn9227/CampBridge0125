@@ -28,4 +28,7 @@ public interface FService {
 	// 4. 자유게시판 - 게시글 1개 가져오기 - 댓글 1개저장 후 댓글 1개 가져오기
 	FCommentDto fCommentInsert(FCommentDto fcdto);
 
+	// 4. 자유게시판 - 게시글 1개 가져오기 - 댓글 1개저장 후 댓글 1개 삭제
+	String fCommentDelete(int f_cno);
+
 }// FService

@@ -145,18 +145,7 @@ public class CController {
 		model.addAttribute("map", map);
 		return "/community/fView";
 	}// fView()
-		
-	// 4.자유 게시글 - 하단댓글 1개저장
-	@PostMapping("fCommentInsert")
-	@ResponseBody //ajax - 데이터 전송
-	public FCommentDto fCommentInsert(FCommentDto fcdto) {
-		System.out.println("CController fView f_ccontent : " + fcdto.getF_ccontent());
-		// service 연결 - 저장시간, f_cno
-		FCommentDto fCommentDto = fService.fCommentInsert(fcdto); // 현재글
-		System.out.println("CController fView f_bno : " + fcdto.getF_bno());
 
-		return fCommentDto;
-	}// fCommentInsert(fcdto)
 
 	// 4.자유 게시글 삭제
 	@PostMapping("fDelete")
@@ -171,6 +160,31 @@ public class CController {
 
 		return "/community/doFBoard";
 	}// fDelete
+	
+	// 4.자유 게시글 - 하단댓글 1개저장
+	@PostMapping("fCommentInsert")
+	@ResponseBody // ajax - 데이터 전송
+	public FCommentDto fCommentInsert(FCommentDto fcdto) {
+		System.out.println("CController fView f_ccontent : " + fcdto.getF_ccontent());
+		// service 연결 - 저장시간, f_cno
+		FCommentDto fCommentDto = fService.fCommentInsert(fcdto); // 현재글
+		System.out.println("CController fView f_bno : " + fcdto.getF_bno());
+
+		return fCommentDto;
+	}// fCommentInsert(fcdto)
+	
+	// 4.자유 게시글 - 하단댓글 1개삭제
+	@PostMapping("fCommentDelete")
+	@ResponseBody // ajax - 데이터 전송
+	public String fCommentDelete(int f_cno) {
+		System.out.println("CController 댓글삭제번호 : "+f_cno);
+		
+		//service연결
+		String result = fService.fCommentDelete(f_cno);
+		
+		return result;
+	}//fCommentDelete(f_cno)
+	
 
 	// 4.자유 게시글 작성Pg
 	@GetMapping("fWrite")
