@@ -156,9 +156,8 @@ public class FServiceImpl implements FService {
 	public String fCommentDelete(int f_cno) {
 		String result="";
 		int re=fboardMapper.fCommentDelete(f_cno);
-
 		return result+re;
-	}
+	}//fCommentDelete(f_cno)
 
 	@Override // 자유게시판 - 자유게시글 1개 가져오기 - 하단댓글 수정저장
 	public FCommentDto fCommentUpdate(FCommentDto fcdto) {
