@@ -11,10 +11,15 @@ import com.java.www.dto.FBoardDto;
 import com.java.www.dto.FCommentDto;
 import com.java.www.mapper.FBoardMapper;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class FServiceImpl implements FService {
 	@Autowired
 	FBoardMapper fboardMapper;
+	
+	@Autowired
+	HttpSession session;
 
 	@Override // 자유게시판 검색어 리스트
 	public Map<String, Object> fselectSearch(int page, String searchTitle, String searchWord) {
@@ -132,10 +137,17 @@ public class FServiceImpl implements FService {
 	@Override // 자유게시판 - 자유게시글 1개 가져오기 - 하단 댓글1개저장 및 댓글 1개 가져오기
 	public FCommentDto fCommentInsert(FCommentDto fcdto) {
 		
-		FCommentDto fCommentDto = new FCommentDto(); 
+		//session_id를 fcdto의 id에 저장
+		fcdto.setId((String) session.getAttribute("session_id"));
+		
+		//댓글 1개저장
 		fboardMapper.fCommentInsert(fcdto); //댓글폼에서 입력한 글자 저장
 		
-		System.out.println("서비스 임플 f_cno : "+fcdto.getF_bno());
+		System.out.println("서비스 임플 f_cno : "+fcdto.getF_cno());
+		
+		//댓글 1개자져오기
+		//FCommentDto fCommentDto = fboardMapper.FCommentSelectOne(fcdto.getF_cno());
+		
 		
 		return fcdto;
 	}//fCommentInsert(fcdto)
@@ -147,5 +159,21 @@ public class FServiceImpl implements FService {
 
 		return result+re;
 	}
+
+	@Override // 자유게시판 - 자유게시글 1개 가져오기 - 하단댓글 수정저장
+	public FCommentDto fCommentUpdate(FCommentDto fcdto) {
+		//session_id를 fcdto의 id에 저장
+		fcdto.setId((String) session.getAttribute("session_id"));
+		
+		//수정저장
+		fboardMapper.FCommentUpdate(fcdto);
+		
+		
+		//댓글 1개가져오기
+		FCommentDto fCommentDto = fboardMapper.FCommentSelectOne(fcdto.getF_cno());
+				
+		
+		return fCommentDto;
+	}//fCommentUpdate(fcdto)
 
 }// FServiceImpl

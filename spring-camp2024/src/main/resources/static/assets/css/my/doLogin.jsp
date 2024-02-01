@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>회원가입완료</title>
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <title>로그인 페이지</title>
+       <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+ 	   
 	    <meta content="" name="description">
 	    <meta content="" name="keywords">
-	
+	 	 <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+		
 	    <!-- Favicons -->
 	    <link href="assets/img/favicon.png" rel="icon">
 	    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -28,39 +32,33 @@
 	    <!-- Template Main CSS File -->
 	    <link href="../assets/css/main2.css" rel="stylesheet">
 	    <link href="../assets/css/header.css" rel="stylesheet">
-		<link href="../assets/css/my/idsearch.css" rel="stylesheet">
-	    
-	   
-	    
-	</head>
-	<body>
-	<!-- ======= Header ======= -->
+        <link href="../assets/css/my/login.css" rel="stylesheet">
+
+		 <!--Google login  -->
+       	<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    </head>
+    <body>
+    <!-- ======= Header ======= -->
 	<%@include file="../include/header.jsp" %>
 	<!-- End Header -->
-			<section class="signUp_02">
-					<img src="../assets/img/guide_icon.png">
-					<h1><span style="color:red;">회원님의 ID</span>를 안내해드립니다!</h1>
-					
-					<div class="amount3">
-						<p>회원님의 아이디를 확인해주세요.</p>
-						<c:choose>
-							<c:when test="${empty findId}">
-							<p class="idguide">조회결과가 없습니다.</p>
-							</c:when>
-							<c:otherwise>
-								<p class="idguide">아이디 : ${findId.id}</p>
-							</c:otherwise>
-						</c:choose>
-						
-					</div>
-					
-		 	 <a href="/"><button>Campbridge 바로가기</button></a>
-			</section>
-        
-        
-		
-		<!-- ======= Footer ======= -->
-	  	<%@include file="../include/footer.jsp" %>
-	 	<!-- End Footer -->
-	</body>
+	 
+	 
+	 <script>
+	 	if(${result}==1){
+	 		alert("로그인이 되었습니다.");
+	 		location.href="/";
+	 		
+	 	}else{
+	 		alert("아이디 또는 패스워드가 일치하지 않습니다. 다시 로그인해주세요.");
+	 		location.href="login";
+	 	}
+	 
+	 </script>
+	 
+	 
+	 
+    </body>
+  <!-- ======= Footer ======= -->
+  <%@include file="../include/footer.jsp" %>
+  <!-- End Footer -->
 </html>

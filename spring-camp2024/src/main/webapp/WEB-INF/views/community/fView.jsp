@@ -32,6 +32,7 @@
        	<link href="../assets/css/header.css" rel="stylesheet">
 		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
 		<link href="../assets/css/community/viewStyle.css" rel="stylesheet">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 	</head>
 	<script>
 		$(function(){
@@ -118,22 +119,30 @@
 		    		let f_bno = ${map.fbdto.f_bno};
 		    		//1.댓글저장
 		    		$("#replybtn").click(function(){
-		    			alert("댓글이 등록되었습니다.");
+		    			
+		    			let id ="${session_id}";
 		    			let f_cpw = $("#replyIPw").val();
 		    			let f_ccontent = $("#replyCont").val();
+		    			
+		    			if($("#replyCont").val().length<1){
+		    				alert("※ 댓글 미입력시 댓글등록 되지 않습니다.");
+		    				$('#replyCont').focus();
+		    				return false;
+		    			}//if(댓글 미입력시)
 		    			
 		    			//♠ajax
 		    			$.ajax({
 		    				url:"/community/fCommentInsert",
 		    				type:"post",
-		    				data:{"f_bno":f_bno,"f_cpw":f_cpw,"f_ccontent":f_ccontent},
+		    				data:{"f_bno":f_bno,"id":id,"f_cpw":f_cpw,"f_ccontent":f_ccontent},
 		    				dataType:"json", //data를 받는 타입
 		    				success:function(data){
-		    					alert("성공");
-		    					//console.log(data);
+		    					alert("댓글이 등록되었습니다.");
+		    					console.log(data);
 		    					let hdata ="";
 		    					hdata+='<tr id="'+data.f_cno+'">';
-		    					hdata+='<td><strong style="color: navy;">댓글 작성자</strong> | <span style="color: #009223; font-weight: 700;">'+data.id+'</span>&nbsp;&nbsp;[<span>'+data.f_cdate+'</span>]';
+		    					hdata+='<input type="hidden" value="'+data.f_cpw+'" class="f_cpw">';
+		    					hdata+='<td><strong style="color: navy;">댓글 작성자</strong> | <strong style="color: #009223;" class="f_cid">'+data.id+'</strong>&nbsp;&nbsp;[<span class="f_cdate">'+moment(data.f_cdate).format("YYYY-MM-DD HH:mm:ss")+'</span>]';
 		    					hdata+='<li id="replyTxt">'+data.f_ccontent+'</li>';
 		    					hdata+='<li id="replyBtn">';
 		    					hdata+='<button class="rDelBtn">삭제</button>&nbsp';
@@ -142,6 +151,8 @@
 		    					hdata+='</td>';
 		    					hdata+='</tr>';
 		    					$("#replyBox").prepend(hdata);
+		    					$("#replyCont").val("");
+		    					$("#replyIPw").val("");
 		    				}, //success
 		    				error(){
 		    					alert("실패");
@@ -196,7 +207,8 @@
 		    <script>
 		    $(function(){
 		    	let temp=0; //댓글 수정창 비활성화
-				//2. 댓글 삭제
+				
+		    	//2. 댓글 삭제
 		    	$(document).on("click",".rDelBtn",function(){
 	    			//alert("부모의 부모의 부모 id(f_cno) : "+$(this).closest("tr").attr("id")); //=//alert("부모의 부모의 부모 id(f_cno) : "+$(this).parent().parent().parent().attr("id"));
 	    			let f_cno = $(this).closest("tr").attr("id");
@@ -230,12 +242,15 @@
 	    			//alert("댓글 작성일 : "+$(this).parent().parent().find("span").text()); // 작성일
 					
 	    			let f_cno=$(this).closest("tr").attr("id");
-	    			let id="aaa"; //${session_id} 변경예정
+	    			let id="${session_id}"; 
 	    			let f_cdate=$ (this).parent().parent().find("span").text();
 	    			let f_ccontent =$(this).parent().prev().text();
+	    			let f_cpw =$(this).parent().parent().prev().val();
+	    			//alert("비번 : "+$(this).parent().parent().prev().val());
 	    			
 	    			let hdata ='';
-	    			hdata+='<td><strong style="color: navy;">댓글 작성자</strong> | <strong style="color: #009223;">'+id+'</strong>&nbsp;&nbsp;[<span>'+f_cdate+'</span>]';
+	    			hdata+='<td><strong style="color: navy;">댓글 작성자</strong> | <strong style="color: #009223;" class="f_cid">'+id+'</strong>&nbsp;&nbsp;[<span class="f_cdate">'+f_cdate+'</span>]';
+	    			hdata+='<li style="list-style: none; float: right; line-height: 27px;"><strong>비밀번호 |<strong><input type="text" value="'+f_cpw+'" placeholder=" ※입력시 비밀글로 저장" class="f_cpw"></li>';
 	    			hdata+='<li id="replyTxt"><textarea cols="145%">'+f_ccontent+'</textarea></li>';
 	    			hdata+='<li id="replyBtn">';
 	    			hdata+='<button class="rCanBtn">취소</button>&nbsp&nbsp';
@@ -247,20 +262,70 @@
 	    			temp=1; //수정창 활성화
 	    		});//댓글수정 
 	    		
-	    		//댓글 수정취소(프로그램 미완성)
+	    		
+	    		// 댓글 수정저장
+	    		$(document).on("click",".rSaveBtn",function(){
+	    			alert("댓글수정 완료");
+	    			//alert("아이디 : "+$(this).parent().parent().parent().parent().find(".f_cid").text());
+	    			//alert("날짜 : "+$(this).parent().parent().parent().parent().find(".f_cdate").text());
+	    			//alert("비번 : "+$(this).parent().parent().parent().prev().prev().find(".f_cpw").val());
+	    			//alert("내용 : "+$(this).parent().parent().parent().prev().find("textarea").val());
+	    			
+	    			//let id = $(this).parent().parent().parent().parent().find(".f_cid").text();
+	    			let f_cpw = $(this).parent().parent().parent().prev().prev().find(".f_cpw").val();
+	    			let f_ccontent = $(this).parent().parent().parent().prev().find("textarea").val();
+	    			let f_cno= $(this).closest("tr").attr("id");
+	    			
+	    			//♠ajax(댓글 수정저장)
+	    			$.ajax({
+	    				url:"/community/fCommentUpdate",
+	    				type:"post",
+	    				data:{"f_cno":f_cno,"f_cpw":f_cpw,"f_ccontent":f_ccontent},
+	    				dataType:"json",
+	    				success:function(data){
+	    					alert("성공")
+		    				let hdata ="";
+			    			hdata+='<input type="hidden" value="'+data.f_cpw+'" class="f_cpw">';
+			    			hdata+='<td><strong style="color: navy;">댓글 작성자</strong> | <strong style="color: #009223;" class="f_cid">'+data.id+'</strong>&nbsp;&nbsp;[<span class="f_cdate">'+moment(data.f_cdate).format("YYYY-MM-DD HH:mm:ss")+'</span>]';
+			    			hdata+='<li id="replyTxt">'+data.f_ccontent+'</li>';
+							hdata+='<li id="replyBtn">';
+							hdata+='<button class="rDelBtn">삭제</button>&nbsp';
+							hdata+='<button class="rUBtn">수정</button>';
+							hdata+='</li>';
+							hdata+='</td>';
+							hdata+='</tr>';
+			    			$("#"+f_cno).html(hdata); //기존 HTML 삭제후 추가
+	    				},//success
+	    				error(){
+	    					alert("실패");
+	    				}//error
+	    			});//ajax(댓글 수정저장)
+	    			temp=0; 
+	    		});// 댓글수정 저장
+	    		
+	    		
+	    		
+	    		//댓글 수정취소
 	    		$(document).on("click",".rCanBtn",function(){
 	    			//alert("댓글 수정을 취소합니다.");
 	    			//alert("댓글 수정을 취소 f_cno : "+$(this).closest("tr").attr("id"));
 	    			//alert("댓글 수정을 취소 f_cdate : "+$(this).parent().parent().find("span").text());
 	    			//alert("댓글 수정을 취소 f_ccontent : "+$(this).parent().prev().text());
 	    			let f_cno=$(this).closest("tr").attr("id");
-	    			let id ="aaa"; //${session_id} 변경예정
-	    			let f_cdate=$(this).parent().parent().find("span").text();
-	    			let f_ccontent=$(this).parent().prev().text();
+	    			let id ="${session_id}"; //${session_id} 변경예정
+	    			let f_cdate=$(this).parent().parent().parent().parent().find("span").text();
+	    			let f_ccontent=$(this).parent().parent().parent().prev().find("textarea").val();
+	    			let f_cpw=$(this).parent().parent().parent().parent().find("strong").find("input").val();
+	    			//alert("비번 : "+$(this).parent().parent().parent().prev().prev().find(".f_cpw").val());
+	    			//alert("내용 : "+$(this).parent().parent().parent().prev().find("textarea").val());
+	    			//alert("날짜 : "+$(this).parent().parent().parent().parent().find("span").text());
+	    			//console.log("내용"+$(this).parent().parent().parent().prev().find("textarea").val());
+	    			
 	    			
 	    			let hdata ="";
-	    			hdata+='<td><strong style="color: navy;">댓글 작성자</strong> | <span style="color: #009223; font-weight: 700;">'+id+'</span>&nbsp;&nbsp;[<span>'+f_cdate+'</span>]';
-					hdata+='<li id="replyTxt">'+f_ccontent+'</li>';
+	    			hdata+='<input type="hidden" value="'+f_cpw+'" class="f_cpw">';
+	    			hdata+='<td><strong style="color: navy;">댓글 작성자</strong> | <strong style="color: #009223;" class="f_cid">'+id+'</strong>&nbsp;&nbsp;[<span class="f_cdate">'+f_cdate+'</span>]';
+	    			hdata+='<li id="replyTxt">'+f_ccontent+'</li>';
 					hdata+='<li id="replyBtn">';
 					hdata+='<button class="rDelBtn">삭제</button>&nbsp';
 					hdata+='<button class="rUBtn">수정</button>';
@@ -281,7 +346,9 @@
 		    	<tbody id="replyBox">
 			    <c:forEach var="fCommentList" items="${map.fCmmtlist }">
 					  <tr id="${fCommentList.f_cno }">
-						<td><strong style="color: navy;">댓글 작성자</strong> | <strong style="color: #009223;">${fCommentList.id}</strong>&nbsp;&nbsp;[<span>${fCommentList.f_cdate } </span>]
+					  	<input type="hidden" value="${fCommentList.f_cpw }" class="f_cpw">
+						<td><strong style="color: navy;">댓글 작성자</strong> | <strong style="color: #009223;" class="f_cid">${fCommentList.id}</strong>
+						&nbsp;&nbsp;[<span class="f_cdate"><fmt:formatDate value="${fCommentList.f_cdate }" pattern="YYYY-MM-DD HH:mm:ss"/> </span>]
 						<li id="replyTxt">${fCommentList.f_ccontent}</li>
 						<li id="replyBtn">
 							<button class="rDelBtn">삭제</button>
@@ -289,9 +356,10 @@
 						</li>
 						</td>			
 					  </tr>
-					  <!-- 댓글 수정입력창
+					  <!-- 댓글 수정입력창 
 					   <tr id="${fCommentList.f_cno }">
 						<td><strong style="color: navy;">댓글 작성자</strong> | <span style="color: #009223; font-weight: 700;">${fCommentList.id}</span>&nbsp;&nbsp;<span>[ ${fCommentList.f_cdate } ]</span>
+						<li style="list-style: none; float: right; line-height: 27px;"><strong>비밀번호 |<strong><input type="text" value="${fCommentList.f_cpw }" placeholder=" ※입력시 비밀글로 저장"></li>
 						<li id="replyTxt"><textarea cols="145%">${fCommentList.f_ccontent}</textarea></li>
 						<li id="replyBtn">
 							<button class="rCanBtn">취소</button>
@@ -299,7 +367,7 @@
 						</li>
 						</td>			
 					  </tr>
-					  -->
+					 -->
 				  <!-- 비밀댓글  
 				  <c:if test="${fCommentList.f_cpw!=null ||fCommentList.f_cpw!='' }">
 					  <tr id="${fCommentList.f_cno }">

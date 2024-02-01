@@ -69,7 +69,7 @@
 			      </tr>
 			      <tr style="border-bottom: 2px solid #009223">
 			        <td style="text-align: center;"><strong>작성자 | </strong></td>
-			        <td><input type="text" value="aaa" readonly="readonly" style="border: 1px solid transparent;"> </td>
+			        <td><input type="text" name="id" value="${session_id }" readonly="readonly" style="border: 1px solid transparent;"> </td>
 			      </tr>
 			      <tr>
 			        <td colspan="4" class="article"><textarea rows="9" name="f_bcontent" id="summernote" placeholder=" ※ 게시글 내용을 입력해주세요."></textarea> </td>

@@ -28,7 +28,7 @@
 	    <!-- Template Main CSS File -->
 	    <link href="../assets/css/main2.css" rel="stylesheet">
 	    <link href="../assets/css/header.css" rel="stylesheet">
-		<link href="../assets/css/my/idsearch.css" rel="stylesheet">
+		<link href="../assets/css/my/signUp02.css" rel="stylesheet">
 	    
 	   
 	    
@@ -38,19 +38,12 @@
 	<%@include file="../include/header.jsp" %>
 	<!-- End Header -->
 			<section class="signUp_02">
-					<img src="../assets/img/guide_icon.png">
-					<h1><span style="color:red;">회원님의 ID</span>를 안내해드립니다!</h1>
+					<img src="../assets/img/signup_icon.png">
+					<h1><span>회원가입</span> 완료 되었습니다!</h1>
 					
 					<div class="amount3">
-						<p>회원님의 아이디를 확인해주세요.</p>
-						<c:choose>
-							<c:when test="${empty findId}">
-							<p class="idguide">조회결과가 없습니다.</p>
-							</c:when>
-							<c:otherwise>
-								<p class="idguide">아이디 : ${findId.id}</p>
-							</c:otherwise>
-						</c:choose>
+						<p>홍길동님 가입을 축하드립니다!<br>캠브릿지에 가입해주셔서 감사합니다.</p>
+						<p class="signup_detail">저희 캠브릿지에서 행복한 추억 만드시기 바랍니다.</p>
 						
 					</div>
 					

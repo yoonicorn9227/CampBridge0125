@@ -41,7 +41,7 @@ section {
 	font-weight: 700;
 	line-height: 1.2;
 	padding: 0px 13px 0px 10px;
-	background: url("../images/join/bg_location_li.png") right no-repeat;
+
 }
 
 #locationN>ul>li:nth-child(3) {
@@ -109,10 +109,10 @@ h4>span {
 	display: inline-block;
 	width: 10px;
 	height: 10px;
-	background: url(../img/login/point_rs.png) no-repeat 45% 88%;
 	position: relative;
 	left: 20px;
 	vertical-align: middle;
+	background: url(../../img/login/point_rs.png) no-repeat 45% 88%;
 }
 
 .fieldset_class dl dt label {
@@ -342,7 +342,7 @@ input[type="radio"]:not(old) {
 
 input[type="radio"]:not(old)+label {
 	/*display:inline-block;*/
-	background: url(../img/login/radio_off.jpg) no-repeat 0px 2px;
+	background: url('../../img/login/radio_off.jpg') no-repeat 0px 2px;
 	height: 24px;
 	margin-left: -24px;
 	padding-left: 24px;
@@ -350,7 +350,7 @@ input[type="radio"]:not(old)+label {
 
 input[type="radio"]:not(old):checked+label {
 	/*display:inline-block;*/
-	background: url(../img/login/radio_on.jpg) no-repeat 0px 2px;
+	background: url('../../img/login/radio_on.jpg') no-repeat 0px 2px;
 	height: 24px;
 	margin-left: -24px;
 	padding-left: 24px;
@@ -363,7 +363,7 @@ input[type="checkbox"]:not(old) {
 
 input[type="checkbox"]:not(old)+label {
 	/*display:inline-block;*/
-	background: url(../img/login/radio_off.jpg) no-repeat 0px 2px;
+	background: url('../../img/login/radio_off.jpg') no-repeat 0px 2px;
 	height: 24px;
 	margin-left: -24px;
 	padding-left: 24px;
@@ -371,7 +371,7 @@ input[type="checkbox"]:not(old)+label {
 
 input[type="checkbox"]:not(old):checked+label {
 	/*display:inline-block;*/
-	background: url(../img/login/radio_on.jpg) no-repeat 0px 2px;
+	background: url('../../img/login/radio_on.jpg') no-repeat 0px 2px;
 	height: 24px;
 	margin-left: -24px;
 	padding-left: 24px;

@@ -146,7 +146,6 @@ public class CController {
 		return "/community/fView";
 	}// fView()
 
-
 	// 4.자유 게시글 삭제
 	@PostMapping("fDelete")
 	public String fDelete(@RequestParam(defaultValue = "1") int f_bno, Model model) {
@@ -160,7 +159,7 @@ public class CController {
 
 		return "/community/doFBoard";
 	}// fDelete
-	
+
 	// 4.자유 게시글 - 하단댓글 1개저장
 	@PostMapping("fCommentInsert")
 	@ResponseBody // ajax - 데이터 전송
@@ -172,20 +171,36 @@ public class CController {
 
 		return fCommentDto;
 	}// fCommentInsert(fcdto)
-	
+
 	// 4.자유 게시글 - 하단댓글 1개삭제
 	@PostMapping("fCommentDelete")
 	@ResponseBody // ajax - 데이터 전송
 	public String fCommentDelete(int f_cno) {
-		System.out.println("CController 댓글삭제번호 : "+f_cno);
-		
-		//service연결
-		String result = fService.fCommentDelete(f_cno);
-		
-		return result;
-	}//fCommentDelete(f_cno)
-	
+		System.out.println("CController 댓글삭제번호 : " + f_cno);
 
+		// service연결
+		String result = fService.fCommentDelete(f_cno);
+
+		return result;
+	}// fCommentDelete(f_cno)
+
+	
+	// 4. 자유게시글  -하단댓글 1개 수정저장
+	@PostMapping("fCommentUpdate")
+	@ResponseBody
+	public FCommentDto fCommentUpdate(FCommentDto fcdto) {
+		System.out.println("CController fCommentUpdate f_cno : "+fcdto.getF_cno());
+		
+		
+		//service 연결 - 댓글수정저장
+		FCommentDto fCommentDto = fService.fCommentUpdate(fcdto);
+		
+		return fCommentDto;
+	}//fCommentUpdate(f_cno)
+	
+	
+	
+	
 	// 4.자유 게시글 작성Pg
 	@GetMapping("fWrite")
 	public String fWrite() {
@@ -197,6 +212,7 @@ public class CController {
 	public String fWrite(FBoardDto fbdto, @RequestParam MultipartFile fFile, Model model) throws Exception {
 		System.out.println("Ccontroller fbdto f_btitle : " + fbdto.getF_btitle());
 		System.out.println("Ccontroller fbdto f_bcontent : " + fbdto.getF_bcontent());
+		System.out.println("Ccontroller fbdto f_bcontent : " + fbdto.getId());
 		// System.out.println("Ccontroller fbdto btype :"+fbdto.getF_btype());
 		if (!fFile.isEmpty()) {
 			String oriFName = fFile.getOriginalFilename();

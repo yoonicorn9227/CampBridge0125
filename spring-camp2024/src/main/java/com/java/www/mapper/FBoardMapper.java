@@ -46,9 +46,14 @@ public interface FBoardMapper {
 
 	// 4. 자유게시판 - 게시글 1개가져오기 : 하단댓글 1개 저장 후 댓글 1개 가져오기
 	void fCommentInsert(FCommentDto fcdto);
+	FCommentDto FCommentSelectOne(int f_cno);
 
 	// 4. 자유게시판 - 게시글 1개가져오기 : 하단댓글 1개 삭제
 	int fCommentDelete(int f_cno);
+
+	// 4. 자유게시판 - 게시글 1개가져오기 : 하단댓글 수정저장
+	void FCommentUpdate(FCommentDto fcdto);
+
 
 
 }// FBoardMapper

@@ -60,7 +60,7 @@
 	
 	<!-- 4.자유게시판 - 게시글 저장(파일저장) -->
 	<insert id="fWrite">
-	 	insert into f_board values(f_board_seq.nextval,'aaa',#{f_btype},#{f_btitle},#{f_bcontent},sysdate,0,f_board_seq.currval,0,0,#{f_bfile})
+	 	insert into f_board values(f_board_seq.nextval,#{id},#{f_btype},#{f_btitle},#{f_bcontent},sysdate,0,f_board_seq.currval,0,0,#{f_bfile})
 	</insert>
 	
 	<!-- 4.자유게시판 - 게시글 수정저장 -->
@@ -75,15 +75,25 @@
 	
 	<!-- 4.자유게시판 - 게시글 하단댓글 저장 -->
 	<insert id="fCommentInsert">
-		<selectKey resultType="int" keyProperty="f_cno" order="BEFORE">
-			select f_comment_seq.nextval from dual
+		<selectKey resultType="com.java.www.dto.FCommentDto" keyProperty="f_cno,f_cdate" order="BEFORE">
+			select f_comment_seq.nextval f_cno,sysdate f_cdate from dual
 		</selectKey>
-		insert into f_comment values(#{f_cno},#{f_bno},'aaa',#{f_cpw},#{f_ccontent},sysdate)
+		insert into f_comment values(#{f_cno},#{f_bno},#{id},#{f_cpw},#{f_ccontent},sysdate)
 	</insert>
 	
 	<!-- 4.자유게시판 - 게시글 하단댓글 삭제 -->
 	<delete id="fCommentDelete">
 		delete f_comment where f_cno=#{f_cno}
 	</delete>
+	
+	<select id="FCommentSelectOne" resultType="com.java.www.dto.FCommentDto">
+	 	select * from f_comment where f_cno=#{f_cno}
+	</select>
+	
+	
+	<update id="FCommentUpdate">
+		update f_comment set f_cpw=#{f_cpw}, f_ccontent=#{f_ccontent}, f_cdate=sysdate where f_cno=#{f_cno}
+	</update>
+	
 
 </mapper>

@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,9 +21,21 @@
 	        <h1>CampBridge<span>.</span></h1>
 	      </a>
 	      <div class="login d-flex">
-	      <li><a href="/my/login">로그인</a></li>
-	      <li><a href="/my/signUp">회원가입</a></li>
-	      <li><a href="/community/nList">공지사항</a></li>
+	      	<c:if test="${session_id==null}">
+	      		<li><a href="/my/login">로그인</a></li>
+	      	</c:if>
+	      	<c:if test="${session_id!=null}">
+	      		<li><a href="/my/myPage">${session_name}님</a></li>
+	      	</c:if>
+	      	<c:if test="${session_id==null}">
+	      		<li><a href="/my/signUp">회원가입</a></li>
+	      		
+	      	</c:if>
+	      	<c:if test="${session_id!=null}">
+	      		<li><a href="/my/logout">로그아웃</a></li>
+	      		
+	      	</c:if>
+	      <li><a href="/commuinty/nList">공지사항</a></li>
 	      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
 	      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
 	      <a class="btn-book-a-table" href="/rent/cpRent">용품대여</a>
