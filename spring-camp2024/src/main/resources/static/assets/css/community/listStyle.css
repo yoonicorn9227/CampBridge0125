@@ -11,7 +11,6 @@ section {
 
 .table-title:hover{
 	text-decoration: underline;
-	font-weight: 700;
 }
 	
 
@@ -39,7 +38,7 @@ table {
 	display: felx;
 }
 
-.searchTitle, .searchWord, .searchBtn {
+.searchTitle, .searchWord, .searchBtn, .category {
 	height: 50px;
 	border: 2px solid #009223;
 }
@@ -129,7 +128,6 @@ th, td {
 	width: 36px;
 	height: 35px;
 	padding: 0;
-	cursor: pointer;
 	border-radius: 5px;
 }
 

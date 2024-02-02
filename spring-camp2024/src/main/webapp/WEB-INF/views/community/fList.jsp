@@ -42,7 +42,7 @@
 					return false;
 				}//if
 				alert("입력하신 검색어로 검색합니다.");
-				fsearchFrm.submit();
+				fSearchFrm.submit();
 				
 			});//#searchBtn
 		});//제이쿼리 최신
@@ -57,7 +57,7 @@
 	    	<h1 style="margin: 10px; font-weight: 700; position: relative; top: 40px; left: -570px; ">자유 게시판</h1>
 		    <!-- 검색창 -->
 		    <div class="searchDiv">
-			  <form action="fList" name="fsearchFrm" method="get" >
+			  <form action="fList" name="fSearchFrm" method="get" >
 			    <select name="searchTitle" id="searchTitle" class="searchTitle">
 			       <option value="all">전체</option>
 			       <option value="f_btitle">제목</option>

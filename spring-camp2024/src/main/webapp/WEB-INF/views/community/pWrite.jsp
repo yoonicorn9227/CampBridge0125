@@ -5,8 +5,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<c:if test="${session_id==null }">
+			<script>
+			 alert("※ 로그인 상태만 접근이 가능합니다.")
+			 location.href="../my/login";
+			</script>
+		</c:if>
 		<meta charset="UTF-8">
-		<title>자유게시판_글작성</title>
+		<title>파티원모집_글작성</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	    <meta content="" name="description">
 	    <meta content="" name="keywords">

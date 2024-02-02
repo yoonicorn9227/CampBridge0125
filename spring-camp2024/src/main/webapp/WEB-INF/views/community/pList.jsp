@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -30,6 +32,23 @@
 		<link href="../assets/css/header.css" rel="stylesheet">
 		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
 	</head>
+	<script>
+		$(function(){
+			$("#searchBtn").click(function(){
+				
+				if($("#searchWord").val().length<1){
+					alert("※ 검색어를 입력해주세요.");
+					$("#searchWord").focus();
+					return false;
+				}//if(검색어 미입력시)
+				
+			 alert("test");
+				
+			 pSearchFrm.submit();
+				
+			});//#searchBtn(파티원 모집 검색어)
+		});//제이쿼리 최신
+	</script>
 	<body>
 	<!-- ======= Header ======= -->
 	<%@include file="../include/header.jsp" %>
@@ -40,14 +59,15 @@
 	    	<h1 style="margin: 10px; font-weight: 700; position: relative; top: 70px; left: -560px; ">파티원 모집</h1>
 		    <!-- 검색창 -->
 		    <div class="searchDiv">
-			  <form action="" method="get" name="searchFrm">
-			    <select name="searchTitle" id="searchTitle" class="searchTitle">
+			  <form action="pList" name="pSearchFrm" method="get">
+			    <select name="pCategory" id="searchTitle" class="category">
 			       <option value="all">전체</option>
-			       <option value="btitle">제목</option>
-			       <option value="bcontent">내용</option>
+			       <option value="p_btitle">제목</option>
+			       <option value="p_bcontent">내용</option>
+			       <option value="p_local">지역</option>
 			       <option value="id">작성자</option>
 			    </select>
-			    	<input type="text" name="searchWord" id="searchWord" class="searchWord" placeholder=" 검색어를 입력해주세요.">
+			    	<input type="text" name="pSearchWord" id="searchWord" class="searchWord" placeholder=" 검색어를 입력해주세요.">
 			    	<button type="button" onclick="searchBtn()" id="searchBtn" class="searchBtn">검색</button>
 			  </form>
 			</div>
@@ -56,11 +76,11 @@
 			      <colgroup>
 			        <col width="10%">
 			        <col width="10%">
-			        <col width="30%">
+			        <col width="40%">
 			        <col width="10%">
-			        <col width="10%">
-			        <col width="10%">
-			        <col width="10%">
+			        <col width="7%">
+			        <col width="5%">
+			        <col width="7%">
 			        <col width="10%">
 			      </colgroup>
 			      <tr>
@@ -70,130 +90,93 @@
 			        <th>작성자</th>
 			        <th>지역</th>
 			        <th>모집인원</th>
-			        <th>작성일</th>
 			        <th>모집상태</th>
+			        <th>작성일</th>
 			      </tr>
-			      <tr>
-			        <td id="No">1</td>
-			        <td>오토캠핑</td>
-			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
-			        <td>캠브릿지</td>
-			        <td>양평</td>
-			        <td>1/5</td>
-			        <td>2024-12-31</td>
-			        <td>모집중</td>
-			      </tr>
-			      <tr>
-			        <td id="No">2</td>
-			        <td>오토캠핑</td>
-			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
-			        <td>송승민</td>
-			        <td>서울</td>
-			        <td>1/5</td>
-			        <td>2024-12-31</td>
-			        <td>모집중</td>
-			      </tr>
-			      <tr>
-			        <td id="No">3</td>
-			        <td>오토캠핑</td>
-			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
-			        <td>조민진</td>
-			        <td>천안</td>
-			        <td>1/5</td>
-			        <td>2024-12-31</td>
-			        <td>모집중</td>
-			      </tr>
-			      <tr>
-			        <td id="No">4</td>
-			        <td>오토캠핑</td>
-			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
-			        <td>정보람</td>
-			        <td>서천</td>
-			        <td>1/5</td>
-			        <td>2024-12-31</td>
-			        <td>모집중</td>
-			      </tr>
-			      <tr>
-			        <td id="No">5</td>
-			        <td>오토캠핑</td>
-			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
-			        <td>최창윤</td>
-			        <td>서울</td>
-			        <td>1/5</td>
-			        <td>2024-12-31</td>
-			        <td>모집중</td>
-			      </tr>
-			      <tr>
-			        <td id=오토캠핑>6</td>
-			        <td>박은경</td>
-			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
-			        <td>박은경</td>
-			        <td>광명</td>
-			        <td>1/5</td>
-			        <td>2024-12-31</td>
-			        <td>모집중</td>
-			      </tr>
-			      <tr>
-			        <td id="No">7</td>
-			        <td>오토캠핑</td>
-			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
-			        <td>박현수</td>
-			        <td>광주</td>
-			        <td>1/5</td>
-			        <td>2024-12-31</td>
-			        <td>모집중</td>
-			      </tr>
-			      <tr>
-			        <td id="No">8</td>
-			        <td>오토캠핑</td>
-			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
-			        <td>김승우</td>
-			        <td>광주</td>
-			        <td>1/5</td>
-			        <td>2024-12-31</td>
-			        <td>모집중</td>
-			      </tr>
-			      <tr>
-			        <td id="No">9</td>
-			        <td>오토캠핑</td>
-			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
-			        <td>지피티</td>
-			        <td>양평</td>
-			        <td>1/5</td>
-			        <td>2024-12-31</td>
-			        <td>모집중</td>
-			      </tr>
-			      <tr>
-			        <td id="No">10</td>
-			        <td>오토캠핑</td>
-			        <td class="table-title"><a href="pView">게시글 내용이 들어갑니다.</a></td>
-			        <td>손발을</td>
-			        <td>양평</td>
-			        <td>1/5</td>
-			        <td>2024-12-31</td>
-			        <td>모집중</td>
-			      </tr>
+		          <c:if test="${map.list.size()==0 }">
+		            <tr>
+			        	<td colspan="8"> <strong>※ 게시글이 존재 하지 않습니다.</strong></td>
+			      	</tr>
+	              </c:if>    
+			      <c:forEach var="pbdto" items="${map.list }">
+				      <c:if test="${pbdto.p_bstatus==0}">
+					      <tr>
+					        <td id="No">${pbdto.p_bno}</td>
+					        <td style="font-weight: 700;">${pbdto.p_btype}</td>
+					        <td class="table-title"><a href="pView">${pbdto.p_btitle}</a></td>
+					        <td>${pbdto.id}</td>
+					        <td>${pbdto.p_local}</td>
+					        <td>${pbdto.p_bnum}/4</td>
+					        <td>
+						        <c:if test="${pbdto.p_bstatus==0}"><strong style="color: blue;">모집중</strong></c:if>
+						        <c:if test="${pbdto.p_bstatus!=0}"><strong style="color: red;">모집완료</strong></c:if>
+					        </td>
+					        <td><fmt:formatDate value="${pbdto.p_bdate}" pattern="YYYY-MM-dd"/></td>
+					      </tr>
+					      </c:if>
+				      <c:if test="${pbdto.p_bstatus!=0}">
+					      <tr>
+					        <td id="No">${pbdto.p_bno}</td>
+					        <td style="font-weight: 700;">${pbdto.p_btype}</td>
+					        <td class="table-title" style="color: gray; text-decoration: none">${pbdto.p_btitle}</td>
+					        <td>${pbdto.id}</td>
+					        <td>${pbdto.p_local}</td>
+					        <td>${pbdto.p_bnum}/4</td>
+					        <td>
+						        <c:if test="${pbdto.p_bstatus==0}"><strong style="color: blue;">모집중</strong></c:if>
+						        <c:if test="${pbdto.p_bstatus!=0}"><strong style="color: red;">모집완료</strong></c:if>
+					        </td>
+					        <td><fmt:formatDate value="${pbdto.p_bdate}" pattern="YYYY-MM-dd"/></td>
+					      </tr>
+					      </c:if>
+			      </c:forEach>
 		  		</div>
 		    </table>
 			 	<a href="pWrite"><button class="write">글쓰기</button></a>
   			 	<button class="write" onclick="location.href='/'">메인홈</button>
 	    	
+	    	<!-- 하단넘버링 시작 -->
 		     <ul class="page-num">
-			      <li class="first"></li>
+			     <c:if test="${map.page<=1 }">
+				      <li class="first"></li>
+			     </c:if>
+			     <c:if test="${map.page>1 }">
+				      <a href="pList?page=1&pCategory=${map.pCategory }&pSearchWord=${map.pSearchWord}"><li class="first"></li></a>
+			     </c:if>
+		     	
+		     	<c:if test="${map.page<=1 }">
 			      <li class="prev"></li>
-			      <li class="num">1</li>
-			      <li class="num">2</li>
-			      <li class="num">3</li>
-			      <li class="num">4</li>
-			      <li class="num">5</li>
-			      <li class="num">6</li>
-			      <li class="num">7</li>
-			      <li class="num">8</li>
-			      <li class="num">9</li>
-			      <li class="num">10</li>
-			      <li class="next"></li>
-			      <li class="last"></li>
+		     	</c:if>
+		     	<c:if test="${map.page>1 }">
+			      <a href="pList?page=${map.page-1 }&pCategory=${map.pCategory }&pSearchWord=${map.pSearchWord}"><li class="prev"></li></a>
+		     	</c:if>
+			      
+			      <!--페이지 넘버링 -->
+			      <c:forEach var="i" begin="${map.startArryPage }" end="${map.endArryPage }" step="1">
+			      	<c:if test="${map.page==i }">
+			      		<li class="num on">${i }</li>
+			      	</c:if>
+			      	<c:if test="${map.page!=i }">
+			      		<a href="pList?page=${i}&pCategory=${map.pCategory}&pSearchWord=${map.pSearchWord}"><li class="num"> ${i }</li></a>
+			      	</c:if>
+			      </c:forEach>
+			      <!--페이지 넘버링 -->
+			      
+			      <c:if test="${map.page>=map.maxArryPage }">
+			      	<li class="next"></li>
+			      </c:if>
+			      <c:if test="${map.page<map.maxArryPage }">
+			     	<a href="pList?page=${map.page+1 }&pCategory=${map.pCategory }&pSearchWord=${map.pSearchWord}"><li class="next"></li></a>
+			      </c:if>
+			      
+			      <c:if test="${map.page>=map.maxArryPage }">
+			      	<li class="last"></li>
+			      </c:if>
+			      <c:if test="${map.page<map.maxArryPage }">
+			      	<a href="pList?page=${map.maxArryPage }&pCategory=${map.pCategory }&pSearchWord=${map.pSearchWord}"><li class="last"></li></a>
+			      </c:if>
    			 </ul>
+	    	<!-- 하단넘버링 끝 -->
 		</section>
 		
 		<!-- ======= Footer ======= -->

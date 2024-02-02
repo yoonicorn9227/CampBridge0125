@@ -1,6 +1,7 @@
 package com.java.www.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.java.www.dto.FBoardDto;
 import com.java.www.dto.FCommentDto;
+import com.java.www.dto.PBoardDto;
 import com.java.www.service.FService;
+import com.java.www.service.PService;
 
 @Controller
 @RequestMapping("community")
 public class CController {
 	@Autowired
 	FService fService;
+
+	@Autowired
+	PService pService;
 
 	// 1.공지사항 리스트
 	@GetMapping("nList")
@@ -51,11 +57,35 @@ public class CController {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 공지사항
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 게시판
 
-	// 2.파티원 모집 게시판Pg
+	@GetMapping("psearch") //파티원 모집 - 게시글 검색
+	public String psearch(@RequestParam(defaultValue = "1") int page,@RequestParam(required=false) String pCategory, @RequestParam(required = false) String pSearchWord, Model model) {
+		
+		System.out.println("Controller 카테고리 : "+pCategory);
+		System.out.println("Controller 검색어 : "+pSearchWord);
+		
+		// service연결
+		Map<String, Object> map = pService.pSelectSearch(page,pCategory,pSearchWord);
+		
+		//model 저장 후 전송 ⓛlist → ②map
+		model.addAttribute("map", map);
+		
+		return "/community/pList";
+	}// pList(page,pCategory,pSearchWord)
+	
+	// 2.파티원 모집 게시판Pg - 게시글 전체가져오기
 	@GetMapping("pList")
-	public String partyList() {
+	public String pList(@RequestParam(defaultValue = "1") int page, @RequestParam(required=false) String pCategory, @RequestParam(required = false) String pSearchWord, Model model) {
+		// service연결
+		Map<String, Object> map = pService.pSelectAll(page,pCategory,pSearchWord);
+		
+		
+		 //model 저장 후 전송 ⓛlist → ②map
+		model.addAttribute("map", map);
+
+		
 		return "/community/pList";
 	}// pList()
+	
 
 	// 2.파티원 모집 게시글보기 Pg
 	@GetMapping("pView")
@@ -184,23 +214,18 @@ public class CController {
 		return result;
 	}// fCommentDelete(f_cno)
 
-	
-	// 4. 자유게시글  -하단댓글 1개 수정저장
+	// 4. 자유게시글 -하단댓글 1개 수정저장
 	@PostMapping("fCommentUpdate")
 	@ResponseBody
 	public FCommentDto fCommentUpdate(FCommentDto fcdto) {
-		System.out.println("CController fCommentUpdate f_cno : "+fcdto.getF_cno());
-		
-		
-		//service 연결 - 댓글수정저장
+		System.out.println("CController fCommentUpdate f_cno : " + fcdto.getF_cno());
+
+		// service 연결 - 댓글수정저장
 		FCommentDto fCommentDto = fService.fCommentUpdate(fcdto);
-		
+
 		return fCommentDto;
-	}//fCommentUpdate(f_cno)
-	
-	
-	
-	
+	}// fCommentUpdate(f_cno)
+
 	// 4.자유 게시글 작성Pg
 	@GetMapping("fWrite")
 	public String fWrite() {

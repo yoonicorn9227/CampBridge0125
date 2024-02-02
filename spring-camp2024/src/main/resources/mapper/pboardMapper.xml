@@ -1,0 +1,70 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- PBoardMapper.java 연결 -->
+<mapper namespace="com.java.www.mapper.PBoardMapper">
+	
+	<!-- 1. 파티원 모집 전체리스트 -->
+	<select id="pSelectAll" resultType="com.java.www.dto.PBoardDto">
+		select * from
+		(select row_number() over(order by p_bno desc) rnum, a.* from p_board a  
+		<if test="pCategory=='p_btitle' or pCategory=='p_bcontent' or pCategory=='p_local' or pCategory=='id'">
+			where ${pCategory} like '%'||#{pSearchWord}||'%'
+		</if>
+		<if test="pCategory=='all'">
+			where p_btitle like '%'||#{pSearchWord}||'%' 
+			or p_bcontent like '%'||#{pSearchWord}||'%' 
+			or p_local like '%'||#{pSearchWord}||'%' 
+			or id like '%'||#{pSearchWord}||'%' 
+		</if>
+		)
+		where rnum between #{startRow} and #{endRow}
+	</select>
+	
+	<!-- 파티원 모집 전체리스트 갯수 (검색어 없을시 null) all, p_btitle,p_bcontent... -->
+	<select id="pSelcountAll" resultType="int"> 
+		select count(*) from p_board 
+		<if test="pCategory=='p_btitle' or pCategory=='p_bcontent' or pCategory=='p_local' or pCategory=='id'">
+			 where ${pCategory} like '%'||#{pSearchWord}||'%'
+		</if>
+		<if test="pCategory=='all'">
+			where p_btitle like '%'||#{pSearchWord}||'%' 
+			or p_bcontent like '%'||#{pSearchWord}||'%' 
+			or p_local like '%'||#{pSearchWord}||'%' 
+			or id like '%'||#{pSearchWord}||'%' 
+		</if>
+	</select>
+	
+<!--*********************************************************** -->	
+	<!-- 파티원 모집 전체리스트 검색어 리스트갯수(pSelectAll에 합치고 삭제 -->
+	<select id="pSelSearchCountAll" resultType="int">
+		select count(*) from p_board 
+		<if test="pCategory!='all'">
+			where ${pCategory} like '%'||#{pSearchWord}||'%'
+		</if>
+		<if test="pCategory=='all'">
+			where p_btitle like '%'||#{pSearchWord}||'%' 
+			or p_bcontent like '%'||#{pSearchWord}||'%' 
+			or p_local like '%'||#{pSearchWord}||'%' 
+			or id like '%'||#{pSearchWord}||'%' 
+		</if>
+	</select>
+	
+	<!-- 1. 파티원 모집 검색어 전체리스트 -->
+	<select id="pSelectSearchAll" resultType="com.java.www.dto.PBoardDto">
+		select * from
+		(select row_number() over(order by p_bno desc) rnum, a.* from p_board a 
+		<if test="pCategory!='all'">
+			where ${pCategory} like '%'||#{pSearchWord}||'%'
+		</if>
+		<if test="pCategory=='all'">
+			where p_btitle like '%'||#{pSearchWord}||'%' 
+			or p_bcontent like '%'||#{pSearchWord}||'%' 
+			or p_local like '%'||#{pSearchWord}||'%' 
+			or id like '%'||#{pSearchWord}||'%' 
+		</if>
+		)
+		where rnum between #{startRow} and #{endRow}
+	</select>
+
+</mapper>

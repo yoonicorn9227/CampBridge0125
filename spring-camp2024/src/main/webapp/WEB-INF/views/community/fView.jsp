@@ -47,6 +47,7 @@
 				$("#freeViewFrm").attr("action","fUpdate").submit();
 				}//if-confirm(게시글 수정 확인창)
 			});//#fUpdateBtn(게시글 수정)
+			
 		
 		
 		
@@ -124,7 +125,12 @@
 		    			let f_cpw = $("#replyIPw").val();
 		    			let f_ccontent = $("#replyCont").val();
 		    			
-		    			if($("#replyCont").val().length<1){
+						if(${session_id==null}){
+							alert("※ 로그인 상태에서만 댓글이 등록됩니다.");
+							return false;
+						}//if(로그인 미실시)		    			
+		    			
+						if($("#replyCont").val().length<1){
 		    				alert("※ 댓글 미입력시 댓글등록 되지 않습니다.");
 		    				$('#replyCont').focus();
 		    				return false;
@@ -212,8 +218,9 @@
 		    	$(document).on("click",".rDelBtn",function(){
 	    			//alert("부모의 부모의 부모 id(f_cno) : "+$(this).closest("tr").attr("id")); //=//alert("부모의 부모의 부모 id(f_cno) : "+$(this).parent().parent().parent().attr("id"));
 	    			let f_cno = $(this).closest("tr").attr("id");
-	    			if(confirm("댓글을 삭제 하시겠습니까?")){
-	    				
+	    			//let id=$(this).parent().parent().find(".f_cid").text();
+	    			
+	    			 if(confirm("댓글을 삭제 하시겠습니까?")) {
 	    				//♠ajax(댓글삭제)
 	    				$.ajax({
 	    					url:"/community/fCommentDelete",
@@ -351,9 +358,12 @@
 						&nbsp;&nbsp;[<span class="f_cdate"><fmt:formatDate value="${fCommentList.f_cdate }" pattern="YYYY-MM-DD HH:mm:ss"/> </span>]
 						<li id="replyTxt">${fCommentList.f_ccontent}</li>
 						<li id="replyBtn">
+						<c:if test="${session_id==fCommentList.id or session_id=='admin'}">
 							<button class="rDelBtn">삭제</button>
+						</c:if>
+						<c:if test="${session_id==fCommentList.id}">
 							<button class="rUBtn">수정</button>
-						</li>
+						</c:if>
 						</td>			
 					  </tr>
 					  <!-- 댓글 수정입력창 

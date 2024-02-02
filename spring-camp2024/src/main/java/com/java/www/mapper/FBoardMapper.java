@@ -17,7 +17,6 @@ public interface FBoardMapper {
 
 	// 4.게시글 총갯수(하단 넘버링), 게시글 검색갯수
 	int fSelcountAll(String searchTitle, String searchWord);
-
 	int fSearchCount(String searchTitle, String searchWord);
 
 	// 4. 자유게시판 - 게시글 1개가져오기 : 현재글
