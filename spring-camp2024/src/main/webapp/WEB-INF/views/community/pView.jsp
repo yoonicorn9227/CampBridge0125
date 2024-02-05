@@ -31,65 +31,53 @@
 		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
 		<link href="../assets/css/community/viewStyle.css" rel="stylesheet">
 	</head>
-	
-	<style>
-	
-	</style>
-	
 	<body>
 	<!-- ======= Header ======= -->
 	<%@include file="../include/header.jsp" %>
 	<!-- End Header -->
-	
+	<!-- 파티원모집 글보기-->
 		<section class="notice_search">
-		
-		   
-			<!-- 공지사항 리스트 -->
 	    	<h1 style="float: left; margin: 40px 0 0 700px; font-weight: 700; position: relative; left:50px;">파티원 모집</h1>
 		    <table>
 		     <colgroup>
 		        <col width="10%">
-		        <col width="48%">
-		        <col width="10%">
-		        <col width="10%">
-		        <col width="10%">
-		        <col width="12%">
+		        <col width="50%">
+		        <col width="20%">
+		        <col width="20%">
    			</colgroup>
-		    
 		      <tr>
-		        <th style="text-align: center;">
-		        	<strong>1007</strong>
+		        <th style="text-align: center;"><strong>${map.pbdto.p_bno }</strong></th>
+		        <th style="text-align: left;"><span>[${map.pbdto.p_btype }] ${map.pbdto.p_btitle }</span></th>
+		        <th style="text-align: right;"><strong>모집상태</strong></th>
+		        <th>
+			        <c:if test="${map.pbdto.p_bnum!=4 }"><span style="color: blue;">모집중</span></c:if>
+			    	<c:if test="${map.pbdto.p_bnum==4 }"><span style="color: red;">모집완료</span></c:if>
 		        </th>
-		        <th colspan="3" style="text-align: left;"><span>게시글 제목이 들어갑니다.</span></th>
-		        
-		        <th style="text-align: right;">
-		        	<strong>모집상태</strong>
-		        </th>
-		        <th>파티원 모집중</th>
 		      </tr>
 		      
 		      <tr style="border-bottom: 2px solid #009223">
-		        <td style="text-align: center;">
-		        	<strong>작성자</strong style="text-align: center;">
-		        </td>
-		        <td>관리자</td>
-		        <td style="text-align: right;">
-		        	<strong>캠핑유형</strong>
-		        </td>
-		        <td>오토캠핑</td>
-		        <td style="text-align: right;">
-		        	<strong>파티원</strong>
-		        </td>
-		        <td>3 &nbsp명</td>
+		        <td style="text-align: center;"><strong>작성자</strong style="text-align: center;"></td>
+		        <td>${map.pbdto.id }</td>
+		        <td style="text-align: right;"><strong>파티인원</strong></td>
+		        <td>${map.pbdto.p_bnum } &nbsp명</td>
 		      </tr>
 		      <tr>
-		        <td colspan="6" class="article">게시글 내용이 들어갑니다.<br><br><br><br><br></td>
+		        <td colspan="6" class="article">${map.pbdto.p_bcontent }<br><br><br><br><br></td>
 		      </tr>
+		      <c:if test="${map.pbdto.p_bfile!=null }">
+		      <tr style="border-bottom: 2px solid #009223;">
+		        <td class="article"><strong>첨부파일</strong>
+		        </td>
+		        <td colspan="5">${map.pbdto.p_bfile }</td>
+		      </tr>
+		      </c:if>
+		      <c:if test="${map.pbdto.p_bfile==null }">
 		      <tr style="border-bottom: 2px solid #009223;">
 		        <td class="article"><strong>첨부파일</strong>
 		        </td>
 		        <td colspan="5">※첨부파일 없음</td>
 		      </tr>
+		      </c:if>
 		    </table>
 		    
 		    <!-- 참석자 -->
@@ -99,13 +87,15 @@
 		    		<img src="../assets/img/party/participant_no1.png" alt="모집자">
 		    		</div>
 			    	<div class="participant_in">
-			    	<tr>
-			    		<td><strong>아이디</strong></td>
-			    		<td>aaa</td>
-			    		</br>
-			    		<td><strong>닉네임</strong></td>
-			    		<td>항공5기</td>
-			    	</tr>
+					<c:forEach var="pjdto" items="${map.pJList }">
+				    	<tr>
+				    		<td><strong>파티장(ID)</strong></td>
+				    		<td>${pjdto.id}</td>
+				    		</br>
+				    		<td><strong>닉네임</strong></td>
+				    		<td>항공5기</td>
+				    	</tr>
+					</c:forEach>
 		    		</div>
 		    	</div>
 		    	<div class="participant_no">
@@ -170,62 +160,55 @@
 			 <table style="position: relative; bottom: 200px;">
 			  <tr>
 			  	<td style="display: flex; border: 1px solid white; margin: -80px 0 0 -20px;">
-				  	<textarea placeholder=" ※ 댓글을 입력하세요. (타인을 향한 욕설 및 비방은 무통보 삭제됩니다.)" style="width: 1200px; "></textarea>
+				  	<textarea id="replyCont" placeholder=" ※ 댓글을 입력하세요. (타인을 향한 욕설 및 비방은 무통보 삭제됩니다.)" style="width: 1200px; "></textarea>
 				  	<button id="replybtn">등록</button>
 			  	</td>
 			  </tr>
 		   	</table>
-		  
+		   	<!-- 댓글등록창 스크립트 -->
+		   	<script>
+		   		$(function(){
+		   			$("#replybtn").click(function(){
+		   				if(${session_id==null}){
+		   					alert("※ 로그인 상태에서만 댓글이 등록됩니다.");
+		   					return false;
+		   				}//로그인 미실시
+		   				
+		   				if($("#replyCont").val().length<1){
+		   					alert("※ 댓글 미입력시 댓글등록 되지 않습니다.");
+		   					$('#replyCont').focus();
+		   					return false;
+		   				}//if(댓글 미입력시)
+		   			});//#replyBtn
+		   		});//제이쿼리 최신
+		   	</script>
 		    <!-- 댓글보기-->
 		    <div class="reply_body">
 		    <table style="margin-top: 30px;">
 		      <td style="font-weight: 700">총<strong style="color: #009223">&nbsp;&nbsp;5</strong>&nbsp;개의 댓글이 등록되었습니다.</td>
+			  <tbody id="replyBox">
 			  <tr>
 				<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12 15:27:23:00]</span>
 				<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
 				<li id="replyBtn">
-					<button id="rDelBtn">삭제</button>
-					<button id="rUBtn">수정</button>
+					<button class="rDelBtn">삭제</button>
+					<button class="rUBtn">수정</button>
 				</li>
 				</td>			
 			  </tr>
-			  <tr>
-				<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12 15:27:23:00]</span>
-				<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
+			   <!-- 댓글 수정입력창 
+			   <tr id="#">
+				<td><strong style="color: navy;">댓글 작성자</strong> | <span style="color: #009223; font-weight: 700;">aaa</span>&nbsp;&nbsp;<span>[ 2024-02-05 ]</span>
+				<li style="list-style: none; float: right; line-height: 27px;"><strong>비밀번호 |<strong><input type="text" value="1234" placeholder=" ※입력시 비밀글로 저장"></li>
+				<li id="replyTxt"><textarea cols="145%"></textarea></li>
 				<li id="replyBtn">
-					<button id="rDelBtn">삭제</button>
-					<button id="rUBtn">수정</button>
+					<button class="rCanBtn">취소</button>
+					<button class="rSaveBtn">저장</button>
 				</li>
 				</td>			
 			  </tr>
-			  <tr>
-				<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12 15:27:23:00]</span>
-				<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
-				<li id="replyBtn">
-					<button id="rDelBtn">삭제</button>
-					<button id="rUBtn">수정</button>
-				</li>
-				</td>			
-			  </tr>
-			  <tr>
-				<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12 15:27:23:00]</span>
-				<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
-				<li id="replyBtn">
-					<button id="rDelBtn">삭제</button>
-					<button id="rUBtn">수정</button>
-				</li>
-				</td>			
-			  </tr>
-			  <tr>
-				<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12 15:27:23:00]</span>
-				<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
-				<li id="replyBtn">
-					<button id="rDelBtn">삭제</button>
-					<button id="rUBtn">수정</button>
-				</li>
-				</td>			
-			  </tr>
-			  
+					 -->	
+			  </tbody>
 		    </table>
 		    </div>
 		    <!-- 댓글보기 끝-->

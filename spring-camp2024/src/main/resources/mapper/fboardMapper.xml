@@ -73,6 +73,16 @@
 		delete f_board where f_bno=#{f_bno}
 	</delete>
 	
+	<!-- 4.자유게시판 - 다른게시글 f_bstep 1증가 -->
+	<update id="fBstepUp">
+		update f_board set f_bstep=f_bstep+1 where f_bgroup=#{f_bgroup} and f_bstep>#{f_bstep}
+	</update>
+	<!-- 4.자유게시판 - 답변달기 저장 -->
+	<insert id="doFReply">
+		insert into f_board values(f_board_seq.nextval,#{id},#{f_btype},#{f_btitle},#{f_bcontent},sysdate,0,
+		#{f_bgroup},#{f_bstep}+1,#{f_bindent}+1,#{f_bfile})
+	</insert>
+	
 	<!-- 4.자유게시판 - 게시글 하단댓글 저장 -->
 	<insert id="fCommentInsert">
 		<selectKey resultType="com.java.www.dto.FCommentDto" keyProperty="f_cno,f_cdate" order="BEFORE">
@@ -89,7 +99,6 @@
 	<select id="FCommentSelectOne" resultType="com.java.www.dto.FCommentDto">
 	 	select * from f_comment where f_cno=#{f_cno}
 	</select>
-	
 	
 	<update id="FCommentUpdate">
 		update f_comment set f_cpw=#{f_cpw}, f_ccontent=#{f_ccontent}, f_cdate=sysdate where f_cno=#{f_cno}

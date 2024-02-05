@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.java.www.dto.PBoardDto;
+import com.java.www.dto.PJoinDto;
 import com.java.www.mapper.PBoardMapper;
 
 @Service
@@ -43,11 +44,10 @@ public class PServiceImpl implements PService {
 		map.put("startArryPage", startArryPage);
 		map.put("endArryPage", endArryPage);
 		map.put("maxArryPage", maxArryPage);
-		
-		//④검색어 유형, 검색어 map으로 전송
+
+		// ④검색어 유형, 검색어 map으로 전송
 		map.put("pCategory", pCategory);
 		map.put("pSearchWord", pSearchWord);
-		
 
 		return map;
 	}// pSelectAll
@@ -85,5 +85,21 @@ public class PServiceImpl implements PService {
 
 		return map;
 	}// pSelectSearch
+
+	@Override //2. 파티원 모집 게시글 1개 가져오기
+	public Map<String, Object> pSelectOne(int p_bno) {
+
+		// mapper 연결
+		PBoardDto pboardDto = pboardMapper.pSelectOne(p_bno);
+		ArrayList<PJoinDto> pJoinList = pboardMapper.pJoinSelectAll(p_bno);
+
+		//Map으로 전송
+		Map<String, Object> map = new HashMap<>();
+		map.put("pbdto", pboardDto);
+		map.put("pJList", pJoinList);
+		
+		
+		return map;
+	}// pSelectOne(p_bno)
 
 }// PServiceImpl(파티원 모집)

@@ -35,6 +35,34 @@
 		</if>
 	</select>
 	
+	<!-- 파티원 모집 게시글 1개 가져오기 -->
+	<select id="pSelectOne" resultType="com.java.www.dto.PBoardDto">
+	 	select * from p_board where p_bno=#{p_bno}
+	</select>
+	<select id="pJoinSelectAll" resultType="com.java.www.dto.PJoinDto">
+		select * from p_join where p_bno= #{p_bno}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <!--*********************************************************** -->	
 	<!-- 파티원 모집 전체리스트 검색어 리스트갯수(pSelectAll에 합치고 삭제 -->
 	<select id="pSelSearchCountAll" resultType="int">
@@ -66,5 +94,6 @@
 		)
 		where rnum between #{startRow} and #{endRow}
 	</select>
+	<!--*********************************************************** -->	
 
 </mapper>

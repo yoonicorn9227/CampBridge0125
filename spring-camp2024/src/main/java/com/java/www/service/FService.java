@@ -34,4 +34,7 @@ public interface FService {
 	// 4. 자유게시판 - 게시글 1개 가져오기 - 댓글 수정저장
 	FCommentDto fCommentUpdate(FCommentDto fcdto);
 
+	// 4. 자유게시판 - 게시글 답글저장
+	void doFReply(FBoardDto fbdto);
+
 }// FService

@@ -32,29 +32,18 @@
 		<link href="../assets/css/header.css" rel="stylesheet">
 		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		
+		<!-- Template nWrite JS File -->
+  		<script src="../assets/js/fboard/fList.js"></script>
 	</head>
-	<script>
-		$(function(){
-			$("#searchBtn").click(function(){
-				if($("#searchWord").val().length<1){
-					alert("※검색어를 입력해주세요.");
-					$("#searchWord").focus();
-					return false;
-				}//if
-				alert("입력하신 검색어로 검색합니다.");
-				fSearchFrm.submit();
-				
-			});//#searchBtn
-		});//제이쿼리 최신
-	</script>
 	<body>
 	<!-- ======= Header ======= -->
 	<%@include file="../include/header.jsp" %>
 	<!-- End Header -->
 	
+	<!-- 자유게시판 리스트 -->
 		<section class="notice">
-			<!-- 자유게시판 리스트 -->
-	    	<h1 style="margin: 10px; font-weight: 700; position: relative; top: 40px; left: -570px; ">자유 게시판</h1>
+	    	<h1 style="margin: 10px; font-weight: 700; position: relative; top: 40px; left: -570px; "><a href="fList">자유 게시판</a></h1>
 		    <!-- 검색창 -->
 		    <div class="searchDiv">
 			  <form action="fList" name="fSearchFrm" method="get" >
@@ -68,6 +57,7 @@
 			    	<button type="button" onclick="searchBtn()" id="searchBtn" class="searchBtn">검색</button>
 			  </form>
 			</div>
+		    <!-- 검색창 -->
 			<table>
 		  		<div class="page-title">
 			      <colgroup>

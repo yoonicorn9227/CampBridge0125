@@ -83,6 +83,7 @@ textarea{border-radius:10px; border: 2px solid #009223;}
 .rUBtn:hover{width: 50px; line-height:25px;  text-align: center; border: 1px solid #009223; border-radius:5px; background:  #009223; color:#ffce32; font-weight: 700; transition: all 0.4s;}
 .rDelBtn:hover{width: 50px;  line-height: 25px; border: 1px solid  #ce1212; border-radius:5px; background:  #ce1212;  color:#ffce32; font-weight: 700; transition: all 0.4s;}
 
+/*추가 css(댓글 수정창 활성화시)*/
 .rSaveBtn{width: 50px; line-height:25px;  text-align: center; border: 1px solid  #ffce32; border-radius:5px; background:  #ffce32; color:#009223; font-weight: 700;}
 .rCanBtn{width: 50px;  line-height: 25px; border: 1px solid #ffce32; border-radius:5px; background:  #ffce32;  color:#009223; font-weight: 700;}
 .rSaveBtn:hover{width: 50px; line-height:25px;  text-align: center; border: 1px solid #009223; border-radius:5px; background:  #009223; color:#ffce32; font-weight: 700; transition: all 0.4s;}

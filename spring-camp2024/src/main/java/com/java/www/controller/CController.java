@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.java.www.dto.FBoardDto;
 import com.java.www.dto.FCommentDto;
 import com.java.www.dto.PBoardDto;
+import com.java.www.dto.PJoinDto;
 import com.java.www.service.FService;
 import com.java.www.service.PService;
 
@@ -57,39 +58,46 @@ public class CController {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 공지사항
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 게시판
 
-	@GetMapping("psearch") //파티원 모집 - 게시글 검색
-	public String psearch(@RequestParam(defaultValue = "1") int page,@RequestParam(required=false) String pCategory, @RequestParam(required = false) String pSearchWord, Model model) {
-		
-		System.out.println("Controller 카테고리 : "+pCategory);
-		System.out.println("Controller 검색어 : "+pSearchWord);
-		
+	@GetMapping("psearch") // 파티원 모집 - 게시글 검색
+	public String psearch(@RequestParam(defaultValue = "1") int page, @RequestParam(required = false) String pCategory,
+			@RequestParam(required = false) String pSearchWord, Model model) {
+
+		System.out.println("Controller 카테고리 : " + pCategory);
+		System.out.println("Controller 검색어 : " + pSearchWord);
+
 		// service연결
-		Map<String, Object> map = pService.pSelectSearch(page,pCategory,pSearchWord);
-		
-		//model 저장 후 전송 ⓛlist → ②map
-		model.addAttribute("map", map);
-		
-		return "/community/pList";
-	}// pList(page,pCategory,pSearchWord)
-	
-	// 2.파티원 모집 게시판Pg - 게시글 전체가져오기
-	@GetMapping("pList")
-	public String pList(@RequestParam(defaultValue = "1") int page, @RequestParam(required=false) String pCategory, @RequestParam(required = false) String pSearchWord, Model model) {
-		// service연결
-		Map<String, Object> map = pService.pSelectAll(page,pCategory,pSearchWord);
-		
-		
-		 //model 저장 후 전송 ⓛlist → ②map
+		Map<String, Object> map = pService.pSelectSearch(page, pCategory, pSearchWord);
+
+		// model 저장 후 전송 ⓛlist → ②map
 		model.addAttribute("map", map);
 
-		
+		return "/community/pList";
+	}// pList(page,pCategory,pSearchWord)
+
+	// 2.파티원 모집 게시판Pg - 게시글 전체가져오기
+	@GetMapping("pList")
+	public String pList(@RequestParam(defaultValue = "1") int page, @RequestParam(required = false) String pCategory,
+			@RequestParam(required = false) String pSearchWord, Model model) {
+		// service연결
+		Map<String, Object> map = pService.pSelectAll(page, pCategory, pSearchWord);
+
+		// model 저장 후 전송 ⓛlist → ②map
+		model.addAttribute("map", map);
+
 		return "/community/pList";
 	}// pList()
-	
 
 	// 2.파티원 모집 게시글보기 Pg
 	@GetMapping("pView")
-	public String pView() {
+	public String pView(@RequestParam(defaultValue = "1") int p_bno, Model model) {
+		
+		
+		//service 연결
+		Map<String, Object> map = pService.pSelectOne(p_bno);
+		
+		//model 저장후 전송
+		model.addAttribute("map", map);
+		
 		return "/community/pView";
 	}// pView()
 
@@ -284,7 +292,6 @@ public class CController {
 			urlLink = "/upload/" + upFName;
 			System.out.println("summernoteUpload 파일저장 위치 : " + urlLink);
 		} // if
-
 		return urlLink;
 	}// summerNote
 
@@ -333,7 +340,79 @@ public class CController {
 		return "/community/doFBoard";
 	}// doFUpdate
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 자유
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 게시판
+	
+	// 4.SummerNote 답글 내용부분 - 이미지 추가시 파일업로드
+		@PostMapping("summernoteFReplyUpload")
+		@ResponseBody
+		public String summernoteFReplyUpload(@RequestParam MultipartFile rfFile) throws Exception {
+			String urlLink = "";
+			if (!rfFile.isEmpty()) {
+				String oriFName = rfFile.getOriginalFilename();
+				long time = System.currentTimeMillis();
+				String upFName = time + "_" + oriFName;
+				String fupload = "c:/upload/";
+
+				// 파일업로드 부분
+				File f = new File(fupload + upFName);
+				rfFile.transferTo(f);
+
+				// 파일저장위치
+				urlLink = "/upload/" + upFName;
+				System.out.println("summernoteUpload 파일저장 위치 : " + urlLink);
+			} // if
+			return urlLink;
+		}// summerNote
+	
+	
+	
+	
+	
+	// 4.자유게시글 답글Pg
+	@PostMapping("fReply")
+	public String fReply(@RequestParam(defaultValue = "1") int f_bno, Model model) {
+		System.out.println("CController fReply f_bno : " + f_bno);
+
+		// service 연결(fbdto)
+		Map<String, Object> map = fService.fselectOne(f_bno); // 게시글 1개 가져오기
+
+		// model 전송
+		model.addAttribute("map", map);
+
+		return "/community/fReply";
+	}// fReply()
+
+	// 4.자유게시글 답글저장
+	@PostMapping("doFReply")
+	public String doFReply(FBoardDto fbdto, @RequestPart MultipartFile rFile, Model model) throws Exception {
+
+		// fbdto ->fRFile
+		System.out.println("CController doFUpdate f_bno : " + fbdto.getF_bno());
+		//답변달기 - f_bgroup, f_bstep, f_bindent 값이 있어야 함.
+		if (!rFile.isEmpty()) {
+			String oriFName = rFile.getOriginalFilename();
+			long time = System.currentTimeMillis();
+			String upFName = time + "_" + oriFName; // String upName = String.format("%s_%d", oriFName, time)
+			String upload = "c:/upload/"; // 파일업로드 위치
+
+			// 파일업로드
+			File f = new File(upload + upFName);
+			rFile.transferTo(f);
+
+			// fbdto파일이름 저장
+			fbdto.setF_bfile(upFName);
+		} else {
+			fbdto.setF_bfile("");
+		} // if(rFile)
+
+		// service연결
+		fService.doFReply(fbdto); // 새로운 파일업로드가 없으면 기존파일이름 그대로 사용
+
+		// model
+		model.addAttribute("result", "fReply-Save");
+
+		return "/community/doFBoard";
+	}// doFReply
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 자유
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 게시판
 
 }// CController

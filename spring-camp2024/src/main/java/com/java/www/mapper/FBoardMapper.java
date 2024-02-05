@@ -17,6 +17,7 @@ public interface FBoardMapper {
 
 	// 4.게시글 총갯수(하단 넘버링), 게시글 검색갯수
 	int fSelcountAll(String searchTitle, String searchWord);
+
 	int fSearchCount(String searchTitle, String searchWord);
 
 	// 4. 자유게시판 - 게시글 1개가져오기 : 현재글
@@ -45,6 +46,7 @@ public interface FBoardMapper {
 
 	// 4. 자유게시판 - 게시글 1개가져오기 : 하단댓글 1개 저장 후 댓글 1개 가져오기
 	void fCommentInsert(FCommentDto fcdto);
+
 	FCommentDto FCommentSelectOne(int f_cno);
 
 	// 4. 자유게시판 - 게시글 1개가져오기 : 하단댓글 1개 삭제
@@ -53,6 +55,9 @@ public interface FBoardMapper {
 	// 4. 자유게시판 - 게시글 1개가져오기 : 하단댓글 수정저장
 	void FCommentUpdate(FCommentDto fcdto);
 
-
+	// 4. 자유게시판 - 게시글 답글저장
+	void fBstepUp(FBoardDto fbdto); // 다른게시글 f_bstep 1증가
+	void doFReply(FBoardDto fbdto);
+	
 
 }// FBoardMapper

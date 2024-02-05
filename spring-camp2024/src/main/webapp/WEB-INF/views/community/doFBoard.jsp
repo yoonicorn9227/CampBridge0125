@@ -28,6 +28,12 @@
 				 location.href="fList";
 				</script>			
 			</c:when>
+			<c:when test="${result=='fReply-Save'}">
+				<script>
+				 alert("답글이 등록 되었습니다.");
+				 location.href="fList";
+				</script>			
+			</c:when>
 		</c:choose>
 	</body>
 </html>

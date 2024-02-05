@@ -6,8 +6,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<c:if test="${session_id==null }">
+			<script>
+			 alert("※로그인 상태만 접근이 가능합니다.")
+			 location.href="../my/login";
+			</script>
+		</c:if>
 		<meta charset="UTF-8">
-		<title>자유게시판_글수정</title>
+		<title>자유게시판_답글작성</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	    <meta content="" name="description">
 	    <meta content="" name="keywords">
@@ -37,22 +43,22 @@
 		<script src="../assets/js/summernote-lite.js"></script>
         <script src="../assets/js/summernote/lang/summernote-ko-KR.js"></script>
 		<link href="../assets/css/summernote-lite.css" rel="stylesheet">
-		
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<!-- Template fUpdate JS File -->
-  		<script src="../assets/js/fboard/fUpdate.js"></script>
+  		<script src="../assets/js/fboard/fReply.js"></script>
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
 	<%@include file="../include/header.jsp" %>
 	<!-- End Header -->
-	
+	<!-- 자유게시판 답글 -->
 		<section class="notice">
-		
-			<!-- 자유게시판 글수정 -->
-	    	<h1 style="float: left; margin: 40px; font-weight: 700; position: relative; left:235px; top: 30px;">자유게시판 글수정</h1>
-			<form action="doFUpdate" name="freeUpdateFrm" method="post" enctype="multipart/form-data">
-			    <input type="hidden" name="fFile" value="${map.fbdto.f_bfile }">
-			    <input type="hidden" name="f_bno" value="${map.fbdto.f_bno }">
+	    	<h1 style="float: left; margin: 40px; font-weight: 700; position: relative; left:235px; top: 30px;">자유게시판 답글</h1>
+			<form action="doFReply" name="freeReplyFrm" method="post" enctype="multipart/form-data">
+			    <input type="hidden" name="id" value="${session_id }">
+			    <input type="hidden" name="f_bgroup" value="${map.fbdto.f_bgroup }">
+			    <input type="hidden" name="f_bstep" value="${map.fbdto.f_bstep }">
+			    <input type="hidden" name="f_bindent" value="${map.fbdto.f_bindent }">
 			    <table>
 			     <colgroup>
 			        <col width="5%">
@@ -68,32 +74,23 @@
 					       <option value="소모임" <c:if test="${fn:contains(map.fbdto.f_btype,'소모임')}">selected</c:if>>소모임</option>
 					    </select>
 			        </th>
-			        <th colspan="3" style="text-align: left;"><input type="text" id="f_btitle" name="f_btitle" value="${map.fbdto.f_btitle }"></th>
+			        <th colspan="3" style="text-align: left;"><input type="text" id="f_btitle" name="f_btitle" value="➥ ${map.fbdto.f_btitle }"></th>
 			      </tr>
 			      <tr style="border-bottom: 2px solid #009223">
 			        <td style="text-align: center;"><strong>작성자 | </strong style="text-align: center;"></td>
-			        <td><input type="text" value="${map.fbdto.id }" readonly="readonly" style="border: 1px solid transparent;"> </td>
+			        <td><input type="text" value="${session_id }" readonly="readonly" style="border: 1px solid transparent;"> </td>
 			      </tr>
 			      <tr>
-			        <td colspan="4" class="article"><textarea rows="9" name="f_bcontent" id="summernote" placeholder=" ※ 게시글 내용을 입력해주세요.">${map.fbdto.f_bcontent }</textarea> </td>
+			        <td colspan="4" class="article"><textarea rows="9" name="f_bcontent" id="summernote" placeholder=" ※ 게시글 내용을 입력해주세요.">[원본]<br>${map.fbdto.f_bcontent }
+			        -----------------------------------------------------------------------------------------------------------------------------------------------------------</textarea> </td>
 			      </tr>
-			      <c:if test="${map.fbdto.f_bfile==null}">
-				      <tr style="border-top: 2px solid #009223; line-height: 20px;">
-				        <td colspan="4" class="article"><strong>업로드 파일 | </strong>※첨부파일 없음</td>
-				      </tr>
-			      </c:if>
-			      <c:if test="${map.fbdto.f_bfile!=null}">
-				      <tr style="border-top: 2px solid #009223; line-height: 20px;">
-				        <td colspan="4" class="article"><strong>업로드 파일 | </strong>${map.fbdto.f_bfile}</td>
-				      </tr>
-			      </c:if>
 			      <tr style="border-bottom: 2px solid #009223; line-height: 20px;">
-			        <td colspan="4" class="article"><input type="file" name="uFile" id="f_bfile"></td>
+			        <td colspan="4" class="article"><input type="file" name="rFile" id="f_bfile"></td>
 			      </tr>
 			    </table>
 			</form>
 			<div class="listBtn">
-		    	<a href="#"><div class="list" id="updateSaveBtn">수정</div></a>
+		    	<div class="list" id="replySaveBtn">답글저장</div></a>
 		    	<a href="fView?f_bno=${map.fbdto.f_bno }"><div class="list">취소</div></a>
 			</div>
  		 </section>
