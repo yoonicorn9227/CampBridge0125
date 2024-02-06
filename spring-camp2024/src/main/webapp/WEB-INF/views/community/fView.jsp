@@ -149,15 +149,14 @@
 		    <!-- 댓글보기-->
 		    <table style="margin-top: 70px;">
 		    	<tr>
-		     		<td style="font-weight: 700"><strong>댓 글|</strong>&nbsp;&nbsp;총<strong style="color: #009223">&nbsp;${map.fCmmtlist.size() }</strong>&nbsp;개의 댓글이 등록되었습니다.</td>
+		     		<td style="font-weight: 700"><strong>댓 글|</strong>&nbsp;&nbsp;총<strong style="color: #009223" class="f_count">${map.fCmmtlist.size() }</strong>&nbsp;개의 댓글이 등록되었습니다.</td>
 		    	</tr>
 		    	<tbody id="replyBox">
 				    <c:forEach var="fCommentList" items="${map.fCmmtlist }">
-						  <c:if test="${session_id==fCommentList.id or session_id=='admin' and fCommentList.f_cpw!=null}">
 						  <tr id="${fCommentList.f_cno }">
 						  	<input type="hidden" value="${fCommentList.f_cpw }" class="f_cpw">
 							<td><strong style="color: navy;">댓글 작성자</strong> | <strong style="color: #009223;" class="f_cid">${fCommentList.id}</strong>
-							&nbsp;&nbsp;[<span class="f_cdate"><fmt:formatDate value="${fCommentList.f_cdate }" pattern="YYYY-MM-DD HH:mm:ss"/> </span>]
+							&nbsp;&nbsp;[<span class="f_cdate"><fmt:formatDate value="${fCommentList.f_cdate }" pattern="YYYY-MM-dd HH:mm:ss"/> </span>]
 								<li id="replyTxt">${fCommentList.f_ccontent}</li>
 								<li id="replyBtn">
 									<c:if test="${session_id==fCommentList.id or session_id=='admin'}">
@@ -169,15 +168,16 @@
 								</li>
 							</td>			
 						  </tr>
-						  </c:if>
+						  <!-- 나중에 
 						  <c:if test="${fCommentList.f_cpw!=null and session_id!=fCommentList.id and session_id!='admin' }">
 						  	<tr id="${fCommentList.f_cno }">
 						  	<input type="hidden" value="${fCommentList.f_cpw }" class="f_cpw">
 							<td><strong style="color: navy;">댓글 작성자</strong> | <strong style="color: #009223;" class="f_cid">${fCommentList.id}</strong>
-							&nbsp;&nbsp;[<span class="f_cdate"><fmt:formatDate value="${fCommentList.f_cdate }" pattern="YYYY-MM-DD HH:mm:ss"/> </span>]
+							&nbsp;&nbsp;[<span class="f_cdate"><fmt:formatDate value="${fCommentList.f_cdate }" pattern="YYYY-MM-dd HH:mm:ss"/> </span>]
 							<li id="replyTxt" style="color: red;">※ 비밀댓글입니다.(댓글 작성자와 관리자만 열람이 가능합니다.)</li>
 						  	</tr>
 						  </c:if>
+						  -->
 						  <!-- 댓글 수정입력창 
 						   <tr id="${fCommentList.f_cno }">
 							<td><strong style="color: navy;">댓글 작성자</strong> | <span style="color: #009223; font-weight: 700;">${fCommentList.id}</span>&nbsp;&nbsp;<span>[ ${fCommentList.f_cdate } ]</span>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -30,6 +32,7 @@
        	<link href="../assets/css/header.css" rel="stylesheet">
 		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
 		<link href="../assets/css/community/viewStyle.css" rel="stylesheet">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
@@ -82,64 +85,22 @@
 		    
 		    <!-- 참석자 -->
 		    <div class="participant">
+			<c:forEach var="pjdto" items="${map.pJList }" begin="1" end="4">
 		    	<div class="participant_no">
 		    		<div class="participant_img">
 		    		<img src="../assets/img/party/participant_no1.png" alt="모집자">
 		    		</div>
 			    	<div class="participant_in">
-					<c:forEach var="pjdto" items="${map.pJList }">
 				    	<tr>
 				    		<td><strong>파티장(ID)</strong></td>
 				    		<td>${pjdto.id}</td>
 				    		</br>
 				    		<td><strong>닉네임</strong></td>
-				    		<td>항공5기</td>
+				    		<td>${pjdto.nickname}</td>
 				    	</tr>
-					</c:forEach>
 		    		</div>
 		    	</div>
-		    	<div class="participant_no">
-		    		<div class="participant_img">
-		    		<img src="../assets/img/party/participant_no.png" alt="모집중">
-		    		</div>
-			    	<div class="participant_in">
-			    	<tr>
-			    		<td><strong style="color: red;">파티원</strong></td>
-			    		<td><strong style="color: red;">모집중</strong></td>
-			    		</br>
-			    		<td><strong style="color: red;">파티에</strong></td>
-			    		<td><strong style="color: red;">참여하기</strong></td>
-			    	</tr>
-		    		</div>
-		    	</div>
-		    	<div class="participant_no">
-		    		<div class="participant_img">
-		    		<img src="../assets/img/party/participant_no.png" alt="모집중">
-		    		</div>
-			    	<div class="participant_in">
-			    	<tr>
-			    		<td><strong style="color: red;">파티원</strong></td>
-			    		<td><strong style="color: red;">모집중</strong></td>
-			    		</br>
-			    		<td><strong style="color: red;">파티에</strong></td>
-			    		<td><strong style="color: red;">참여하기</strong></td>
-			    	</tr>
-		    		</div>
-		    	</div>
-		    	<div class="participant_no">
-		    		<div class="participant_img">
-		    		<img src="../assets/img/party/participant_no.png" alt="모집중">
-		    		</div>
-			    	<div class="participant_in">
-			    	<tr>
-			    		<td><strong style="color: red;">파티원</strong></td>
-			    		<td><strong style="color: red;">모집중</strong></td>
-			    		</br>
-			    		<td><strong style="color: red;">파티에</strong></td>
-			    		<td><strong style="color: red;">참여하기</strong></td>
-			    	</tr>
-		    		</div>
-		    	</div>
+			</c:forEach>
 		    </div>
 		    
 		    <!-- 버튼 -->
@@ -168,7 +129,15 @@
 		   	<!-- 댓글등록창 스크립트 -->
 		   	<script>
 		   		$(function(){
+		   			let p_bno = ${map.pbdto.p_bno}
+		   			let id = "${session_id}";
+		   			let temp = 0; // 댓글 수정창 비활성화 temp=1 (활성화)
+		   			
+		   			//1. 하단댓글 1개 저장
 		   			$("#replybtn").click(function(){
+		   			let p_cpw = $("#replyIPw").val();
+		   			let p_ccontent = $("#replyCont").val();
+		   			let p_count = Number($(".p_count").text());
 		   				if(${session_id==null}){
 		   					alert("※ 로그인 상태에서만 댓글이 등록됩니다.");
 		   					return false;
@@ -179,23 +148,163 @@
 		   					$('#replyCont').focus();
 		   					return false;
 		   				}//if(댓글 미입력시)
-		   			});//#replyBtn
+		   					
+		   			//♠파티원 하단댓글 저장 ajax
+		   				$.ajax({
+		   					url:"/community/pCommentInsert",
+		   					type:"post",
+		   					data:{"p_bno":p_bno, "id":id, "p_cpw":p_cpw, "p_ccontent":p_ccontent},
+		   					dataType:"json",
+		   					success:function(data){
+		   						alert("댓글이 등록 되었습니다.");
+		   						
+		   						let pdata="";
+		   						pdata+='<tr id="'+data.p_cno+'">';
+		   						pdata+='<input type="hidden" value="'+data.p_cpw+'" class="p_cpw">';
+		   						pdata+='<td><strong style="color: navy">댓글 작성자</strong> | <strong style="color: #009223;" class="p_cid">'+data.id+'</strong>&nbsp;&nbsp;<span class="p_cdate">'+moment(data.p_cdate).format("YYYY-MM-DD HH:mm:ss")+'</span>';
+		   						pdata+='<li id="replyTxt">&nbsp;&nbsp;'+data.p_ccontent+'</li>';
+		   						pdata+='<li id="replyBtn">';
+		   						pdata+='<button class="rDelBtn">삭제</button>&nbsp;';
+		   						pdata+='<button class="rUBtn">수정</button>';
+		   						pdata+='</li>';
+		   						pdata+='</td>';
+		   						pdata+='</tr>';
+		   						$("#replyBox").prepend(pdata);
+		   						$(".p_count").text(p_count+1);
+		   						$("#replyCont").val("");
+		   						$("#replyIPw").val("");
+		   					},//success
+		   					error(){alert("실패");}//error
+		   				});//ajax(댓글저장)
+		   					
+		   			});//#replyBtn(댓글저장)
+		   			
+		   			//2. 하단댓글 1개 삭제
+		   			$(document).on("click", ".rDelBtn", function(){
+		   				let p_cno = $(this).closest("tr").attr("id");
+		   				let p_count = Number($(".p_count").text());
+		   				
+		   				if(confirm("※ 댓글을 삭제하시겠습니까?")){
+		   				   //♠ajax(파티원 댓글 삭제)
+		   				   $.ajax({
+		   					   url:"/community/pCommentDelete",
+		   					   type:"post",
+		   					   data:{"p_cno":p_cno},
+		   					   dataType:"text",
+		   					   success:function(data){
+		   						   $("#"+p_cno).remove();// 하단댓글 삭제
+		   						   $(".p_count").text(p_count-1);
+		   					   },//success
+		   					   error(){alert("실패")}//error
+		   				   });//ajax(댓글삭제)
+		   				   alert("댓글이 삭제되었습니다.")
+		   				}//if(confirm)
+		   			});//하단댓글 삭제
+		   			
+		   			//3. 하단댓글 1개 수정창 활성화
+		   			$(document).on("click",".rUBtn",function(){
+		   				if (temp != 0) {
+		   					alert("다른 댓글 수정창이 열려있습니다.");
+		   					return false;
+		   				}//if(다중수정 입력창 방지) 
+		   				let p_cno = $(this).closest("tr").attr("id");
+		   				let id = $(this).parent().parent().find(".p_cid").text();
+		   				let p_cdate = $(this).parent().parent().find("span").text();
+		   				let p_ccontent = $(this).parent().prev().text();
+		   				let p_cpw = $(this).parent().parent().prev().val();
+		   					
+		   				let pdata='';
+		   				pdata+='<td><strong style="color: navy;">댓글 작성자</strong> | <strong style="color: #009223;" class="p_cid">'+id+'</strong>&nbsp;&nbsp;[<span class="p_cdate">'+p_cdate+'</span>]';
+		   				pdata+='<li style="list-style: none; float: right; line-height: 27px;"><strong>비밀번호 |<strong><input type="text" value="'+p_cpw+'" placeholder=" ※입력시 비밀글로 저장" class="p_cpw"></li>';
+		   				pdata+='<li id="replyTxt"><textarea cols="145%">'+p_ccontent+'</textarea></li>';
+		   				pdata+='<li id="replyBtn">';
+		   				pdata+='<button class="rCanBtn">취소</button>&nbsp;';
+		   				pdata+='<button class="rSaveBtn">저장</button>';
+		   				pdata+='</li>';
+		   				pdata+='</td>';
+						
+		   				$("#" + p_cno).html(pdata); //기존 HTML 삭제후 추가
+		   				temp = 1; //수정창 활성화
+		   			});//하단댓글 1개 수정창 활성화
+		   			
+		   			//4. 하단댓글 1개 수정저장
+		   			$(document).on("click",".rSaveBtn",function(){
+		   				let p_cpw = $(this).parent().parent().parent().prev().prev().find(".p_cpw").val();
+		   				let p_ccontent = $(this).parent().parent().parent().prev().find("textarea").val();
+		   				let p_cno = $(this).closest("tr").attr("id");
+		   				
+		   				alert(p_cno);
+		   				alert(p_cpw);
+		   				alert(p_ccontent);
+		   			 //♠ajax(파티원 댓글 수정저장)
+		   				   $.ajax({
+		   					   url:"/community/pCommentUpdate",
+		   					   type:"post",
+		   					   data: {"p_cno":p_cno,"p_cpw":p_cpw,"p_ccontent":p_ccontent},
+		   					   dataType:"json",
+		   					   success:function(data){
+		   						
+		   						let pdata="";   
+		   						pdata+='<input type="hidden" value="'+data.p_cpw+'" class="p_cpw">';
+		   						pdata+='<td><strong style="color: navy">댓글 작성자</strong> | <strong style="color: #009223;" class="p_cid">'+data.id+'</strong>&nbsp;&nbsp;<span class="p_cdate">'+moment(data.p_cdate).format("YYYY-MM-DD HH:mm:ss")+'</span>';
+		   						pdata+='<li id="replyTxt">'+data.p_ccontent+'</li>';
+		   						pdata+='<li id="replyBtn">';
+		   						pdata+='<button class="rDelBtn">삭제</button>&nbsp;';
+		   						pdata+='<button class="rUBtn">수정</button>';
+		   						pdata+='</li>';
+		   						pdata+='</td>';
+		   						pdata+='</tr>';
+		   						
+		   						$("#" + p_cno).html(pdata); //기존 HTML 삭제후 추가
+		   					   },//success
+		   					   error(){alert("실패")}//error
+		   				   });//ajax(댓글수정저장)
+		   				alert("댓글을 수정하였습니다.");
+		   				temp=0;
+		   			});////하단댓글 1개 수정저장
+		   			
+		   			//5. 하단댓글 1개 수정취소
+		   			$(document).on("click",".rCanBtn",function(){
+		   				let p_cno = $(this).closest("tr").attr("id");
+		   				let id = $(this).parent().parent().parent().parent().find(".p_cid").text();
+		   				let p_cdate = $(this).parent().parent().parent().parent().find("span").text();
+		   				let p_ccontent = $(this).parent().parent().parent().prev().find("textarea").val();
+		   				let p_cpw = $(this).parent().parent().parent().parent().find("strong").find("input").val();
+		   			
+		   				let pdata = "";
+		   				pdata += '<input type="hidden" value="'+p_cpw+'" class="p_cpw">';
+		   				pdata += '<td><strong style="color: navy;">댓글 작성자</strong> | <strong style="color: #009223;" class="p_cid">'+id+'</strong>&nbsp;&nbsp;[<span class="p_cdate">'+p_cdate+'</span>]';
+		   				pdata += '<li id="replyTxt">'+p_ccontent+'</li>';
+		   				pdata += '<li id="replyBtn">';
+		   				pdata += '<button class="rDelBtn">삭제</button>&nbsp';
+		   				pdata += '<button class="rUBtn">수정</button>';
+		   				pdata += '</li>';
+		   				pdata += '</td>';
+		   				pdata += '</tr>';
+		   				$("#" + p_cno).html(pdata); //기존 HTML 삭제후 추가
+		   				temp = 0;//댓글 수정창 비활성화
+		   			});//댓글 수정취소
+		   				
+		   			
 		   		});//제이쿼리 최신
 		   	</script>
 		    <!-- 댓글보기-->
 		    <div class="reply_body">
 		    <table style="margin-top: 30px;">
-		      <td style="font-weight: 700">총<strong style="color: #009223">&nbsp;&nbsp;5</strong>&nbsp;개의 댓글이 등록되었습니다.</td>
+		      <td style="font-weight: 700">총<strong style="color: #009223" class="p_count">${map.pCList.size() }</strong>&nbsp;개의 댓글이 등록되었습니다.</td>
 			  <tbody id="replyBox">
-			  <tr>
-				<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12 15:27:23:00]</span>
-				<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
-				<li id="replyBtn">
-					<button class="rDelBtn">삭제</button>
-					<button class="rUBtn">수정</button>
-				</li>
-				</td>			
-			  </tr>
+			  <c:forEach var="pCommentList" items="${map.pCList }">
+				  <tr id="${pCommentList.p_cno }">
+				  <input type="hidden" value="${pCommentList.p_cpw }" class="p_cpw">
+					<td><strong style="color: navy">댓글 작성자</strong> | <strong style="color: #009223;" class="p_cid">${pCommentList.id }</strong>&nbsp;&nbsp;<span class="p_cdate"><fmt:formatDate value="${pCommentList.p_cdate }" pattern="YYYY-MM-dd HH:mm:ss"/> </span>
+					<li id="replyTxt">&nbsp;&nbsp;${pCommentList.p_ccontent }</li>
+					<li id="replyBtn">
+						<button class="rDelBtn">삭제</button>
+						<button class="rUBtn">수정</button>
+					</li>
+					</td>			
+				  </tr>
+			  </c:forEach>
 			   <!-- 댓글 수정입력창 
 			   <tr id="#">
 				<td><strong style="color: navy;">댓글 작성자</strong> | <span style="color: #009223; font-weight: 700;">aaa</span>&nbsp;&nbsp;<span>[ 2024-02-05 ]</span>

@@ -24,6 +24,7 @@ $(function() {
 	$("#replybtn").click(function() {
 		let f_cpw = $("#replyIPw").val();
 		let f_ccontent = $("#replyCont").val();
+		let f_count = Number($(".f_count").text());
 
 		if (id == null) {
 			alert("※ 로그인 상태에서만 댓글이 등록됩니다.");
@@ -57,6 +58,7 @@ $(function() {
 				hdata += '</td>';
 				hdata += '</tr>';
 				$("#replyBox").prepend(hdata);
+				$(".f_count").text(f_count+1);
 				$("#replyCont").val("");
 				$("#replyIPw").val("");
 			}, //success
@@ -101,7 +103,7 @@ $(function() {
 		//alert("댓글 작성일 : "+$(this).parent().parent().find("span").text()); // 작성일
 
 		let f_cno = $(this).closest("tr").attr("id");
-		let id = "${session_id}";
+		let id = $(this).parent().parent().find(".f_cid").text();
 		let f_cdate = $(this).parent().parent().find("span").text();
 		let f_ccontent = $(this).parent().prev().text();
 		let f_cpw = $(this).parent().parent().prev().val();
@@ -168,7 +170,7 @@ $(function() {
 		//alert("댓글 수정을 취소 f_cdate : "+$(this).parent().parent().find("span").text());
 		//alert("댓글 수정을 취소 f_ccontent : "+$(this).parent().prev().text());
 		let f_cno = $(this).closest("tr").attr("id");
-		let id = "${session_id}"; //${session_id} 변경예정
+		let id = $(this).parent().parent().parent().parent().find(".f_cid").text(); //${session_id} 변경예정
 		let f_cdate = $(this).parent().parent().parent().parent().find("span").text();
 		let f_ccontent = $(this).parent().parent().parent().prev().find("textarea").val();
 		let f_cpw = $(this).parent().parent().parent().parent().find("strong").find("input").val();

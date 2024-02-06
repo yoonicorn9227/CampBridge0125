@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.java.www.dto.FBoardDto;
 import com.java.www.dto.FCommentDto;
 import com.java.www.dto.PBoardDto;
+import com.java.www.dto.PCommentDto;
 import com.java.www.dto.PJoinDto;
 import com.java.www.service.FService;
 import com.java.www.service.PService;
@@ -90,16 +91,47 @@ public class CController {
 	// 2.파티원 모집 게시글보기 Pg
 	@GetMapping("pView")
 	public String pView(@RequestParam(defaultValue = "1") int p_bno, Model model) {
-		
-		
-		//service 연결
+
+		// service 연결
 		Map<String, Object> map = pService.pSelectOne(p_bno);
-		
-		//model 저장후 전송
+
+		// model 저장후 전송
 		model.addAttribute("map", map);
-		
+
 		return "/community/pView";
 	}// pView()
+
+	// 2.파티원 모집 - 게시글 하단댓글 1개저장
+	@PostMapping("pCommentInsert")
+	@ResponseBody // ajax - 데이터 전송
+	public PCommentDto pCommentInsert(PCommentDto pcdto) {
+		System.out.println("CController pView p_ccontent : " + pcdto.getP_ccontent());
+		// service 연결 - 저장시간, f_cno
+		PCommentDto pCommentDto = pService.pCommentInsert(pcdto); // 현재글
+		System.out.println("CController fView f_bno : " + pcdto.getP_bno());
+
+		return pCommentDto;
+	}// fCommentInsert(fcdto)
+
+	// 2.파티원 모집 - 게시글 하단댓글 1개 삭제
+	@PostMapping("pCommentDelete")
+	@ResponseBody
+	public String pCommentDelete(int p_cno) {
+		String result = pService.pCommentDelete(p_cno);
+		return result;
+	}// pCommentDelete(p_cno)
+
+	// 2. 자유게시글 -하단댓글 1개 수정저장
+	@PostMapping("pCommentUpdate")
+	@ResponseBody
+	public PCommentDto pCommentUpdate(PCommentDto pcdto) {
+		System.out.println("CController pCommentUpdate p_cno : " + pcdto.getP_cno());
+
+		// service 연결 - 댓글수정저장
+		PCommentDto pCommentDto = pService.pCommentUpdate(pcdto);
+
+		return pCommentDto;
+	}// pCommentUpdate(p_cno)
 
 	// 2.파티원 모집 작성Pg
 	@GetMapping("pWrite")
@@ -340,33 +372,28 @@ public class CController {
 		return "/community/doFBoard";
 	}// doFUpdate
 
-	
 	// 4.SummerNote 답글 내용부분 - 이미지 추가시 파일업로드
-		@PostMapping("summernoteFReplyUpload")
-		@ResponseBody
-		public String summernoteFReplyUpload(@RequestParam MultipartFile rfFile) throws Exception {
-			String urlLink = "";
-			if (!rfFile.isEmpty()) {
-				String oriFName = rfFile.getOriginalFilename();
-				long time = System.currentTimeMillis();
-				String upFName = time + "_" + oriFName;
-				String fupload = "c:/upload/";
+	@PostMapping("summernoteFReplyUpload")
+	@ResponseBody
+	public String summernoteFReplyUpload(@RequestParam MultipartFile rfFile) throws Exception {
+		String urlLink = "";
+		if (!rfFile.isEmpty()) {
+			String oriFName = rfFile.getOriginalFilename();
+			long time = System.currentTimeMillis();
+			String upFName = time + "_" + oriFName;
+			String fupload = "c:/upload/";
 
-				// 파일업로드 부분
-				File f = new File(fupload + upFName);
-				rfFile.transferTo(f);
+			// 파일업로드 부분
+			File f = new File(fupload + upFName);
+			rfFile.transferTo(f);
 
-				// 파일저장위치
-				urlLink = "/upload/" + upFName;
-				System.out.println("summernoteUpload 파일저장 위치 : " + urlLink);
-			} // if
-			return urlLink;
-		}// summerNote
-	
-	
-	
-	
-	
+			// 파일저장위치
+			urlLink = "/upload/" + upFName;
+			System.out.println("summernoteUpload 파일저장 위치 : " + urlLink);
+		} // if
+		return urlLink;
+	}// summerNote
+
 	// 4.자유게시글 답글Pg
 	@PostMapping("fReply")
 	public String fReply(@RequestParam(defaultValue = "1") int f_bno, Model model) {
@@ -387,7 +414,7 @@ public class CController {
 
 		// fbdto ->fRFile
 		System.out.println("CController doFUpdate f_bno : " + fbdto.getF_bno());
-		//답변달기 - f_bgroup, f_bstep, f_bindent 값이 있어야 함.
+		// 답변달기 - f_bgroup, f_bstep, f_bindent 값이 있어야 함.
 		if (!rFile.isEmpty()) {
 			String oriFName = rFile.getOriginalFilename();
 			long time = System.currentTimeMillis();

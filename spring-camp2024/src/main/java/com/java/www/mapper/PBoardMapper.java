@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.java.www.dto.PBoardDto;
+import com.java.www.dto.PCommentDto;
 import com.java.www.dto.PJoinDto;
 
 @Mapper
@@ -18,4 +19,9 @@ public interface PBoardMapper {
 	//2. 파티원 모집 - 게시글 1개 가져오기
 	PBoardDto pSelectOne(int p_bno);
 	ArrayList<PJoinDto> pJoinSelectAll(int p_bno); //파티원 인원 모두가져오기
+	ArrayList<PCommentDto> pCommentSelectAll(int p_bno); //파티원 모집 하단댓글 모두 가져오기
+	void pCommentInsert(PCommentDto pcdto); //파티원 모집 게시글 하단댓글 1개 저장
+	int pCommentDelete(int p_cno); //파티원 모집 게시글 하단댓글 1개 삭제
+	void pCommentUpdate(PCommentDto pcdto); //파티원 모집 게시글 하단댓글 수정저장
+	PCommentDto pCommentSelectOne(int p_cno);//파티원 모집 게시글 하단댓글 1개 가져오기
 }// PBoardMapper

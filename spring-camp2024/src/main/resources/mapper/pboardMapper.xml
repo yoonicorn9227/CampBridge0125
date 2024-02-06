@@ -39,10 +39,33 @@
 	<select id="pSelectOne" resultType="com.java.www.dto.PBoardDto">
 	 	select * from p_board where p_bno=#{p_bno}
 	</select>
+	<!-- 파티참여 인원 가져오기 -->
 	<select id="pJoinSelectAll" resultType="com.java.www.dto.PJoinDto">
-		select * from p_join where p_bno= #{p_bno}
+		select b.nickname, a.* from p_join a, user_camp b where p_bno= #{p_bno}
 	</select>
-	
+	<!-- 파티원 게시글 하단댓글 가져오기 -->
+	<select id="pCommentSelectAll" resultType="com.java.www.dto.PCommentDto">
+		select * from p_comment where p_bno=#{p_bno}
+	</select>
+	<!-- 파티원 게시글 하단댓글 1개 저장 -->
+	<insert id="pCommentInsert">
+		<selectKey resultType="com.java.www.dto.PCommentDto" keyProperty="p_cno,p_cdate" order="BEFORE">
+		  select p_comment_seq.nextval p_cno, sysdate p_cdate from dual
+		</selectKey> 
+	 	insert into p_comment values (#{p_cno},#{p_bno},#{id},#{p_cpw},#{p_ccontent},sysdate)
+	</insert>
+	<!-- 파티원 게시글 하단댓글 1개 삭제 -->
+	<delete id="pCommentDelete">
+		delete p_comment where p_cno=#{p_cno}
+	</delete>
+	<!-- 파티원 게시글 하단댓글 1개 수정저장 -->
+	<update id="pCommentUpdate">
+		update p_comment set p_cpw=#{p_cpw}, p_ccontent=#{p_ccontent}, p_cdate=sysdate where p_cno=#{p_cno}
+	</update>
+	<!-- 파티원 게시글 하단댓글 1개 가져오기 -->
+	<select id="pCommentSelectOne" resultType="com.java.www.dto.PCommentDto">
+		select * from p_comment where p_cno=#{p_cno}
+	</select>
 	
 	
 	

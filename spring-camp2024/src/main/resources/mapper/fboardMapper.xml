@@ -83,7 +83,7 @@
 		#{f_bgroup},#{f_bstep}+1,#{f_bindent}+1,#{f_bfile})
 	</insert>
 	
-	<!-- 4.자유게시판 - 게시글 하단댓글 저장 -->
+	<!-- 4.자유게시판 - 게시글 하단댓글 1개 저장 -->
 	<insert id="fCommentInsert">
 		<selectKey resultType="com.java.www.dto.FCommentDto" keyProperty="f_cno,f_cdate" order="BEFORE">
 			select f_comment_seq.nextval f_cno,sysdate f_cdate from dual
@@ -91,7 +91,7 @@
 		insert into f_comment values(#{f_cno},#{f_bno},#{id},#{f_cpw},#{f_ccontent},sysdate)
 	</insert>
 	
-	<!-- 4.자유게시판 - 게시글 하단댓글 삭제 -->
+	<!-- 4.자유게시판 - 게시글 하단댓글 1개 삭제 -->
 	<delete id="fCommentDelete">
 		delete f_comment where f_cno=#{f_cno}
 	</delete>

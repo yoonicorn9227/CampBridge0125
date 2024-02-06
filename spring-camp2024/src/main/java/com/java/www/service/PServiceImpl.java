@@ -7,15 +7,21 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.java.www.dto.FCommentDto;
 import com.java.www.dto.PBoardDto;
+import com.java.www.dto.PCommentDto;
 import com.java.www.dto.PJoinDto;
 import com.java.www.mapper.PBoardMapper;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class PServiceImpl implements PService {
 
 	@Autowired
 	PBoardMapper pboardMapper;
+	@Autowired
+	HttpSession session;
 
 	@Override // 1. 파티원 모집 전체 게시글 가져오기
 	public Map<String, Object> pSelectAll(int page, String pCategory, String pSearchWord) {
@@ -86,20 +92,57 @@ public class PServiceImpl implements PService {
 		return map;
 	}// pSelectSearch
 
-	@Override //2. 파티원 모집 게시글 1개 가져오기
+	@Override // 2. 파티원 모집 게시글 1개 가져오기
 	public Map<String, Object> pSelectOne(int p_bno) {
 
 		// mapper 연결
-		PBoardDto pboardDto = pboardMapper.pSelectOne(p_bno);
-		ArrayList<PJoinDto> pJoinList = pboardMapper.pJoinSelectAll(p_bno);
+		PBoardDto pboardDto = pboardMapper.pSelectOne(p_bno); // 파티원 모집 게시글 1개 가져오기
+		ArrayList<PCommentDto> pCommtList = pboardMapper.pCommentSelectAll(p_bno); // 파티원 모집 게시글 하단 댓글 모두가져오기
+		ArrayList<PJoinDto> pJoinList = pboardMapper.pJoinSelectAll(p_bno); // 파티원 모집 게시글 파티참여 인원 가져오기
 
-		//Map으로 전송
+		// Map으로 전송
 		Map<String, Object> map = new HashMap<>();
 		map.put("pbdto", pboardDto);
 		map.put("pJList", pJoinList);
-		
-		
+		map.put("pCList", pCommtList);
+
 		return map;
 	}// pSelectOne(p_bno)
+
+	@Override // 파티원모집 하단댓글 1개 저장
+	public PCommentDto pCommentInsert(PCommentDto pcdto) {
+		// session_id를 pcdto의 id에 저장
+		pcdto.setId((String) session.getAttribute("session_id"));
+
+		// 댓글 1개저장
+		pboardMapper.pCommentInsert(pcdto); // 댓글폼에서 입력한 글자 저장
+		System.out.println("서비스 임플 p_cno : " + pcdto.getP_cno());
+
+		return pcdto;
+	}// pCommentInsert(fcdto)
+
+	@Override // 파티원 모집 하단댓글 1개삭제
+	public String pCommentDelete(int p_cno) {
+		String re = "";
+
+		// Mapper연결
+		int result = pboardMapper.pCommentDelete(p_cno);
+		return result + re;
+	}// pCommentDelete(p_cno)
+
+	@Override
+	public PCommentDto pCommentUpdate(PCommentDto pcdto) {
+
+		// ① session_id를 pcdto의 id에 저장
+		pcdto.setId((String) session.getAttribute("session_id"));
+
+		// ② 댓글 수정저장
+		pboardMapper.pCommentUpdate(pcdto);
+
+		// ③ 댓글 1개가져오기
+		PCommentDto pCommentDto = pboardMapper.pCommentSelectOne(pcdto.getP_cno());
+		return pCommentDto;
+
+	}//pCommentUpdate(pcdto)
 
 }// PServiceImpl(파티원 모집)

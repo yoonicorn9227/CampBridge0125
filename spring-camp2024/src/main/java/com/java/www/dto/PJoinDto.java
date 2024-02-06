@@ -12,5 +12,6 @@ public class PJoinDto {
 	private int p_jcno;
 	private int p_bno;
 	private String id;
-
+	private String nickname;
+    
 }// PJoinDto
