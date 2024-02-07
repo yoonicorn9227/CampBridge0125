@@ -79,7 +79,7 @@ public class PServiceImpl implements PService {
 
 		// ① Mapper연결 - 파티원 모집 전체 리스트 가져오기
 		ArrayList<PBoardDto> list = pboardMapper.pSelectSearchAll(startRow, endRow, pCategory, pSearchWord);
-
+		
 		// ③ map으로 여러개 데이터 담아서 전송(①+②)
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);
@@ -119,7 +119,7 @@ public class PServiceImpl implements PService {
 		System.out.println("서비스 임플 p_cno : " + pcdto.getP_cno());
 
 		return pcdto;
-	}// pCommentInsert(fcdto)
+	}// pCommentInsert(pcdto)
 
 	@Override // 파티원 모집 하단댓글 1개삭제
 	public String pCommentDelete(int p_cno) {
@@ -143,6 +143,26 @@ public class PServiceImpl implements PService {
 		PCommentDto pCommentDto = pboardMapper.pCommentSelectOne(pcdto.getP_cno());
 		return pCommentDto;
 
-	}//pCommentUpdate(pcdto)
+	}// pCommentUpdate(pcdto)
+
+	@Override // 파티원 모집 게시글 1개 삭제
+	public void pDelete(int p_bno) {
+		// Mapper연결
+		pboardMapper.pDelete(p_bno);
+	}// pDelete(p_bno)
+
+	@Override
+	public void doPUpdate(PBoardDto pbdto) {
+		// Mapper 연결
+		pboardMapper.doPUpdate(pbdto);
+	}// doFUpdate(pbdto)
+
+	@Override
+	public PJoinDto partyJoin(PJoinDto pjdto) {
+		//Mapper연결(파티원 1명 참가)
+		pboardMapper.partyJoin(pjdto);
+		System.out.println("서비스 임플 p_jcno : " + pjdto.getP_jcno());
+		return pjdto;
+	}//partyJoin(pjdto)
 
 }// PServiceImpl(파티원 모집)

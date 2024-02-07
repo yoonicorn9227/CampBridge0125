@@ -99,26 +99,26 @@
 			      	</tr>
 	              </c:if>    
 			      <c:forEach var="pbdto" items="${map.list }">
-				      <c:if test="${pbdto.p_bnum!=4}">
+				      <c:if test="${pbdto.p_bnum!=8}">
 					      <tr>
 					        <td id="No">${pbdto.p_bno}</td>
 					        <td style="font-weight: 700;">${pbdto.p_btype}</td>
 					        <td class="table-title"><a href="pView?p_bno=${pbdto.p_bno }">${pbdto.p_btitle}</a></td>
 					        <td>${pbdto.id}</td>
 					        <td>${pbdto.p_local}</td>
-					        <td>${pbdto.p_bnum}/4</td>
+					        <td>${pbdto.p_bnum}</td>
 					        <td><strong style="color: blue;">모집중</strong></td>
 					        <td><fmt:formatDate value="${pbdto.p_bdate}" pattern="YYYY-MM-dd"/></td>
 					      </tr>
 				      </c:if>
-				      <c:if test="${pbdto.p_bnum==4}">
+				      <c:if test="${pbdto.p_bnum==8}">
 					      <tr>
 					        <td id="No">${pbdto.p_bno}</td>
 					        <td style="font-weight: 700;">${pbdto.p_btype}</td>
 					        <td class="table-title" style="color: gray; text-decoration: none">${pbdto.p_btitle}</td>
 					        <td>${pbdto.id}</td>
 					        <td>${pbdto.p_local}</td>
-					        <td>${pbdto.p_bnum}/4</td>
+					        <td>${pbdto.p_bnum}</td>
 					        <td><strong style="color: red;">모집완료</strong></td>
 					        <td><fmt:formatDate value="${pbdto.p_bdate}" pattern="YYYY-MM-dd"/></td>
 					      </tr>

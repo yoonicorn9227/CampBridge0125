@@ -24,4 +24,11 @@ public interface PBoardMapper {
 	int pCommentDelete(int p_cno); //파티원 모집 게시글 하단댓글 1개 삭제
 	void pCommentUpdate(PCommentDto pcdto); //파티원 모집 게시글 하단댓글 수정저장
 	PCommentDto pCommentSelectOne(int p_cno);//파티원 모집 게시글 하단댓글 1개 가져오기
+	
+	//3. 파티원 모집 게시글 1개 삭제하기
+	void pDelete(int p_bno);
+	
+	//4. 파티원 모집 게시글 1개 수정하기 저장
+	void doPUpdate(PBoardDto pbdto);
+	void partyJoin(PJoinDto pjdto); 
 }// PBoardMapper

@@ -41,7 +41,7 @@
 	</select>
 	<!-- 파티참여 인원 가져오기 -->
 	<select id="pJoinSelectAll" resultType="com.java.www.dto.PJoinDto">
-		select b.nickname, a.* from p_join a, user_camp b where p_bno= #{p_bno}
+		select b.nickname,b.m_img , a.* from p_join a, user_camp b where a.id = b.id and p_bno=#{p_bno}
 	</select>
 	<!-- 파티원 게시글 하단댓글 가져오기 -->
 	<select id="pCommentSelectAll" resultType="com.java.www.dto.PCommentDto">
@@ -67,7 +67,22 @@
 		select * from p_comment where p_cno=#{p_cno}
 	</select>
 	
+	<!-- 파티원 게시글 게시글 1개 삭제 -->
+	<delete id="pDelete">
+	 	delete p_board where p_bno=#{p_bno}
+	</delete>
 	
+	<!-- 파티원 게시글 게시글 1개 수정저장 -->
+	<update id="doPUpdate">
+		update p_board set p_btype=#{p_btype},p_btitle=#{p_btitle},p_bcontent=#{p_bcontent},p_local=#{p_local},p_bnum=#{p_bnum},p_bdate=sysdate,p_bfile=#{p_bfile} where p_bno=#{p_bno}
+	</update>
+	
+	<insert id="partyJoin">
+		<selectKey resultType="com.java.www.dto.PJoinDto">
+			select p_join_seq.nextval p_jcno from dual
+		</selectKey>
+		insert into p_join values(#{p_jcno},#{p_bno},#{id})
+	</insert>
 	
 	
 	

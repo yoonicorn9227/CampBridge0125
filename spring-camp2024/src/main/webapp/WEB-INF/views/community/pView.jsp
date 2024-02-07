@@ -32,8 +32,77 @@
        	<link href="../assets/css/header.css" rel="stylesheet">
 		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
 		<link href="../assets/css/community/viewStyle.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 	</head>
+	 <script>
+    	$(function(){
+    		$("#pDeleteBtn").click(function(){
+    			if(confirm("게시글을 삭제하시겠습니까?")){
+    				$("#partyViewFrm").attr("action", "pDelete").submit();
+    			}//if(confirm)
+    		});//#pDeleteBtn(파티원 게시글 삭제)
+    		
+    		$("#pUpdateBtn").click(function(){
+    			if(confirm("게시글을 수정하시겠습니까?")){
+    				$("#partyViewFrm").attr("action", "pUpdate").submit();
+    			}//if(confirm)
+    		});//#pUpdateBtn(파티원 게시글 수정)
+    		
+    		$("#pJoinBtn").click(function(){
+    			
+    			if(${session_id==null}){
+    				alert("※ 로그인시 파티에 참여 할 수 있습니다.");
+    				return false;
+    			}//if(로그인이 되어 있지 않을 경우)
+    			
+    			
+    			if(confirm("★파티에 참여 하시겠습니까?")){
+    				
+    				let id ="${session_id}";
+    				let p_bno=$(this).parent().prev().prev().find("tr").find("#p_bno").text()
+    				//alert($(this).parent().prev().prev().find("tr").find("#p_bno").text())
+    				
+    				//♠ajax(파티참가)
+    				$.ajax({
+    					url:"/community/partyJoin",
+    					type:"post",
+    					data:{"id":id,"p_bno":p_bno},
+    					dataType:"json",
+    					success:function(data){
+    						alert("성공");
+    						console.log(data)
+    					
+    					let jdata="";
+   						jdata+='<div class="participant_no" id="'+data.p_jcno+'">';
+   						jdata+='<div class="participant_img">';
+   						jdata+='</div>';
+   						jdata+='<div class="participant_in">';
+   						jdata+='<tr>';
+   						jdata+='<td><strong>파티원(ID)</strong></td>';
+   						jdata+='<td>'+data.id+'</td>';
+   						jdata+='</br>';
+   						jdata+='<td><strong>닉네임</strong></td>';
+   						jdata+='<td>${pjdto.nickname}</td>';
+   						jdata+='</tr>';
+   						jdata+='';
+   						jdata+='</div>';
+   						jdata+='</div>';
+   						
+   						$("#participant").prepend(jdata);
+    					
+    					},//success
+    					error(){
+    						alert("실패");
+    					}//error
+    				});//ajax(파티참가)
+    				
+    			}//if(confirm)
+    		
+    		});//#pJoinBtn(파티에 참여)
+    		
+    	});//제이쿼리 최신
+    </script>
 	<body>
 	<!-- ======= Header ======= -->
 	<%@include file="../include/header.jsp" %>
@@ -41,6 +110,9 @@
 	<!-- 파티원모집 글보기-->
 		<section class="notice_search">
 	    	<h1 style="float: left; margin: 40px 0 0 700px; font-weight: 700; position: relative; left:50px;">파티원 모집</h1>
+		     <form action="#" id="partyViewFrm"  method="post">
+		    	<input type="hidden" name="p_bno" value="${map.pbdto.p_bno }"> <!-- 파티원모집 수정 및 삭제 게시판 번호 넘기기 Form-->
+		    </form>
 		    <table>
 		     <colgroup>
 		        <col width="10%">
@@ -49,7 +121,7 @@
 		        <col width="20%">
    			</colgroup>
 		      <tr>
-		        <th style="text-align: center;"><strong>${map.pbdto.p_bno }</strong></th>
+		        <th style="text-align: center;"><strong id="p_bno">${map.pbdto.p_bno }</strong></th>
 		        <th style="text-align: left;"><span>[${map.pbdto.p_btype }] ${map.pbdto.p_btitle }</span></th>
 		        <th style="text-align: right;"><strong>모집상태</strong></th>
 		        <th>
@@ -57,12 +129,11 @@
 			    	<c:if test="${map.pbdto.p_bnum==4 }"><span style="color: red;">모집완료</span></c:if>
 		        </th>
 		      </tr>
-		      
 		      <tr style="border-bottom: 2px solid #009223">
-		        <td style="text-align: center;"><strong>작성자</strong style="text-align: center;"></td>
+		        <td style="text-align: center;"><strong>파티장</strong style="text-align: center;"></td>
 		        <td>${map.pbdto.id }</td>
 		        <td style="text-align: right;"><strong>파티인원</strong></td>
-		        <td>${map.pbdto.p_bnum } &nbsp명</td>
+		        <td>${map.pJList.size()}명&nbsp;/&nbsp;${map.pbdto.p_bnum }명</td>
 		      </tr>
 		      <tr>
 		        <td colspan="6" class="article">${map.pbdto.p_bcontent }<br><br><br><br><br></td>
@@ -85,28 +156,31 @@
 		    
 		    <!-- 참석자 -->
 		    <div class="participant">
-			<c:forEach var="pjdto" items="${map.pJList }" begin="1" end="4">
-		    	<div class="participant_no">
-		    		<div class="participant_img">
-		    		<img src="../assets/img/party/participant_no1.png" alt="모집자">
+			<c:forEach var="pjdto" items="${map.pJList }" begin="0" end="4">
+		    	<div class="participant_no" id="${pjdto.p_jcno }">
+		    		<div class="participant_img" style="background-image: url('../upload/${pjdto.m_img}'); background-repeat: no-repeat; background-size: cover;">
 		    		</div>
 			    	<div class="participant_in">
 				    	<tr>
-				    		<td><strong>파티장(ID)</strong></td>
+				    		<td><strong>파티원(ID)</strong></td>
 				    		<td>${pjdto.id}</td>
 				    		</br>
 				    		<td><strong>닉네임</strong></td>
 				    		<td>${pjdto.nickname}</td>
 				    	</tr>
+				    	<c:if test="${session_id==pjdto.id }">
+		    				<span style="display: inline; list-style: none; cursor: pointer;"><i class="fa fa-trash-o" aria-hidden="true" style="font-weight: 700; color: red">탈퇴</i></span>
+				    	</c:if>
 		    		</div>
 		    	</div>
 			</c:forEach>
+		    	
 		    </div>
-		    
 		    <!-- 버튼 -->
 		    <div class="listBtn">
-		    	<button class="list">삭제</button>
-		    	<button class="list">수정</button>
+		    	<button class="list" id="pJoinBtn">파티참가</button>
+		    	<button class="list" id="pDeleteBtn">삭제</button>
+		    	<button class="list" id="pUpdateBtn">수정</button>
 		    	<a href="pList"><button class="list">목록</button></a>
 		    </div>
 		    

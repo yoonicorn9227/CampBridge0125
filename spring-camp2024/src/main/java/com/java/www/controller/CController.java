@@ -1,6 +1,7 @@
 package com.java.www.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -101,6 +102,60 @@ public class CController {
 		return "/community/pView";
 	}// pView()
 
+	@PostMapping("pDelete")
+	public String pDelete(@RequestParam(defaultValue = "1") int p_bno, Model model) {
+		// service 연결
+		pService.pDelete(p_bno);
+
+		// model 저장후 전송
+		model.addAttribute("result", "pView-Delete");
+
+		return "/community/doFBoard";
+	}// pDelete(p_bno, model)
+
+	// 2.파티원 모집 게시글 수정Pg
+	@PostMapping("pUpdate")
+	public String pUpdate(@RequestParam(defaultValue = "1") int p_bno, Model model) {
+
+		// service연결
+		Map<String, Object> map = pService.pSelectOne(p_bno);
+
+		// model 저장후 전송
+		model.addAttribute("map", map);
+
+		return "/community/pUpdate";
+	}// pUpdate(p_bno, model)
+
+	// 2. 파티원 모집 - 게시글 수정 저장
+	@PostMapping("doPUpdate")
+	public String doPUpdate(PBoardDto pbdto, @RequestParam MultipartFile p_uBfile, Model model) throws Exception {
+
+		if (!p_uBfile.isEmpty()) {
+			String oriFName = p_uBfile.getOriginalFilename();
+			long time = System.currentTimeMillis();
+			String upFName = time + "_" + oriFName; // String upName = String.format("%s_%d", oriFName, time)
+			String upload = "c:/upload/"; // 파일업로드 위치
+
+			// 파일업로드
+			File f = new File(upload + upFName);
+			p_uBfile.transferTo(f);
+
+			// pbdto파일이름 저장
+			pbdto.setP_bfile(upFName);
+		} else {
+			pbdto.setP_bfile("");
+		} // if(p_ufile)
+
+		// service 연결
+		pService.doPUpdate(pbdto);
+
+		// model 저장후 전송
+		model.addAttribute("result", "pUpdate-Save");
+
+		return "/community/doFBoard";
+
+	}//doFUpdate(pbdto, p_ufile, model)
+
 	// 2.파티원 모집 - 게시글 하단댓글 1개저장
 	@PostMapping("pCommentInsert")
 	@ResponseBody // ajax - 데이터 전송
@@ -111,8 +166,21 @@ public class CController {
 		System.out.println("CController fView f_bno : " + pcdto.getP_bno());
 
 		return pCommentDto;
-	}// fCommentInsert(fcdto)
+	}// pCommentInsert(pcdto)
 
+	@PostMapping("partyJoin")
+	@ResponseBody //ajax데이터 전소
+	public PJoinDto partyJoin(PJoinDto pjdto) {
+		System.out.println("Controller id:"+pjdto.getId());
+		System.out.println("Controller bno:"+pjdto.getP_bno());
+		
+		//service연결
+		PJoinDto pJoinDto=pService.partyJoin(pjdto);
+		
+		return pJoinDto;
+	}//partyJoin
+	
+	
 	// 2.파티원 모집 - 게시글 하단댓글 1개 삭제
 	@PostMapping("pCommentDelete")
 	@ResponseBody
@@ -137,7 +205,7 @@ public class CController {
 	@GetMapping("pWrite")
 	public String pWrite() {
 		return "/community/pWrite";
-	}// pView()
+	}// pWrite()
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 파티원
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 모집

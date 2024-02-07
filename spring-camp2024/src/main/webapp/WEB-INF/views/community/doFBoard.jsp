@@ -34,6 +34,18 @@
 				 location.href="fList";
 				</script>			
 			</c:when>
+			<c:when test="${result=='pView-Delete'}">
+				<script>
+				 alert("게시글이 삭제 되었습니다.");
+				 location.href="pList";
+				</script>			
+			</c:when>
+			<c:when test="${result=='pUpdate-Save'}">
+				<script>
+				 alert("게시글이 수정 되었습니다.");
+				 location.href="pList";
+				</script>			
+			</c:when>
 		</c:choose>
 	</body>
 </html>
