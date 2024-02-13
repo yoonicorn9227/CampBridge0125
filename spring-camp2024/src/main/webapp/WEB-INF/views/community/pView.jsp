@@ -37,6 +37,8 @@
 	</head>
 	 <script>
     	$(function(){
+    		let join =0; //파티참여 상태 0:미참여 1: 참여
+    		
     		$("#pDeleteBtn").click(function(){
     			if(confirm("게시글을 삭제하시겠습니까?")){
     				$("#partyViewFrm").attr("action", "pDelete").submit();
@@ -55,14 +57,30 @@
     				alert("※ 로그인시 파티에 참여 할 수 있습니다.");
     				return false;
     			}//if(로그인이 되어 있지 않을 경우)
-    			
-    			
+    				
+    				
     			if(confirm("★파티에 참여 하시겠습니까?")){
     				
+    				if(join==1){
+    					alert("※ 파티에 이미 참여하셨습니다.");
+    					return false;
+    				}//if(파티참여 ajax)
+    				
+    				if(${map.joinCount==1}){
+    					alert("※ 파티에 이미 참여하셨습니다.");
+    					return false;
+    				}//if(파티참여)
+    					
+    				if(${map.pbdto.p_bnum}<=${map.pJList.size()}){
+    					alert("※ 파티원 인원이 만석입니다.");
+    					return false;
+    				}//if(모집인원 만석시)
+    				
+    				//alert($(this).parent().prev().prev().find("tr").find("#p_bno").text())
+    				//alert(Number($("#partyJoinNum").text()));
     				let id ="${session_id}";
     				let p_bno=$(this).parent().prev().prev().find("tr").find("#p_bno").text()
-    				//alert($(this).parent().prev().prev().find("tr").find("#p_bno").text())
-    				
+    				let p_jCount = Number($("#partyJoinNum").text());
     				//♠ajax(파티참가)
     				$.ajax({
     					url:"/community/partyJoin",
@@ -70,27 +88,34 @@
     					data:{"id":id,"p_bno":p_bno},
     					dataType:"json",
     					success:function(data){
-    						alert("성공");
-    						console.log(data)
-    					
-    					let jdata="";
-   						jdata+='<div class="participant_no" id="'+data.p_jcno+'">';
-   						jdata+='<div class="participant_img">';
-   						jdata+='</div>';
-   						jdata+='<div class="participant_in">';
-   						jdata+='<tr>';
-   						jdata+='<td><strong>파티원(ID)</strong></td>';
-   						jdata+='<td>'+data.id+'</td>';
-   						jdata+='</br>';
-   						jdata+='<td><strong>닉네임</strong></td>';
-   						jdata+='<td>${pjdto.nickname}</td>';
-   						jdata+='</tr>';
-   						jdata+='';
-   						jdata+='</div>';
-   						jdata+='</div>';
-   						
-   						$("#participant").prepend(jdata);
-    					
+    						//console.log(data)
+    						let jdata="";
+    						jdata+='<div class="participant_no" id="'+data.p_jcno+'">';
+    					    jdata+= '<div class="participant_img" style="background-image: url(\'../upload/' + data.m_img + '\'); background-repeat: no-repeat; background-size: cover;"></div>';
+    						jdata+='<div class="participant_in">';
+    						jdata+='<tr>';
+    						jdata+='<td><strong>파티원(ID)</strong></td>';
+    						jdata+='<td>'+data.id+'</td>';
+    						jdata+='</br>';
+    						jdata+='<td><strong>닉네임</strong></td>';
+    						jdata+='<td>'+data.nickname+'</td>';
+    						jdata+='</tr>';
+    						if("${session_id==data.id}"){
+	    						jdata+='<span id="pJoinDelBtn" style="display: inline; list-style: none; cursor: pointer;"><i class="fa fa-trash-o" aria-hidden="true" style="font-weight: 700; color: red">탈퇴</i></span>';
+    						}
+    						jdata+='</div>';
+    						jdata+='</div>';
+    						
+	   						$(".participant").append(jdata);
+	   					   	$("#partyJoinNum").text(p_jCount+1);
+	   						
+	   					   	if($("#partyJoinNum").text()==${map.pbdto.p_bnum}){
+	   					   	$("#ing_join").css("color", "red").text("모집완료");
+	   					   	}//if
+	   					   	
+	   						join=1; //파티참여
+	   						
+	   						
     					},//success
     					error(){
     						alert("실패");
@@ -100,6 +125,37 @@
     			}//if(confirm)
     		
     		});//#pJoinBtn(파티에 참여)
+    		
+    		//2. 파티원 탈퇴
+   			$(document).on("click", "#pJoinDelBtn", function(){
+   				//alert($(this).parent().parent().attr("id"))
+   				//alert(Number($("#partyJoinNum").text()));
+   				let p_jcno = $(this).parent().parent().attr("id");
+   				let p_jCount = Number($("#partyJoinNum").text());
+   				
+   				if(confirm("※ 파티원을 탈퇴하시겠습니까?")){
+   				   //♠ajax(파티원 탈퇴)
+   				   $.ajax({
+   					   url:"/community/pJoinDelete",
+   					   type:"post",
+   					   data:{"p_jcno":p_jcno},
+   					   dataType:"text",
+   					   success:function(data){
+   						   $("#"+p_jcno).remove();// 파티원 탈퇴 삭제
+   						   $("#partyJoinNum").text(p_jCount-1);
+   					   },//success
+   					   error(){alert("실패")}//error
+   				   });//ajax(파티원 탈퇴) */
+   				   alert("파티원에서 탈퇴했습니다.");
+   				   
+   				if($("#partyJoinNum").text()<=${map.pbdto.p_bnum}) {
+   					$("#ing_join").css("color", "blue").text("모집중");
+				   	}//if
+   				   
+   				   
+   				   join=0; //파티 미참여
+   				}//if(confirm)
+   			});//파티원 탈퇴
     		
     	});//제이쿼리 최신
     </script>
@@ -125,18 +181,22 @@
 		        <th style="text-align: left;"><span>[${map.pbdto.p_btype }] ${map.pbdto.p_btitle }</span></th>
 		        <th style="text-align: right;"><strong>모집상태</strong></th>
 		        <th>
-			        <c:if test="${map.pbdto.p_bnum!=4 }"><span style="color: blue;">모집중</span></c:if>
-			    	<c:if test="${map.pbdto.p_bnum==4 }"><span style="color: red;">모집완료</span></c:if>
+			        <c:if test="${map.pbdto.p_bnum!=map.pJList.size() }"><span id="ing_join" style="color: blue;">모집중</span></c:if>
+			    	<c:if test="${map.pbdto.p_bnum==map.pJList.size()}"><span id="ed_join" style="color: red;">모집완료</span></c:if>
 		        </th>
 		      </tr>
 		      <tr style="border-bottom: 2px solid #009223">
 		        <td style="text-align: center;"><strong>파티장</strong style="text-align: center;"></td>
 		        <td>${map.pbdto.id }</td>
 		        <td style="text-align: right;"><strong>파티인원</strong></td>
-		        <td>${map.pJList.size()}명&nbsp;/&nbsp;${map.pbdto.p_bnum }명</td>
+		        <td><strong id="partyJoinNum">${map.pJList.size()}</strong>명&nbsp;/&nbsp;<span>${map.pbdto.p_bnum }명</span></td>
 		      </tr>
 		      <tr>
-		        <td colspan="6" class="article">${map.pbdto.p_bcontent }<br><br><br><br><br></td>
+		        <td colspan="6" class="article">${map.pbdto.p_bcontent }<br>
+		        <c:if test="${map.pbdto.p_bfile!=null }">
+		        	<img src="/upload/${map.pbdto.p_bfile }">
+	          	</c:if>
+		        </td>
 		      </tr>
 		      <c:if test="${map.pbdto.p_bfile!=null }">
 		      <tr style="border-bottom: 2px solid #009223;">
@@ -158,8 +218,7 @@
 		    <div class="participant">
 			<c:forEach var="pjdto" items="${map.pJList }" begin="0" end="4">
 		    	<div class="participant_no" id="${pjdto.p_jcno }">
-		    		<div class="participant_img" style="background-image: url('../upload/${pjdto.m_img}'); background-repeat: no-repeat; background-size: cover;">
-		    		</div>
+		    		<div class="participant_img" style="background-image: url('../upload/${pjdto.m_img}'); background-repeat: no-repeat; background-size: cover;"></div>
 			    	<div class="participant_in">
 				    	<tr>
 				    		<td><strong>파티원(ID)</strong></td>
@@ -169,7 +228,7 @@
 				    		<td>${pjdto.nickname}</td>
 				    	</tr>
 				    	<c:if test="${session_id==pjdto.id }">
-		    				<span style="display: inline; list-style: none; cursor: pointer;"><i class="fa fa-trash-o" aria-hidden="true" style="font-weight: 700; color: red">탈퇴</i></span>
+		    				<span id="pJoinDelBtn" style="display: inline; list-style: none; cursor: pointer;"><i class="fa fa-trash-o" aria-hidden="true" style="font-weight: 700; color: red">탈퇴</i></span>
 				    	</c:if>
 		    		</div>
 		    	</div>
@@ -178,7 +237,7 @@
 		    </div>
 		    <!-- 버튼 -->
 		    <div class="listBtn">
-		    	<button class="list" id="pJoinBtn">파티참가</button>
+	    		<button class="list" id="pJoinBtn">파티참가</button>
 		    	<button class="list" id="pDeleteBtn">삭제</button>
 		    	<button class="list" id="pUpdateBtn">수정</button>
 		    	<a href="pList"><button class="list">목록</button></a>

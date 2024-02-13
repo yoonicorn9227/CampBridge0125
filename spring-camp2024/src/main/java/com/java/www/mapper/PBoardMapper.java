@@ -30,5 +30,9 @@ public interface PBoardMapper {
 	
 	//4. 파티원 모집 게시글 1개 수정하기 저장
 	void doPUpdate(PBoardDto pbdto);
-	void partyJoin(PJoinDto pjdto); 
+	
+	void partyJoin(PJoinDto pjdto);
+	PJoinDto partySelectOne(int p_jcno);
+	int pJoinDelete(int p_jcno);
+	void pWrite(PBoardDto pbdto);
 }// PBoardMapper

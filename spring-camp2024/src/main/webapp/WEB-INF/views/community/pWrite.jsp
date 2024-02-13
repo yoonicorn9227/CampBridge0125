@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
@@ -12,7 +13,7 @@
 			</script>
 		</c:if>
 		<meta charset="UTF-8">
-		<title>파티원모집_글작성</title>
+		<title>파티원모집_글수정</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	    <meta content="" name="description">
 	    <meta content="" name="keywords">
@@ -44,61 +45,81 @@
 		<link href="../assets/css/summernote-lite.css" rel="stylesheet">
 		
 		<!-- Template nWrite JS File -->
-  		<script src="../assets/js/pWrite.js"></script>
+  		<script src="../assets/js/fboard/pWrite.js"></script>
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
 	<%@include file="../include/header.jsp" %>
 	<!-- End Header -->
-	
+	<!-- 글쓰기 -->
 		<section class="notice">
-		
-		   
-			<!-- 글쓰기 -->
 	    	<h1 style="float: left; margin: 40px; font-weight: 700; position: relative; left:235px; top: 30px;">파티원모집 작성</h1>
-			<form action="" name="freeFrm" method="post" enctype="multipart/form-data">
+			<form action="pWrite" name="partyWriteFrm" method="post" enctype="multipart/form-data">
 			    <table>
 			     <colgroup>
-			        <col width="10%">
-			        <col width="68%">
-			        <col width="10%">
-			        <col width="12%">
+			        <col width="19%">
+			        <col width="43%">
+			        <col width="29%">
+			        <col width="9%">
 	   			</colgroup>
 			      <tr>
-			      <th style="text-align: left;"><strong>글제목 | </strong></th>
-			        <th style="text-align: left;"><input type="text" id="p_btitle" placeholder=" ※ 게시글 제목을 입력해주세요."></th>
-			        <th style="text-align: left;">
-		        	 	<select name="p_bType" id="p_bType" class="p_bType">
-					       <option value="freeCont">캠핑유형</option>
-					       <option value="foodGood">오토캠핑</option>
-					       <option value="sParty">노지캠핑</option>
-					       <option value="sParty">국민여가</option>
+			      <th style="text-align: left;" >
+		        	 	<select name="p_btype" id="p_bType" class="p_bType">
+					       <option value="오토캠핑">오토캠핑</option>
+					       <option value="노지캠핑">노지캠핑</option>
+					       <option value="차박캠핑">차박캠핑</option>
+					       <option value="모토캠핑">모토캠핑</option>
+					       <option value="글램핑">글램핑</option>
+					       <option value="백캠핑">백캠핑</option>
 					    </select>
+			      </th>
+			        <th style="text-align: left;"><input type="text" id="p_btitle" name="p_btitle" placeholder=" ※ 게시글 제목을 입력해주세요." value="${map.pbdto.p_btitle }"></th>
+			        <th style="text-align: right;"><strong>파티인원ㅣ</strong>
 			        </th>
 			        <th style="text-align: left;">
-		        	 	<select name="p_bType" id="p_bType" class="p_bType">
-					       <option value="freeCont">파티인원</option>
-					       <option value="foodGood">1</option>
-					       <option value="sParty">2</option>
-					       <option value="sParty">3</option>
-					       <option value="sParty">4</option>
+		        	 	<select name="p_bnum" id="p_bnum" class="p_bType">
+					       <option value="1">1명</option>
+					       <option value="2">2명</option>
+					       <option value="3">3명</option>
+					       <option value="4">4명</option>
 					    </select>
 			        </th>
 			      </tr>
 			      <tr style="border-bottom: 2px solid #009223">
-			        <td style="text-align: left;"><strong>작성자 | </strong></td>
-			        <td><input type="text" value="aaa" readonly="readonly" style="border: 1px solid transparent; margin-left: -40px;"> </td>
+			        <td style="text-align: left;" ><strong>파티장 |<span>&nbsp;&nbsp;${session_id }</span></strong></td>
+			        <td><input type="hidden" name="id" value="${session_id }"></td>
+			        <td style="text-align: right;" ><strong>캠핑지역 | </strong></td>
+			        <td style="text-align: left">
+		        	<select name="p_local" id="p_local" class="p_bType" style="width: 100%;">
+				       <option value="서울시">서울시</option>
+				       <option value="부산시">부산시</option>
+				       <option value="인천시">인천시</option>
+				       <option value="광주시">광주시</option>
+				       <option value="대전시">대전시</option>
+				       <option value="울산시">울산시</option>
+				       <option value="세종시">세종시</option>
+				       <option value="경기도">경기도</option>
+				       <option value="강원도">강원도</option>
+				       <option value="충청북도">충청북도</option>
+				       <option value="충청남도">충청남도</option>
+				       <option value="전라북도">전라북도</option>
+				       <option value="전라남도">전라남도</option>
+				       <option value="경상북도">경상북도</option>
+				       <option value="경상남도">경상남도</option>
+				       <option value="제주도">제주도</option>
+				    </select>
+			        </td>
 			      </tr>
 			      <tr>
-			        <td colspan="4" class="article"><textarea rows="9" name="p_bcontent" id="summernote" placeholder=" ※ 게시글 내용을 입력해주세요."></textarea> </td>
+			        <td colspan="4" class="article"><textarea rows="9" name="p_bcontent" id="summernote" placeholder=" ※ 게시글 내용을 입력해주세요.">${map.pbdto.p_bcontent }</textarea> </td>
 			      </tr>
 			      <tr style="border-bottom: 2px solid #009223; line-height: 20px;">
-			        <td colspan="4" class="article"><input type="file" name="p_bfile" id="p_bfile"></td>
+			        <td colspan="4" class="article"><input type="file" name="pFile" id="p_bfile"></td>
 			      </tr>
 			    </table>
 			</form>
 			<div class="listBtn">
-		    	<div class="list">저장</div>
+		    	<a href="#"><div class="list" id="partySaveBtn">저장</div></a>
 		    	<a href="pList"><div class="list">취소</div></a>
 			</div>
  		 </section>

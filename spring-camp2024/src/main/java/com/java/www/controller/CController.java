@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.eclipse.tags.shaded.org.apache.xpath.operations.Mult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,8 @@ import com.java.www.dto.PJoinDto;
 import com.java.www.service.FService;
 import com.java.www.service.PService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("community")
 public class CController {
@@ -32,6 +35,9 @@ public class CController {
 
 	@Autowired
 	PService pService;
+
+	@Autowired
+	HttpSession session;
 
 	// 1.공지사항 리스트
 	@GetMapping("nList")
@@ -93,12 +99,23 @@ public class CController {
 	@GetMapping("pView")
 	public String pView(@RequestParam(defaultValue = "1") int p_bno, Model model) {
 
+		int joinCount = 0;
 		// service 연결
 		Map<String, Object> map = pService.pSelectOne(p_bno);
 
+		// map에서 pJList를 가져옵니다.
+		ArrayList<PJoinDto> pJList = (ArrayList<PJoinDto>) map.get("pJList");
+		for (int i = 0; i < pJList.size(); i++) {
+			if (session.getAttribute("session_id").equals(pJList.get(i).getId())) {
+				joinCount = 1;
+			} // if(파티참여여부0
+		} // for
+
+		map.put("joinCount", joinCount); // 파티참여여부 상태 map저장
+		// model에 pJList를 저장합니다.
+
 		// model 저장후 전송
 		model.addAttribute("map", map);
-
 		return "/community/pView";
 	}// pView()
 
@@ -154,7 +171,7 @@ public class CController {
 
 		return "/community/doFBoard";
 
-	}//doFUpdate(pbdto, p_ufile, model)
+	}// doFUpdate(pbdto, p_ufile, model)
 
 	// 2.파티원 모집 - 게시글 하단댓글 1개저장
 	@PostMapping("pCommentInsert")
@@ -169,18 +186,17 @@ public class CController {
 	}// pCommentInsert(pcdto)
 
 	@PostMapping("partyJoin")
-	@ResponseBody //ajax데이터 전소
+	@ResponseBody // ajax데이터 전송
 	public PJoinDto partyJoin(PJoinDto pjdto) {
-		System.out.println("Controller id:"+pjdto.getId());
-		System.out.println("Controller bno:"+pjdto.getP_bno());
-		
-		//service연결
-		PJoinDto pJoinDto=pService.partyJoin(pjdto);
-		
+		System.out.println("Controller id:" + pjdto.getId());
+		System.out.println("Controller bno:" + pjdto.getP_bno());
+
+		// service연결
+		PJoinDto pJoinDto = pService.partyJoin(pjdto);
+
 		return pJoinDto;
-	}//partyJoin
-	
-	
+	}// partyJoin
+
 	// 2.파티원 모집 - 게시글 하단댓글 1개 삭제
 	@PostMapping("pCommentDelete")
 	@ResponseBody
@@ -188,6 +204,14 @@ public class CController {
 		String result = pService.pCommentDelete(p_cno);
 		return result;
 	}// pCommentDelete(p_cno)
+
+	// 2.파티원 모집 - 파티원 탈퇴
+	@PostMapping("pJoinDelete")
+	@ResponseBody
+	public String pJoinDelete(int p_jcno) {
+		String result = pService.pJoinDelete(p_jcno);
+		return result;
+	}// pJoinDelete(p_jcno)
 
 	// 2. 자유게시글 -하단댓글 1개 수정저장
 	@PostMapping("pCommentUpdate")
@@ -205,7 +229,61 @@ public class CController {
 	@GetMapping("pWrite")
 	public String pWrite() {
 		return "/community/pWrite";
+	}// pWrite
+
+	// 2.파티원 모집 글저장
+	@PostMapping("pWrite")
+	public String pWrite(PBoardDto pbdto, @RequestParam MultipartFile pFile, Model model) throws Exception {
+		System.out.println("Ccontroller pbdto p_btitle : " + pbdto.getP_btitle());
+		System.out.println("Ccontroller pbdto p_bcontent : " + pbdto.getP_bcontent());
+
+		if (!pFile.isEmpty()) {
+			String oriFName = pFile.getOriginalFilename();
+			long time = System.currentTimeMillis();
+			String upFName = time + "_" + oriFName;
+			String fupload = "c:/upload/";
+
+			// 파일업로드 부분
+			File f = new File(fupload + upFName);
+			pFile.transferTo(f);
+
+			// pbdto f_bfile추가
+			pbdto.setP_bfile(upFName);
+		} else {
+			pbdto.setP_bfile("");
+		} // if-else
+
+		System.out.println("파일첨부 이름 : " + pbdto.getP_bfile());
+
+		// service연결 - 파일저장
+		pService.pWrite(pbdto);
+
+		// model
+		model.addAttribute("result", "pWrite-Save");
+		return "/community/doFBoard";
 	}// pWrite()
+
+	// 4.SummerNote 내용부분 - 이미지 추가시 파일업로드
+	@PostMapping("summernotePartyWrite")
+	@ResponseBody
+	public String summernotePartyWrite(@RequestParam MultipartFile pFile) throws Exception {
+		String urlLink = "";
+		if (!pFile.isEmpty()) {
+			String oriFName = pFile.getOriginalFilename();
+			long time = System.currentTimeMillis();
+			String upFName = time + "_" + oriFName;
+			String fupload = "c:/upload/";
+
+			// 파일업로드 부분
+			File f = new File(fupload + upFName);
+			pFile.transferTo(f);
+
+			// 파일저장위치
+			urlLink = "/upload/" + upFName;
+			System.out.println("summernoteUpload 파일저장 위치 : " + urlLink);
+		} // if
+		return urlLink;
+	}// pWrite(summernotePartyWrite)
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 파티원
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 모집

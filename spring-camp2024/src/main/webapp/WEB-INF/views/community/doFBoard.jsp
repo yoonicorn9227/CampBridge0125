@@ -46,6 +46,12 @@
 				 location.href="pList";
 				</script>			
 			</c:when>
+			<c:when test="${result=='pWrite-Save'}">
+				<script>
+				 alert("게시글이 저장 되었습니다.");
+				 location.href="pList";
+				</script>			
+			</c:when>
 		</c:choose>
 	</body>
 </html>

@@ -36,4 +36,12 @@ public interface PService {
 	// 4. 파티원 게시글 1개 수정저장
 	void doPUpdate(PBoardDto pbdto);
 
+	// 2. 파티원 게시글 파티원 탈퇴
+	String pJoinDelete(int p_jcno);
+
+	//파티원 게시글 저장
+	void pWrite(PBoardDto pbdto);
+
+
+
 }// PService(파티원 모집)

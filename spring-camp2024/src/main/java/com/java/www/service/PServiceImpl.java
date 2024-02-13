@@ -79,7 +79,7 @@ public class PServiceImpl implements PService {
 
 		// ① Mapper연결 - 파티원 모집 전체 리스트 가져오기
 		ArrayList<PBoardDto> list = pboardMapper.pSelectSearchAll(startRow, endRow, pCategory, pSearchWord);
-		
+
 		// ③ map으로 여러개 데이터 담아서 전송(①+②)
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);
@@ -159,10 +159,31 @@ public class PServiceImpl implements PService {
 
 	@Override
 	public PJoinDto partyJoin(PJoinDto pjdto) {
-		//Mapper연결(파티원 1명 참가)
+		// Mapper연결(파티원 1명 참가) - selectKey를 쓰면 p_jcno 값이 할당됨
 		pboardMapper.partyJoin(pjdto);
-		System.out.println("서비스 임플 p_jcno : " + pjdto.getP_jcno());
-		return pjdto;
-	}//partyJoin(pjdto)
+		System.out.println("PServiceImpl p_jcno: " + pjdto.getP_jcno());
+		PJoinDto pJoinDto = pboardMapper.partySelectOne(pjdto.getP_jcno());
+		//
+
+		System.out.println("서비스 임플 p_jcno : " + pJoinDto.getP_jcno());
+		System.out.println("서비스 임플 p_jcno : " + pJoinDto.getNickname());
+		System.out.println("서비스 임플 p_jcno : " + pJoinDto.getM_img());
+		return pJoinDto;
+	}// partyJoin(pjdto)
+
+	@Override
+	public String pJoinDelete(int p_jcno) {
+		String re = "";
+
+		// Mapper연결
+		int result = pboardMapper.pJoinDelete(p_jcno);
+		return result + re;
+	}//pJoinDelete(p_jcno)
+
+	@Override
+	public void pWrite(PBoardDto pbdto) {
+		// Mapper연결
+		pboardMapper.pWrite(pbdto);
+	}//pWrite(pbdto)
 
 }// PServiceImpl(파티원 모집)
