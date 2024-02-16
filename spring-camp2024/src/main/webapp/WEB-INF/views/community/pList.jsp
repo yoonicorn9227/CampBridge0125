@@ -37,24 +37,10 @@
 	    <link href="../assets/css/main2.css" rel="stylesheet">
 		<link href="../assets/css/header.css" rel="stylesheet">
 		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
+		
+		<!-- Template nWrite JS File -->
+  		<script src="../assets/js/fboard/pLists.js"></script>
 	</head>
-	<script>
-		$(function(){
-			$("#searchBtn").click(function(){
-				
-				if($("#searchWord").val().length<1){
-					alert("※ 검색어를 입력해주세요.");
-					$("#searchWord").focus();
-					return false;
-				}//if(검색어 미입력시)
-				
-			 alert("test");
-				
-			 pSearchFrm.submit();
-				
-			});//#searchBtn(파티원 모집 검색어)
-		});//제이쿼리 최신
-	</script>
 	<body>
 	<!-- ======= Header ======= -->
 	<%@include file="../include/header.jsp" %>
