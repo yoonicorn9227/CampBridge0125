@@ -21,7 +21,7 @@ public class PBoardDto {
 	private Timestamp p_bdate;
 	private String p_local;
 	private int p_bnum;
-	private int p_bstatus;
+	private int p_joinnum;
 	private String p_bfile;
 
 }// PBoardDto

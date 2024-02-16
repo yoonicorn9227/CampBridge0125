@@ -58,6 +58,7 @@
 			  </form>
 			</div>
 		    <!-- 검색창 -->
+		    <!-- 자유게시판 리스트 -->
 			<table>
 		  		<div class="page-title">
 			      <colgroup>

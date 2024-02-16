@@ -33,6 +33,9 @@
 		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
 		<link href="../assets/css/community/viewStyle.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		
+		<!-- Template nWrite JS File -->
+  		<script src="../assets/js/fboard/pView.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 	</head>
 	 <script>
@@ -98,10 +101,10 @@
     						jdata+='<td>'+data.id+'</td>';
     						jdata+='</br>';
     						jdata+='<td><strong>닉네임</strong></td>';
-    						jdata+='<td>'+data.nickname+'</td>';
+    						jdata+='<td>'+data.nickname+'</td>&nbsp;&nbsp;';
     						jdata+='</tr>';
     						if("${session_id==data.id}"){
-	    						jdata+='<span id="pJoinDelBtn" style="display: inline; list-style: none; cursor: pointer;"><i class="fa fa-trash-o" aria-hidden="true" style="font-weight: 700; color: red">탈퇴</i></span>';
+	    						jdata+='<span id="pJoinDelBtn"><i class="fa fa-sign-out" id="pJoinDelBtnTxt" aria-hidden="true">탈퇴</i></span>';
     						}
     						jdata+='</div>';
     						jdata+='</div>';
@@ -132,13 +135,14 @@
    				//alert(Number($("#partyJoinNum").text()));
    				let p_jcno = $(this).parent().parent().attr("id");
    				let p_jCount = Number($("#partyJoinNum").text());
-   				
+   				let p_bno=$(this).parent().parent().parent().prev().find("#p_bno").text();
+   				//alert(p_bno);
    				if(confirm("※ 파티원을 탈퇴하시겠습니까?")){
    				   //♠ajax(파티원 탈퇴)
    				   $.ajax({
    					   url:"/community/pJoinDelete",
    					   type:"post",
-   					   data:{"p_jcno":p_jcno},
+   					   data:{"p_jcno":p_jcno, "p_bno" : p_bno},
    					   dataType:"text",
    					   success:function(data){
    						   $("#"+p_jcno).remove();// 파티원 탈퇴 삭제
@@ -146,7 +150,7 @@
    					   },//success
    					   error(){alert("실패")}//error
    				   });//ajax(파티원 탈퇴) */
-   				   alert("파티원에서 탈퇴했습니다.");
+   				   alert("※ 파티원에서 탈퇴했습니다.");
    				   
    				if($("#partyJoinNum").text()<=${map.pbdto.p_bnum}) {
    					$("#ing_join").css("color", "blue").text("모집중");
@@ -225,10 +229,10 @@
 				    		<td>${pjdto.id}</td>
 				    		</br>
 				    		<td><strong>닉네임</strong></td>
-				    		<td>${pjdto.nickname}</td>
+				    		<td>${pjdto.nickname}</td>&nbsp;
 				    	</tr>
 				    	<c:if test="${session_id==pjdto.id }">
-		    				<span id="pJoinDelBtn" style="display: inline; list-style: none; cursor: pointer;"><i class="fa fa-trash-o" aria-hidden="true" style="font-weight: 700; color: red">탈퇴</i></span>
+		    				<span id="pJoinDelBtn"><i class="fa fa-sign-out" id="pJoinDelBtnTxt" aria-hidden="true">탈퇴</i></span>
 				    	</c:if>
 		    		</div>
 		    	</div>
@@ -238,12 +242,14 @@
 		    <!-- 버튼 -->
 		    <div class="listBtn">
 	    		<button class="list" id="pJoinBtn">파티참가</button>
+		    	<c:if test="${session_id==map.pbdto.id }">
 		    	<button class="list" id="pDeleteBtn">삭제</button>
 		    	<button class="list" id="pUpdateBtn">수정</button>
+		    	</c:if>
 		    	<a href="pList"><button class="list">목록</button></a>
 		    </div>
 		    
-		    <!-- 비밀댓글입력-->
+		    <!-- 댓글입력-->
 		    <table id="replyPw">
 			    <tr>
 				    <td id="replyBorder">

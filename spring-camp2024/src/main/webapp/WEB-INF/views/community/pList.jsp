@@ -5,6 +5,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<c:if test="${session_id==null }">
+			<script>
+			 alert("※로그인 상태만 접근이 가능합니다.")
+			 location.href="../my/login";
+			</script>
+		</c:if>
 		<meta charset="UTF-8">
 		<title>파티원 모집</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -89,7 +95,7 @@
 			        <th>제목</th>
 			        <th>작성자</th>
 			        <th>지역</th>
-			        <th>모집인원</th>
+			        <th>모집현황</th>
 			        <th>모집상태</th>
 			        <th>작성일</th>
 			      </tr>
@@ -99,30 +105,21 @@
 			      	</tr>
 	              </c:if>    
 			      <c:forEach var="pbdto" items="${map.list }">
-				      <c:if test="${pbdto.p_bnum!=8}">
 					      <tr>
 					        <td id="No">${pbdto.p_bno}</td>
 					        <td style="font-weight: 700;">${pbdto.p_btype}</td>
 					        <td class="table-title"><a href="pView?p_bno=${pbdto.p_bno }">${pbdto.p_btitle}</a></td>
 					        <td>${pbdto.id}</td>
 					        <td>${pbdto.p_local}</td>
-					        <td>${pbdto.p_bnum}</td>
-					        <td><strong style="color: blue;">모집중</strong></td>
+					        <td>${pbdto.p_joinnum}/<strong>${pbdto.p_bnum}명</strong></td>
+				      		<c:if test="${pbdto.p_bnum!=pbdto.p_joinnum}">
+					          <td><strong style="color: blue;">모집중</strong></td>
+				     		</c:if>
+				      		<c:if test="${pbdto.p_bnum==pbdto.p_joinnum}">
+					          <td><strong style="color: red;">모집완료</strong></td>
+				      		</c:if>
 					        <td><fmt:formatDate value="${pbdto.p_bdate}" pattern="YYYY-MM-dd"/></td>
 					      </tr>
-				      </c:if>
-				      <c:if test="${pbdto.p_bnum==8}">
-					      <tr>
-					        <td id="No">${pbdto.p_bno}</td>
-					        <td style="font-weight: 700;">${pbdto.p_btype}</td>
-					        <td class="table-title" style="color: gray; text-decoration: none">${pbdto.p_btitle}</td>
-					        <td>${pbdto.id}</td>
-					        <td>${pbdto.p_local}</td>
-					        <td>${pbdto.p_bnum}</td>
-					        <td><strong style="color: red;">모집완료</strong></td>
-					        <td><fmt:formatDate value="${pbdto.p_bdate}" pattern="YYYY-MM-dd"/></td>
-					      </tr>
-				      </c:if>
 			      </c:forEach>
 		  		</div>
 		    </table>

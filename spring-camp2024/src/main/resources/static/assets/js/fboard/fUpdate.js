@@ -68,7 +68,7 @@ function uploadFile(file, this_location) {//매개변수 - file: 이미지 파�
 	fdata.append("uFile", file);//file이미지를 첨부
 	//♠ajax
 	$.ajax({
-		url: "/community/summernoteUpload",
+		url: "/community/summernoteFwriteUpdate",
 		type: "post",
 		dataType: "text",//파일을 받는 형태
 		data: fdata,

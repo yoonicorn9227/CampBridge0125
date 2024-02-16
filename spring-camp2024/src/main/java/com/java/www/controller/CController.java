@@ -93,7 +93,67 @@ public class CController {
 		model.addAttribute("map", map);
 
 		return "/community/pList";
-	}// pList()
+	}// pList(page, pCategory, pSearchWord, model)
+
+	// 2.파티원 모집 작성Pg
+	@GetMapping("pWrite")
+	public String pWrite() {
+		return "/community/pWrite";
+	}// pWrite
+
+	// 2.파티원 모집 글저장
+	@PostMapping("pWrite")
+	public String pWrite(PBoardDto pbdto, @RequestParam MultipartFile pFile, Model model) throws Exception {
+		System.out.println("Ccontroller pbdto p_btitle : " + pbdto.getP_btitle());
+		System.out.println("Ccontroller pbdto p_bcontent : " + pbdto.getP_bcontent());
+
+		if (!pFile.isEmpty()) {
+			String oriFName = pFile.getOriginalFilename();
+			long time = System.currentTimeMillis();
+			String upFName = time + "_" + oriFName;
+			String fupload = "c:/upload/";
+
+			// 파일업로드 부분
+			File f = new File(fupload + upFName);
+			pFile.transferTo(f);
+
+			// pbdto f_bfile추가
+			pbdto.setP_bfile(upFName);
+		} else {
+			pbdto.setP_bfile("");
+		} // if-else
+
+		System.out.println("파일첨부 이름 : " + pbdto.getP_bfile());
+
+		// service연결 - 파일저장
+		pService.pWrite(pbdto);
+
+		// model
+		model.addAttribute("result", "pWrite-Save");
+		return "/community/doFBoard";
+	}// pWrite(pbdto, pFile, model)
+
+	// 4.SummerNote 내용부분 - 이미지 추가시 파일업로드
+	@PostMapping("summernotePartyWrite")
+	@ResponseBody
+	public String summernotePartyWrite(@RequestParam MultipartFile pFile) throws Exception {
+		String urlLink = "";
+		if (!pFile.isEmpty()) {
+			String oriFName = pFile.getOriginalFilename();
+			long time = System.currentTimeMillis();
+			String upFName = time + "_" + oriFName;
+			String fupload = "c:/upload/";
+
+			// 파일업로드 부분
+			File f = new File(fupload + upFName);
+			pFile.transferTo(f);
+
+			// 파일저장위치
+			urlLink = "/upload/" + upFName;
+			System.out.println("summernoteUpload 파일저장 위치 : " + urlLink);
+		} // if
+		return urlLink;
+	}// SummerNote(파티원 글작성)
 
 	// 2.파티원 모집 게시글보기 Pg
 	@GetMapping("pView")
@@ -108,7 +168,7 @@ public class CController {
 		for (int i = 0; i < pJList.size(); i++) {
 			if (session.getAttribute("session_id").equals(pJList.get(i).getId())) {
 				joinCount = 1;
-			} // if(파티참여여부0
+			} // if(파티참여여부0)
 		} // for
 
 		map.put("joinCount", joinCount); // 파티참여여부 상태 map저장
@@ -118,17 +178,6 @@ public class CController {
 		model.addAttribute("map", map);
 		return "/community/pView";
 	}// pView()
-
-	@PostMapping("pDelete")
-	public String pDelete(@RequestParam(defaultValue = "1") int p_bno, Model model) {
-		// service 연결
-		pService.pDelete(p_bno);
-
-		// model 저장후 전송
-		model.addAttribute("result", "pView-Delete");
-
-		return "/community/doFBoard";
-	}// pDelete(p_bno, model)
 
 	// 2.파티원 모집 게시글 수정Pg
 	@PostMapping("pUpdate")
@@ -173,6 +222,39 @@ public class CController {
 
 	}// doFUpdate(pbdto, p_ufile, model)
 
+	// 4.SummerNote 내용부분 - 이미지 추가시 파일업로드
+	@PostMapping("summernotePartyUpdate")
+	@ResponseBody
+	public String summernotePartyUpdate(@RequestParam MultipartFile p_uBfile) throws Exception {
+		String urlLink = "";
+		if (!p_uBfile.isEmpty()) {
+			String oriFName = p_uBfile.getOriginalFilename();
+			long time = System.currentTimeMillis();
+			String upFName = time + "_" + oriFName;
+			String fupload = "c:/upload/";
+
+			// 파일업로드 부분
+			File f = new File(fupload + upFName);
+			p_uBfile.transferTo(f);
+
+			// 파일저장위치
+			urlLink = "/upload/" + upFName;
+			System.out.println("summernoteUpload 파일저장 위치 : " + urlLink);
+		} // if
+		return urlLink;
+	}// SummerNote(파티원 글수정)
+
+	@PostMapping("pDelete")
+	public String pDelete(@RequestParam(defaultValue = "1") int p_bno, Model model) {
+		// service 연결
+		pService.pDelete(p_bno);
+
+		// model 저장후 전송
+		model.addAttribute("result", "pView-Delete");
+
+		return "/community/doFBoard";
+	}// pDelete(p_bno, model)
+
 	// 2.파티원 모집 - 게시글 하단댓글 1개저장
 	@PostMapping("pCommentInsert")
 	@ResponseBody // ajax - 데이터 전송
@@ -195,7 +277,7 @@ public class CController {
 		PJoinDto pJoinDto = pService.partyJoin(pjdto);
 
 		return pJoinDto;
-	}// partyJoin
+	}// partyJoin(pjdto)
 
 	// 2.파티원 모집 - 게시글 하단댓글 1개 삭제
 	@PostMapping("pCommentDelete")
@@ -208,8 +290,8 @@ public class CController {
 	// 2.파티원 모집 - 파티원 탈퇴
 	@PostMapping("pJoinDelete")
 	@ResponseBody
-	public String pJoinDelete(int p_jcno) {
-		String result = pService.pJoinDelete(p_jcno);
+	public String pJoinDelete(int p_jcno, PJoinDto pjdto) {
+		String result = pService.pJoinDelete(p_jcno, pjdto);
 		return result;
 	}// pJoinDelete(p_jcno)
 
@@ -224,66 +306,6 @@ public class CController {
 
 		return pCommentDto;
 	}// pCommentUpdate(p_cno)
-
-	// 2.파티원 모집 작성Pg
-	@GetMapping("pWrite")
-	public String pWrite() {
-		return "/community/pWrite";
-	}// pWrite
-
-	// 2.파티원 모집 글저장
-	@PostMapping("pWrite")
-	public String pWrite(PBoardDto pbdto, @RequestParam MultipartFile pFile, Model model) throws Exception {
-		System.out.println("Ccontroller pbdto p_btitle : " + pbdto.getP_btitle());
-		System.out.println("Ccontroller pbdto p_bcontent : " + pbdto.getP_bcontent());
-
-		if (!pFile.isEmpty()) {
-			String oriFName = pFile.getOriginalFilename();
-			long time = System.currentTimeMillis();
-			String upFName = time + "_" + oriFName;
-			String fupload = "c:/upload/";
-
-			// 파일업로드 부분
-			File f = new File(fupload + upFName);
-			pFile.transferTo(f);
-
-			// pbdto f_bfile추가
-			pbdto.setP_bfile(upFName);
-		} else {
-			pbdto.setP_bfile("");
-		} // if-else
-
-		System.out.println("파일첨부 이름 : " + pbdto.getP_bfile());
-
-		// service연결 - 파일저장
-		pService.pWrite(pbdto);
-
-		// model
-		model.addAttribute("result", "pWrite-Save");
-		return "/community/doFBoard";
-	}// pWrite()
-
-	// 4.SummerNote 내용부분 - 이미지 추가시 파일업로드
-	@PostMapping("summernotePartyWrite")
-	@ResponseBody
-	public String summernotePartyWrite(@RequestParam MultipartFile pFile) throws Exception {
-		String urlLink = "";
-		if (!pFile.isEmpty()) {
-			String oriFName = pFile.getOriginalFilename();
-			long time = System.currentTimeMillis();
-			String upFName = time + "_" + oriFName;
-			String fupload = "c:/upload/";
-
-			// 파일업로드 부분
-			File f = new File(fupload + upFName);
-			pFile.transferTo(f);
-
-			// 파일저장위치
-			urlLink = "/upload/" + upFName;
-			System.out.println("summernoteUpload 파일저장 위치 : " + urlLink);
-		} // if
-		return urlLink;
-	}// pWrite(summernotePartyWrite)
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 파티원
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 모집
@@ -331,86 +353,6 @@ public class CController {
 
 		return "/community/fList";
 	}// fList()
-
-	// 4.자유 게시판 - 게시글 검색
-	@GetMapping("fsearch")
-	public String fsearch(@RequestParam(defaultValue = "1") int page,
-			@RequestParam(required = false) String searchTitle, @RequestParam(required = false) String searchWord,
-			Model model) {
-
-		System.out.println("CController searchTitle : " + searchTitle);
-		System.out.println("CController searchWord : " + searchWord);
-
-		// service연결(list)
-		Map<String, Object> map = fService.fselectSearch(page, searchTitle, searchWord);
-
-		// model전송
-		model.addAttribute("map", map);
-
-		return "/community/fList";
-	}// fsearch()
-
-	// 4.자유 게시글 보기Pg
-	@GetMapping("fView")
-	public String fView(@RequestParam(defaultValue = "1") int f_bno, Model model) {
-		System.out.println("CController fView f_bno : " + f_bno);
-		// service 연결(fbdto), 이전글,현재글, 다음글 가져오기
-		Map<String, Object> map = fService.fselectOne(f_bno); // 현재글
-
-		// model 전송
-		model.addAttribute("map", map);
-		return "/community/fView";
-	}// fView()
-
-	// 4.자유 게시글 삭제
-	@PostMapping("fDelete")
-	public String fDelete(@RequestParam(defaultValue = "1") int f_bno, Model model) {
-		System.out.println("CController fDelete f_bno : " + f_bno);
-
-		// service연결
-		fService.fDelete(f_bno);
-
-		// model
-		model.addAttribute("result", "fView-Delete");
-
-		return "/community/doFBoard";
-	}// fDelete
-
-	// 4.자유 게시글 - 하단댓글 1개저장
-	@PostMapping("fCommentInsert")
-	@ResponseBody // ajax - 데이터 전송
-	public FCommentDto fCommentInsert(FCommentDto fcdto) {
-		System.out.println("CController fView f_ccontent : " + fcdto.getF_ccontent());
-		// service 연결 - 저장시간, f_cno
-		FCommentDto fCommentDto = fService.fCommentInsert(fcdto); // 현재글
-		System.out.println("CController fView f_bno : " + fcdto.getF_bno());
-
-		return fCommentDto;
-	}// fCommentInsert(fcdto)
-
-	// 4.자유 게시글 - 하단댓글 1개삭제
-	@PostMapping("fCommentDelete")
-	@ResponseBody // ajax - 데이터 전송
-	public String fCommentDelete(int f_cno) {
-		System.out.println("CController 댓글삭제번호 : " + f_cno);
-
-		// service연결
-		String result = fService.fCommentDelete(f_cno);
-
-		return result;
-	}// fCommentDelete(f_cno)
-
-	// 4. 자유게시글 -하단댓글 1개 수정저장
-	@PostMapping("fCommentUpdate")
-	@ResponseBody
-	public FCommentDto fCommentUpdate(FCommentDto fcdto) {
-		System.out.println("CController fCommentUpdate f_cno : " + fcdto.getF_cno());
-
-		// service 연결 - 댓글수정저장
-		FCommentDto fCommentDto = fService.fCommentUpdate(fcdto);
-
-		return fCommentDto;
-	}// fCommentUpdate(f_cno)
 
 	// 4.자유 게시글 작성Pg
 	@GetMapping("fWrite")
@@ -473,6 +415,36 @@ public class CController {
 		return urlLink;
 	}// summerNote
 
+	// 4.자유 게시판 - 게시글 검색
+	@GetMapping("fsearch")
+	public String fsearch(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(required = false) String searchTitle, @RequestParam(required = false) String searchWord,
+			Model model) {
+
+		System.out.println("CController searchTitle : " + searchTitle);
+		System.out.println("CController searchWord : " + searchWord);
+
+		// service연결(list)
+		Map<String, Object> map = fService.fselectSearch(page, searchTitle, searchWord);
+
+		// model전송
+		model.addAttribute("map", map);
+
+		return "/community/fList";
+	}// fsearch()
+
+	// 4.자유 게시글 보기Pg
+	@GetMapping("fView")
+	public String fView(@RequestParam(defaultValue = "1") int f_bno, Model model) {
+		System.out.println("CController fView f_bno : " + f_bno);
+		// service 연결(fbdto), 이전글,현재글, 다음글 가져오기
+		Map<String, Object> map = fService.fselectOne(f_bno); // 현재글
+
+		// model 전송
+		model.addAttribute("map", map);
+		return "/community/fView";
+	}// fView()
+
 	// 4.자유게시글 수정Pg
 	@PostMapping("fUpdate")
 	public String fUpdate(@RequestParam(defaultValue = "1") int f_bno, Model model) {
@@ -485,7 +457,7 @@ public class CController {
 		model.addAttribute("map", map);
 
 		return "/community/fUpdate";
-	}// fUpdate()
+	}// fUpdate(f_bno, model)
 
 	// 4.자유게시글 수정저장
 	@PostMapping("doFUpdate")
@@ -516,29 +488,79 @@ public class CController {
 		model.addAttribute("result", "fUpdate-Save");
 
 		return "/community/doFBoard";
-	}// doFUpdate
+	}// doFUpdate(uFile, model)
 
-	// 4.SummerNote 답글 내용부분 - 이미지 추가시 파일업로드
-	@PostMapping("summernoteFReplyUpload")
+	// 4.자유게시글 수정저장 - SummerNote
+	@PostMapping("summernoteFwriteUpdate")
 	@ResponseBody
-	public String summernoteFReplyUpload(@RequestParam MultipartFile rfFile) throws Exception {
+	public String summernoteFwriteUpdate(@RequestParam MultipartFile uFile) throws Exception {
 		String urlLink = "";
-		if (!rfFile.isEmpty()) {
-			String oriFName = rfFile.getOriginalFilename();
+		if (!uFile.isEmpty()) {
+			String oriFName = uFile.getOriginalFilename();
 			long time = System.currentTimeMillis();
 			String upFName = time + "_" + oriFName;
 			String fupload = "c:/upload/";
 
 			// 파일업로드 부분
 			File f = new File(fupload + upFName);
-			rfFile.transferTo(f);
+			uFile.transferTo(f);
 
 			// 파일저장위치
 			urlLink = "/upload/" + upFName;
 			System.out.println("summernoteUpload 파일저장 위치 : " + urlLink);
 		} // if
 		return urlLink;
-	}// summerNote
+	}// summerNote(자유게시글 수정)
+
+	// 4.자유 게시글 삭제
+	@PostMapping("fDelete")
+	public String fDelete(@RequestParam(defaultValue = "1") int f_bno, Model model) {
+		System.out.println("CController fDelete f_bno : " + f_bno);
+
+		// service연결
+		fService.fDelete(f_bno);
+
+		// model
+		model.addAttribute("result", "fView-Delete");
+
+		return "/community/doFBoard";
+	}// fDelete
+
+	// 4.자유 게시글 - 하단댓글 1개저장
+	@PostMapping("fCommentInsert")
+	@ResponseBody // ajax - 데이터 전송
+	public FCommentDto fCommentInsert(FCommentDto fcdto) {
+		System.out.println("CController fView f_ccontent : " + fcdto.getF_ccontent());
+		// service 연결 - 저장시간, f_cno
+		FCommentDto fCommentDto = fService.fCommentInsert(fcdto); // 현재글
+		System.out.println("CController fView f_bno : " + fcdto.getF_bno());
+
+		return fCommentDto;
+	}// fCommentInsert(fcdto)
+
+	// 4.자유 게시글 - 하단댓글 1개삭제
+	@PostMapping("fCommentDelete")
+	@ResponseBody // ajax - 데이터 전송
+	public String fCommentDelete(int f_cno) {
+		System.out.println("CController 댓글삭제번호 : " + f_cno);
+
+		// service연결
+		String result = fService.fCommentDelete(f_cno);
+
+		return result;
+	}// fCommentDelete(f_cno)
+
+	// 4. 자유게시글 -하단댓글 1개 수정저장
+	@PostMapping("fCommentUpdate")
+	@ResponseBody
+	public FCommentDto fCommentUpdate(FCommentDto fcdto) {
+		System.out.println("CController fCommentUpdate f_cno : " + fcdto.getF_cno());
+
+		// service 연결 - 댓글수정저장
+		FCommentDto fCommentDto = fService.fCommentUpdate(fcdto);
+
+		return fCommentDto;
+	}// fCommentUpdate(f_cno)
 
 	// 4.자유게시글 답글Pg
 	@PostMapping("fReply")
@@ -552,7 +574,7 @@ public class CController {
 		model.addAttribute("map", map);
 
 		return "/community/fReply";
-	}// fReply()
+	}// fReply(f_bno, model)
 
 	// 4.자유게시글 답글저장
 	@PostMapping("doFReply")
@@ -584,8 +606,31 @@ public class CController {
 		model.addAttribute("result", "fReply-Save");
 
 		return "/community/doFBoard";
-	}// doFReply
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 자유
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 게시판
+	}// doFReply(fbdto, rFrile, model)
+
+	// 4.SummerNote 답글 내용부분 - 이미지 추가시 파일업로드
+	@PostMapping("summernoteFReplyUpload")
+	@ResponseBody
+	public String summernoteFReplyUpload(@RequestParam MultipartFile rfFile) throws Exception {
+		String urlLink = "";
+		if (!rfFile.isEmpty()) {
+			String oriFName = rfFile.getOriginalFilename();
+			long time = System.currentTimeMillis();
+			String upFName = time + "_" + oriFName;
+			String fupload = "c:/upload/";
+
+			// 파일업로드 부분
+			File f = new File(fupload + upFName);
+			rfFile.transferTo(f);
+
+			// 파일저장위치
+			urlLink = "/upload/" + upFName;
+			System.out.println("summernoteUpload 파일저장 위치 : " + urlLink);
+		} // if
+		return urlLink;
+	}// summerNote(답글)
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 자유
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 게시판
 
 }// CController

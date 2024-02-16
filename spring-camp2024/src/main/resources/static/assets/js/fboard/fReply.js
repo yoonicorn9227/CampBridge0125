@@ -40,7 +40,6 @@ $(function() {
 				}//if
 			}//onPaste
 		} //callbacks
-
 	});//summernote	
 
 	$("#replySaveBtn").click(function() {

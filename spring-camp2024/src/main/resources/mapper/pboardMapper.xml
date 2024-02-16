@@ -3,152 +3,186 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- PBoardMapper.java 연결 -->
 <mapper namespace="com.java.www.mapper.PBoardMapper">
-	
-	<!-- 1. 파티원 모집 전체리스트 -->
+
+	<!-- 1. 파티원 모집 - 전체 리스트 가져오기 -->
 	<select id="pSelectAll" resultType="com.java.www.dto.PBoardDto">
 		select * from
-		(select row_number() over(order by p_bno desc) rnum, a.* from p_board a  
-		<if test="pCategory=='p_btitle' or pCategory=='p_bcontent' or pCategory=='p_local' or pCategory=='id'">
+		(select row_number() over(order by p_bno desc) rnum, a.*
+		from p_board a
+		<if
+			test="pCategory=='p_btitle' or pCategory=='p_bcontent' or pCategory=='p_local' or pCategory=='id'">
 			where ${pCategory} like '%'||#{pSearchWord}||'%'
 		</if>
 		<if test="pCategory=='all'">
-			where p_btitle like '%'||#{pSearchWord}||'%' 
-			or p_bcontent like '%'||#{pSearchWord}||'%' 
-			or p_local like '%'||#{pSearchWord}||'%' 
-			or id like '%'||#{pSearchWord}||'%' 
+			where p_btitle like '%'||#{pSearchWord}||'%'
+			or p_bcontent
+			like '%'||#{pSearchWord}||'%'
+			or p_local like '%'||#{pSearchWord}||'%'
+			or id like '%'||#{pSearchWord}||'%'
 		</if>
 		)
 		where rnum between #{startRow} and #{endRow}
 	</select>
-	
-	<!-- 파티원 모집 전체리스트 갯수 (검색어 없을시 null) all, p_btitle,p_bcontent... -->
-	<select id="pSelcountAll" resultType="int"> 
-		select count(*) from p_board 
-		<if test="pCategory=='p_btitle' or pCategory=='p_bcontent' or pCategory=='p_local' or pCategory=='id'">
-			 where ${pCategory} like '%'||#{pSearchWord}||'%'
+
+	<!-- 1.1 - 파티원 모집 - 게시글 전체갯수 (검색어 없을시 null) all, p_btitle,p_bcontent... -->
+	<select id="pSelcountAll" resultType="int">
+		select count(*) from p_board
+		<if
+			test="pCategory=='p_btitle' or pCategory=='p_bcontent' or pCategory=='p_local' or pCategory=='id'">
+			where ${pCategory} like '%'||#{pSearchWord}||'%'
 		</if>
 		<if test="pCategory=='all'">
-			where p_btitle like '%'||#{pSearchWord}||'%' 
-			or p_bcontent like '%'||#{pSearchWord}||'%' 
-			or p_local like '%'||#{pSearchWord}||'%' 
-			or id like '%'||#{pSearchWord}||'%' 
+			where p_btitle like '%'||#{pSearchWord}||'%'
+			or p_bcontent
+			like '%'||#{pSearchWord}||'%'
+			or p_local like '%'||#{pSearchWord}||'%'
+			or id like '%'||#{pSearchWord}||'%'
 		</if>
 	</select>
-	
-	<!-- 파티원 모집 게시글 1개 가져오기 -->
+
+	<!-- 2. 파티원 모집 - 게시글 작성 -->
+	<insert id="pWrite">
+		insert into p_board values
+		(p_board_seq.nextval,#{id},#{p_btype},#{p_btitle},#{p_bcontent},sysdate,#{p_local},#{p_bnum},0,#{p_bfile})
+	</insert>
+
+	<!-- 3. 파티원 모집 - 게시글 1개 가져오기 -->
 	<select id="pSelectOne" resultType="com.java.www.dto.PBoardDto">
-	 	select * from p_board where p_bno=#{p_bno}
+		select * from p_board where
+		p_bno=#{p_bno}
 	</select>
-	<!-- 파티참여 인원 가져오기 -->
-	<select id="pJoinSelectAll" resultType="com.java.www.dto.PJoinDto">
-		select b.nickname,b.m_img, a.* from p_join a, user_camp b where a.id = b.id and p_bno=#{p_bno}
+
+	<!-- 파티원 모집 - 게시글 파티참여 인원 가져오기 -->
+	<select id="pJoinSelectAll"
+		resultType="com.java.www.dto.PJoinDto">
+		select b.nickname,b.m_img, a.* from p_join a, user_camp b
+		where a.id = b.id and p_bno=#{p_bno}
 	</select>
-	<!-- 파티원 게시글 하단댓글 가져오기 -->
-	<select id="pCommentSelectAll" resultType="com.java.www.dto.PCommentDto">
+
+	<!-- 파티원 모집 하단댓글 모두 가져오기 -->
+	<select id="pCommentSelectAll"
+		resultType="com.java.www.dto.PCommentDto">
 		select * from p_comment where p_bno=#{p_bno}
 	</select>
-	<!-- 파티원 게시글 하단댓글 1개 저장 -->
-	<insert id="pCommentInsert">
-		<selectKey resultType="com.java.www.dto.PCommentDto" keyProperty="p_cno,p_cdate" order="BEFORE">
-		  select p_comment_seq.nextval p_cno, sysdate p_cdate from dual
-		</selectKey> 
-	 	insert into p_comment values (#{p_cno},#{p_bno},#{id},#{p_cpw},#{p_ccontent},sysdate)
-	</insert>
-	<!-- 파티원 게시글 하단댓글 1개 삭제 -->
-	<delete id="pCommentDelete">
-		delete p_comment where p_cno=#{p_cno}
-	</delete>
-	<!-- 파티원 게시글 하단댓글 1개 수정저장 -->
-	<update id="pCommentUpdate">
-		update p_comment set p_cpw=#{p_cpw}, p_ccontent=#{p_ccontent}, p_cdate=sysdate where p_cno=#{p_cno}
-	</update>
-	<!-- 파티원 게시글 하단댓글 1개 가져오기 -->
-	<select id="pCommentSelectOne" resultType="com.java.www.dto.PCommentDto">
-		select * from p_comment where p_cno=#{p_cno}
-	</select>
-	
-	<!-- 파티원 게시글 게시글 1개 삭제 -->
-	<delete id="pDelete">
-	 	delete p_board where p_bno=#{p_bno}
-	</delete>
-	
-	<!-- 파티원 게시글 게시글 1개 수정저장 -->
+
+	<!-- 4. 파티원 모집 - 게시글 1개 수정하기 저장 -->
 	<update id="doPUpdate">
-		update p_board set p_btype=#{p_btype},p_btitle=#{p_btitle},p_bcontent=#{p_bcontent},p_local=#{p_local},p_bnum=#{p_bnum},p_bdate=sysdate,p_bfile=#{p_bfile} where p_bno=#{p_bno}
+		update p_board set
+		p_btype=#{p_btype},p_btitle=#{p_btitle},p_bcontent=#{p_bcontent},p_local=#{p_local},p_bnum=#{p_bnum},
+		p_bdate=sysdate,p_bfile=#{p_bfile} where p_bno=#{p_bno}
 	</update>
-	
+
+	<!-- 5. 파티원 모집 - 게시글 1개 삭제하기 -->
+	<delete id="pDelete">
+		delete p_board where p_bno=#{p_bno}
+	</delete>
+
+
+	<!-- 6. 파티원 참여 - 파티원 1명 참가(저장) -->
 	<insert id="partyJoin">
-	    <selectKey resultType="com.java.www.dto.PJoinDto" keyProperty="p_jcno" order="BEFORE">
-	        select p_join_seq.nextval p_jcno from dual
-	    </selectKey>
-    	insert into p_join (p_jcno, p_bno, id, nickname, m_img) 
-    	select #{p_jcno}, #{p_bno}, id, uc.nickname,uc.m_img from user_camp uc
-    	where uc.id=#{id}
+		<selectKey resultType="com.java.www.dto.PJoinDto"
+			keyProperty="p_jcno" order="BEFORE">
+			select p_join_seq.nextval p_jcno from dual
+		</selectKey>
+		insert into p_join (p_jcno, p_bno, id, nickname, m_img)
+		select
+		#{p_jcno}, #{p_bno}, id, uc.nickname,uc.m_img from user_camp uc
+		where
+		uc.id=#{id}
 	</insert>
-	<select id="partySelectOne" resultType="com.java.www.dto.PJoinDto">
+
+	<!-- 6. 파티원 참여 - 파티원 1명 불러오기 -->
+	<select id="partySelectOne"
+		resultType="com.java.www.dto.PJoinDto">
 		select * from p_join where p_jcno=#{p_jcno}
 	</select>
-	
-	<!-- 파티원 게시글 하단댓글 1개 삭제 -->
+
+	<!-- 6. 파티원 참여 - 참가인원 1증가 -->
+	<update id="pJoinNum">
+		update p_board set p_joinnum=p_joinnum+1 where
+		p_bno=#{p_bno}
+	</update>
+
+	<!-- 7. 파티원 모집 - 1명 탈퇴(삭제) -->
 	<delete id="pJoinDelete">
 		delete p_join where p_jcno=#{p_jcno}
 	</delete>
-	
-	<insert id="pWrite">
-		insert into p_board values (p_board_seq.nextval,#{id},#{p_btype},#{p_btitle},#{p_bcontent},sysdate,#{p_local},#{p_bnum},0,#{p_bfile})
+
+	<!-- 7. 파티원 모집 - 참가인원 1감소 -->
+	<update id="pJoinNumDown">
+		update p_board set p_joinnum=p_joinnum-1 where
+		p_bno=#{p_bno}
+	</update>
+
+	<!-- 8. 파티원 모집 - 하단댓글 1개 저장 -->
+	<insert id="pCommentInsert">
+		<selectKey resultType="com.java.www.dto.PCommentDto"
+			keyProperty="p_cno,p_cdate" order="BEFORE">
+			select p_comment_seq.nextval p_cno,
+			sysdate p_cdate from dual
+		</selectKey>
+		insert into p_comment values
+		(#{p_cno},#{p_bno},#{id},#{p_cpw},#{p_ccontent},sysdate)
 	</insert>
-	
+
+	<!-- 9. 파티원모집 - 하단댓글 1개 수정저장 -->
+	<update id="pCommentUpdate">
+		update p_comment set p_cpw=#{p_cpw},
+		p_ccontent=#{p_ccontent}, p_cdate=sysdate where p_cno=#{p_cno}
+	</update>
+
+	<!-- 9. 파티원 모집 - 원본댓글 1개 가져오기 -->
+	<select id="pCommentSelectOne"
+		resultType="com.java.www.dto.PCommentDto">
+		select * from p_comment where p_cno=#{p_cno}
+	</select>
+
+	<!-- 10.파티원모집 - 하단댓글 1개 삭제 -->
+	<delete id="pCommentDelete">
+		delete p_comment where p_cno=#{p_cno}
+	</delete>
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-<!--*********************************************************** -->	
+
+
+
+
+
+	<!--*********************************************************** -->
 	<!-- 파티원 모집 전체리스트 검색어 리스트갯수(pSelectAll에 합치고 삭제 -->
 	<select id="pSelSearchCountAll" resultType="int">
-		select count(*) from p_board 
+		select count(*) from p_board
 		<if test="pCategory!='all'">
 			where ${pCategory} like '%'||#{pSearchWord}||'%'
 		</if>
 		<if test="pCategory=='all'">
-			where p_btitle like '%'||#{pSearchWord}||'%' 
-			or p_bcontent like '%'||#{pSearchWord}||'%' 
-			or p_local like '%'||#{pSearchWord}||'%' 
-			or id like '%'||#{pSearchWord}||'%' 
+			where p_btitle like '%'||#{pSearchWord}||'%'
+			or p_bcontent
+			like '%'||#{pSearchWord}||'%'
+			or p_local like '%'||#{pSearchWord}||'%'
+			or id like '%'||#{pSearchWord}||'%'
 		</if>
 	</select>
-	
+
 	<!-- 1. 파티원 모집 검색어 전체리스트 -->
-	<select id="pSelectSearchAll" resultType="com.java.www.dto.PBoardDto">
+	<select id="pSelectSearchAll"
+		resultType="com.java.www.dto.PBoardDto">
 		select * from
-		(select row_number() over(order by p_bno desc) rnum, a.* from p_board a 
+		(select row_number() over(order by p_bno desc) rnum, a.*
+		from p_board a
 		<if test="pCategory!='all'">
 			where ${pCategory} like '%'||#{pSearchWord}||'%'
 		</if>
 		<if test="pCategory=='all'">
-			where p_btitle like '%'||#{pSearchWord}||'%' 
-			or p_bcontent like '%'||#{pSearchWord}||'%' 
-			or p_local like '%'||#{pSearchWord}||'%' 
-			or id like '%'||#{pSearchWord}||'%' 
+			where p_btitle like '%'||#{pSearchWord}||'%'
+			or p_bcontent
+			like '%'||#{pSearchWord}||'%'
+			or p_local like '%'||#{pSearchWord}||'%'
+			or id like '%'||#{pSearchWord}||'%'
 		</if>
 		)
 		where rnum between #{startRow} and #{endRow}
 	</select>
-	<!--*********************************************************** -->	
+	<!--*********************************************************** -->
 
 </mapper>

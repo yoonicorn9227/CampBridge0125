@@ -37,7 +37,7 @@ public interface PService {
 	void doPUpdate(PBoardDto pbdto);
 
 	// 2. 파티원 게시글 파티원 탈퇴
-	String pJoinDelete(int p_jcno);
+	String pJoinDelete(int p_jcno, PJoinDto pjdto);
 
 	//파티원 게시글 저장
 	void pWrite(PBoardDto pbdto);

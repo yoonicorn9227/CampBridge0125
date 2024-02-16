@@ -98,6 +98,11 @@ textarea{border-radius:10px; border: 2px solid #009223;}
 .selNextPrev:hover{text-decoration: underline; color: olive; font-weight: 700; }
 
 
+#pJoinDelBtn{display: inline; list-style: none; cursor: pointer; }
+#pJoinDelBtnTxt{font-weight: 700; color:rgba(0, 0, 0, 0.4);}
+#pJoinDelBtn:hover{display: inline; list-style: none; cursor: pointer; }
+#pJoinDelBtnTxt:hover{font-weight: 700; transition: all 0.2s; color: red;}
+
 
 
 
