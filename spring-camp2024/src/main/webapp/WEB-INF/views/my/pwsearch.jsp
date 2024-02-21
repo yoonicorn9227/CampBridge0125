@@ -38,7 +38,7 @@
 	<%@include file="../include/header.jsp" %>
 	<!-- End Header -->
 			<section class="signUp_02">
-					<img src="../assets/img/send_icon.png">
+					<img src="../assets/img/login/send_icon.png">
 					<h1>회원님 <span> 비밀번호 임시번호 </span> 를 메일로 발송해드렸습니다.</h1>
 					
 					<div class="amount3">

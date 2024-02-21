@@ -1,0 +1,108 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- FBoardMapper.java 연결 -->
+<mapper namespace="com.java.www.mapper.FBoardMapper">
+	<!-- 4.자유게시판 - 전체가져오기 -->
+	<select id="fselectAll" resultType="com.java.www.dto.FBoardDto">
+		select * from (select row_number() over(order by f_bgroup desc, f_bstep asc) rnum, a.* from f_board a
+		 <if test="searchTitle=='f_btitle' or searchTitle=='f_bcontent' or searchTitle=='id'">
+             where ${searchTitle} like '%'||#{searchWord}||'%'
+         </if>
+         <if test="searchTitle=='all'">
+           	 where f_btitle like '%'||#{searchWord}||'%' or f_bcontent like '%'||#{searchWord}||'%'
+         </if>
+		) where rnum between #{startRow} and #{endRow}
+	</select>
+
+	<!-- 4.자유게시판 - 게시글 총갯수 null, all, f_btitle, f_bcontent -->
+	<select id="fSelcountAll" resultType="int">
+		select count(*) from f_board
+        <if test="searchTitle =='f_btitle' or searchTitle =='f_bcontent' or searchTitle=='id'">
+          where ${searchTitle} like '%'||#{searchWord}||'%'
+        </if>
+        <if test="searchTitle=='all'">
+          where f_btitle like '%'||#{searchWord}||'%' or f_bcontent like '%'||#{searchWord}||'%'
+        </if>
+	</select>
+	
+	<!-- 4.자유게시판 - 게시글 1개가져오기 : 현재글 -->
+	<select id="fSelectOne" resultType="com.java.www.dto.FBoardDto">
+		select * from f_board where f_bno=#{f_bno}
+	</select>
+	
+	<!-- 4.자유게시판 - 게시글 1개가져오기 : 이전글 -->
+	<select id="fSelectOnePrev" resultType="com.java.www.dto.FBoardDto">
+		select * from (select rownum rnum, a.* from 
+		(select * from f_board order by f_bno desc) a )
+		where rnum =(select rnum from (select rownum rnum, a.* from 
+		(select * from f_board order by f_bno desc) a)
+		where f_bno=#{f_bno})+1		
+	</select>
+	
+	<!-- 4.자유게시판 - 게시글 1개가져오기 : 다음글 -->
+	<select id="fSelectOneNext" resultType="com.java.www.dto.FBoardDto">
+		select * from (select rownum rnum, a.* from 
+		(select * from f_board order by f_bno desc) a )
+		where rnum =(select rnum from (select rownum rnum, a.* from 
+		(select * from f_board order by f_bno desc) a)
+		where f_bno=#{f_bno})-1		
+	</select>
+	
+	<select id="fCommentSelectAll" resultType="com.java.www.dto.FCommentDto">
+		select * from f_comment where f_bno=#{f_bno} order by f_cno desc	
+	</select>
+	
+	<!-- 4.자유게시판 - 조회수 1증가 -->
+	<update id="fHitUp">
+		update f_board set f_bhit=f_bhit+1 where f_bno=#{f_bno}
+	</update>
+	
+	<!-- 4.자유게시판 - 게시글 저장(파일저장) -->
+	<insert id="fWrite">
+	 	insert into f_board values(f_board_seq.nextval,#{id},#{f_btype},#{f_btitle},#{f_bcontent},sysdate,0,f_board_seq.currval,0,0,#{f_bfile})
+	</insert>
+	
+	<!-- 4.자유게시판 - 게시글 수정저장 -->
+	<update id="doFUpdate">
+		update f_board set f_btype=#{f_btype},f_btitle=#{f_btitle},f_bcontent=#{f_bcontent},f_bdate=sysdate,f_bfile=#{f_bfile} where f_bno=#{f_bno}
+	</update>
+	
+	<!-- 4.자유게시판 - 게시글 삭제 -->
+	<delete id="fDelete">
+		delete f_board where f_bno=#{f_bno}
+	</delete>
+	
+	<!-- 4.자유게시판 - 다른게시글 f_bstep 1증가 -->
+	<update id="fBstepUp">
+		update f_board set f_bstep=f_bstep+1 where f_bgroup=#{f_bgroup} and f_bstep>#{f_bstep}
+	</update>
+	<!-- 4.자유게시판 - 답변달기 저장 -->
+	<insert id="doFReply">
+		insert into f_board values(f_board_seq.nextval,#{id},#{f_btype},#{f_btitle},#{f_bcontent},sysdate,0,
+		#{f_bgroup},#{f_bstep}+1,#{f_bindent}+1,#{f_bfile})
+	</insert>
+	
+	<!-- 4.자유게시판 - 게시글 하단댓글 저장 -->
+	<insert id="fCommentInsert">
+		<selectKey resultType="com.java.www.dto.FCommentDto" keyProperty="f_cno,f_cdate" order="BEFORE">
+			select f_comment_seq.nextval f_cno,sysdate f_cdate from dual
+		</selectKey>
+		insert into f_comment values(#{f_cno},#{f_bno},#{id},#{f_cpw},#{f_ccontent},sysdate)
+	</insert>
+	
+	<!-- 4.자유게시판 - 게시글 하단댓글 삭제 -->
+	<delete id="fCommentDelete">
+		delete f_comment where f_cno=#{f_cno}
+	</delete>
+	
+	<select id="FCommentSelectOne" resultType="com.java.www.dto.FCommentDto">
+	 	select * from f_comment where f_cno=#{f_cno}
+	</select>
+	
+	<update id="FCommentUpdate">
+		update f_comment set f_cpw=#{f_cpw}, f_ccontent=#{f_ccontent}, f_cdate=sysdate where f_cno=#{f_cno}
+	</update>
+	
+
+</mapper>

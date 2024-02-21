@@ -43,7 +43,25 @@ input[type="radio"]{display: none; float: left;}
 input[type="radio"]+label{display: inline-block; margin-top: -57px; float: left; padding: 15px; background: #ffce32; color: black; font-weight: 700; font-size: 20px; cursor: pointer; border-top-left-radius: 10px; border-top-right-radius: 10px;}
 input[type="radio"]:checked+label{background: #009223; color: #fff; float: left; margin-top: -57px;} 
 
+.brief_description {
+    width: 230px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    max-height: 2.9em; /* 2줄의 높이를 기준으로 조절, font-size 및 line-height에 따라 조절 필요 */
+    margin-right: 10px;
+}
 
+.brief_title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block; /* 또는 block 등, 요구에 따라 설정 */
+    max-width: 100%; /* 원하는 최대 너비로 설정 */
+    margin-right: 10px;
+}
 
 #contentWrap {
 	position: relative;
@@ -79,8 +97,6 @@ input[type="radio"]:checked+label{background: #009223; color: #fff; float: left;
 	margin-left: auto;
 	margin-right: auto;
 }
-
-
 
 #contentWrap:after {
 	content: "";
@@ -209,9 +225,11 @@ input {
 	font-size: 12px;
 	color: #1c1c1c;
 	line-height: 1.25;
-	font-family: 'Noto Sans KR', 'Montserrat', sans-serif;
-	margin: 0;
+	margin-left:10px;
 	padding: 0;
+	margin-top: -3px;
+    vertical-align: middle;
+    accent-color: #009223;
 }
 
 input[type="hidden" i] {
@@ -224,17 +242,7 @@ input[type="hidden" i] {
 }
 
 fieldset {
-	border: 0 none;
-	margin: 0;
-	padding: 0;
-	display: block;
-	margin-inline-start: 2px;
-	margin-inline-end: 2px;
-	padding-block-start: 0.35em;
-	padding-inline-start: 0.75em;
-	padding-inline-end: 0.75em;
-	padding-block-end: 0.625em;
-	min-inline-size: min-content;
+	margin-top: 20px;
 }
 
 legend {
@@ -249,19 +257,16 @@ legend {
 	border-image: initial;
 }
 
-.bbs-sch label {
+#re_category{display: none;}
+
+#re_category {
 	position: relative;
-    top: 5px;
+    margin-top: 0px;
     margin-right: 10px;
     font-size: 16px;
     cursor: default;
     color: #7f7f90;
-}
-
-.bbs-sch label input {
-	margin-top: -3px;
-    vertical-align: middle;
-    accent-color: #009223;
+    
 }
 
 .bbs-sch {
@@ -274,11 +279,11 @@ legend {
 }
 
 .bbs-sch .MS_input_txt {
-	margin: 0;
-	padding: 0 0 0 5px;
+	margin: -11px 0 0 0;
 	width: 178px;
 	height: 28px;
 	border: 1px solid #c3c3c3;
+	padding-left: 10px;
 }
 
 .MS_input_txt {
@@ -309,6 +314,7 @@ a:-webkit-any-link {
 	top: 4px;
 	height: 28px;
 	vertical-align: top;
+	margin: -23px 0 0 0;
 }
 
 img {
@@ -504,7 +510,7 @@ img {
 
 .bbs-btm .bbs-link a {
 	position:relative;
-	top: 10px;
+	top: -115px;
     margin-left: 3px;
     width: 108px;
     height: 38px;
@@ -565,6 +571,7 @@ a {
 
 /* 카드형 리스트 내용  */
 .heartwrap{
+	margin-top: -15px;
     margin-bottom: 10px;
     border-bottom: 1px #ddd solid;
     padding-bottom: 10px;
@@ -572,8 +579,8 @@ a {
 }
 
 .heart1{
-	margin-left: 200px;
-	width: 15px;
+	margin-left: 205px;
+	width: 17px;
 }
 
 
@@ -582,26 +589,26 @@ a {
     display: inline-block;
     height: 26px;
     line-height: 26px;
-    font-size: 13px;
+    font-size: 15px;
     color: #808080;
     position: relative;
-    top: 20px;
+    top: 5px;
 }
 
 .reviewhit{
 	color: #666;
-    font-size: 13px;
+    font-size: 15px;
     position: relative;
-    left: 60px;
-    top: 25px;
+    left: -10px;
+    top: 7px;
+    float: right;
 }
 
 /* 하단 넘버링  */
 .page-num-review {
 	position: relative;
-	left: 50px;
-	top: 150px;
-	margin-top: 100px;
+	left: 5px;
+	top: -60px;
 	display: flex;
 	justify-content: center;
 }
@@ -613,6 +620,7 @@ a {
 	padding: 0;
 	cursor: pointer;
 	border-radius: 5px;
+	font-size: 16px;
 }
 
 .num-review {
@@ -622,6 +630,17 @@ a {
 	list-style: none;
 	font-weight: 700;
 }
+
+.on {
+	width: 36px;
+	height: 35px;
+	padding: 0;
+	list-style: none;
+	font-weight: 700;
+	background: #009223;
+	color: #ffce32;
+}
+
 
 .num-review:hover {
 	width: 36px;
@@ -636,11 +655,11 @@ a {
 }
 
 .first-num {
-	background: url(../img/list/btn_pre00.png) no-repeat;
+	background: url(../../img/list/btn_pre00.png) no-repeat;
 }
 
 .prev-num {
-	background: url(../img/list/btn_pre01.png) no-repeat;
+	background: url(../../img/list/btn_pre01.png) no-repeat;
 }
 
 .num-review {
@@ -661,11 +680,12 @@ a {
 }
 
 .next-num {
-	background: url(../img/list/btn_next01.png) no-repeat;
+	background: url(../../img/list/btn_next01.png) no-repeat;
 }
 
 .last-num {
-	background: url(../img/list/btn_next00.png) no-repeat;
+	background: url(../../img/list/btn_next00.png) no-repeat;
 }
 
+.list_wrap{height: 1100px;  border-top: 3px solid #009223; border-bottom: 3px solid #009223;}
 

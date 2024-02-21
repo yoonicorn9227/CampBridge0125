@@ -1,0 +1,111 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <!--인터페이스 연결 MemberMapper.java -->  
+<mapper namespace="com.java.www.mapper.TBoardMapper"> 
+
+  	<!-- 게시글 전체 가져오기 -->
+	<select id="tb_selectAll" resultType="com.java.www.dto.TBoardDto">
+		 select *from (select rownum rnum, a.* from
+		 (select * from t_board
+		 	<if test="searchTitle == 't_btitle' or searchTitle == 't_bcontent' or searchTitle == 'id' ">
+				where ${searchTitle} like '%'||#{searchWord}||'%'
+			</if>
+			<if test="searchTitle == 'all' ">
+				where t_btitle like '%'||#{searchWord}||'%' or t_bcontent like '%'||#{searchWord}||'%' or id like '%'||#{searchWord}||'%'
+			</if>
+		  order by t_bgroup desc, t_bstep asc) a )
+		 where rnum between #{startRow} and  #{endRow}
+	</select>
+	
+	<!--게시글 총 개수  -->
+	<select id="tb_selectCountAll" resultType="int">
+		select count(*) from t_board
+		<if test="searchTitle == 't_btitle' or searchTitle == 't_bcontent' or searchTitle == 'id'">
+			where ${searchTitle} like '%'||#{searchWord}||'%'
+		</if>
+		<if test="searchTitle == 'all' ">
+			where t_btitle like '%'||#{searchWord}||'%' or t_bcontent like '%'||#{searchWord}||'%' or id like '%'||#{searchWord}||'%' 
+		</if>
+	</select>
+	
+	<!-- 게시글 1개 가져오기- 현재글  -->
+	<select id="tb_selectOne" resultType="com.java.www.dto.TBoardDto">
+		select * from t_board where t_bno=#{t_bno}
+	</select>
+	
+	<!-- 게시글 1개 가져오기- 이전글  -->
+	<select id="tb_selectOnePrev" resultType="com.java.www.dto.TBoardDto">
+		select * from (select row_number() over(order by t_bgroup desc,t_bstep asc)rnum, a.*from
+		t_board a ) where rnum = (select rnum from
+		(select row_number() over(order by t_bgroup desc,t_bstep asc)rnum, a.*from
+		t_board a)where t_bno=#{t_bno})+1
+	</select>
+	
+	<!-- 게시글 1개 가져오기- 다음글  -->
+	<select id="tb_selectOneNext" resultType="com.java.www.dto.TBoardDto">
+		select * from (select row_number() over(order by t_bgroup desc,t_bstep asc)rnum, a.*from
+		t_board a ) where rnum = (select rnum from
+		(select row_number() over(order by t_bgroup desc,t_bstep asc)rnum, a.*from
+		t_board a)where t_bno=#{t_bno})-1
+	</select>
+	<!-- 조회수 1증가 -->
+	<update id="t_bhitUp">
+		update t_board set t_bhit=t_bhit+1 where t_bno=#{t_bno}
+	</update>
+	
+	<!-- 게시글(글쓰기) 저장  -->
+	<insert id="tWrite">
+		insert into t_board values (t_board_seq.nextval,#{id},#{t_btitle},#{t_bcontent},sysdate,
+		0,t_board_seq.currval,0,0,#{t_bfile})
+	</insert>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="tDelete">
+		delete t_board where t_bno=#{t_bno}
+	</delete>
+	
+	<!-- 게시글 수정 저장 -->
+	<update id="doTBUpdate">
+		update t_board set t_btitle=#{t_btitle},t_bcontent=#{t_bcontent},t_bdate=sysdate,
+		t_bfile=#{t_bfile} where t_bno=#{t_bno}
+	</update>
+	
+	
+	<!--  ====== 댓글 ======  -->
+	<!-- 댓글 전체 가져오기  -->
+	<select id="TBCommemtSelectAll"  resultType="com.java.www.dto.TBCommentDto">
+		select * from t_comment where t_bno=#{t_bno} order by t_cno desc
+	</select>
+	<!-- db에 저장된 댓글 1개 가져오기  -->
+	<insert id="TBCommentInsert">
+		<selectKey resultType="int" keyProperty="t_cno" order="BEFORE">
+			select t_comment_seq.nextval from dual
+		</selectKey>
+		insert into t_comment values (#{t_cno},#{t_bno},#{id},#{t_cpw},#{t_ccontent},sysdate)
+	</insert>
+	<!-- 저장된 댓글 1개 가져오기  -->
+	<select id="TBCommemtSelectOne" resultType="com.java.www.dto.TBCommentDto">
+		select * from t_comment where t_cno=#{t_cno}
+	</select>
+	<!-- 댓글 삭제 하기 -->
+	<delete id="TBCommentDelete">
+		delete t_comment where t_cno=#{t_cno}
+	</delete>
+	<!-- 댓글 수정저장  -->
+	<update id="t_BCommentUpdate">
+		update t_comment set t_ccontent=#{t_ccontent},t_cdate=sysdate where t_cno=#{t_cno}
+	</update>
+	<!--  ====== 답변 ======  -->
+	<!-- 다른게시글 bstep 1증가  -->
+	<update id="tbstepUp">
+		update t_board set t_bstep=t_bstep+1 where t_bgroup=#{t_bgroup} and t_bstep>#{t_bstep}
+	</update>
+	<!-- 답변달기 저장  -->
+	<insert id="doTBReply">
+		insert into t_board values (t_board_seq.nextval,#{id},#{t_btitle},#{t_bcontent},sysdate,
+		1,#{t_bgroup},#{t_bstep}+1,#{t_bindent}+1,#{t_bfile})
+	</insert>
+	
+	
+</mapper>

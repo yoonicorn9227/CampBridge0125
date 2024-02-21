@@ -3,6 +3,24 @@
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
+.login li {
+  display: inline-block;
+  margin-right: 10px; /* 필요에 따라 마진 조정 */
+  white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+}
+ .btn-book-a-table {
+  display: inline-block;
+  white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+}
+
+.nim-name{
+font-size: 16px;	
+}
+.out-name{
+font-size: 16px; 	
+}
+
+
 .header {
   background: #fff;
   transition: all 0.5s;

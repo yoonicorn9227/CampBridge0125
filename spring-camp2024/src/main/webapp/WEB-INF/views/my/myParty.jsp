@@ -48,7 +48,7 @@
 	 			<!-- 하나의 피드 시작 -->
 	 			<li class="oneFeedv">
 	 				<div class="imgContv">
-		 		      <a href=""><img src="../assets/img/mypage/firev.png"></a>
+		 		      <a href="../community/pView"><img src="../assets/img/mypage/firev.png"></a>
 	 				</div>
 		 			<div class="postTextBoxv">
 		 				<div class="wantParty">
@@ -57,7 +57,7 @@
 		 				<div class="wantParty2">
 		 					<div class="lineTitv">
 			 					<div class="partyTit">
-			 						<strong> 필요했던 밤 - 불멍캠프</strong>
+			 						<strong>불멍Night</strong>
 			 					</div>
 			 					<div class="recruitv">
 					 				<p>모집중</p>
@@ -71,7 +71,7 @@
 				 					<p>2/4<p>
 				 				</div>
 				 				<div class="moimPeriod">
-				 					<p>참여기간 : 24.01.02~01.03<p>
+				 					<p>참여기간 : 24.03.08~03.10<p>
 				 				</div>
 		 					</div><!--모집중  -->
 			 			</div>
@@ -81,7 +81,7 @@
 	 			<!-- 하나의 피드 시작 -->
 	 			<li class="oneFeedv">
 	 				<div class="imgContv">
-		 		      <a href=""><img src="../assets/img/mypage/valleyv.png"></a>
+		 		      <a href="../community/pView"><img src="../assets/img/mypage/valleyv.png"></a>
 	 				</div>
 		 			<div class="postTextBoxv">
 		 				<div class="wantParty">
@@ -90,10 +90,10 @@
 		 				<div class="wantParty2">
 		 					<div class="lineTitv">
 			 					<div class="partyTit">
-			 						<strong>계곡주변 캠핑장</strong>
+			 						<strong>계곡 주변 캠핑장</strong>
 			 					</div>
 			 					<div class="recruitv">
-					 				<p>모집중</p>
+					 				<p>모집완료</p>
 					 			</div>
 		 					</div>
 		 					<div class="moim" >
@@ -114,7 +114,7 @@
 	 			<!-- 하나의 피드 시작 -->
 	 			<li class="oneFeedv">
 	 				<div class="imgContv">
-		 		      <a href=""><img src="../assets/img/mypage/bbq.png"></a>
+		 		      <a href="../community/pView"><img src="../assets/img/mypage/bbq.png"></a>
 	 				</div>
 		 			<div class="postTextBoxv">
 		 				<div class="wantParty">
@@ -123,7 +123,7 @@
 		 				<div class="wantParty2">
 		 					<div class="lineTitv">
 			 					<div class="partyTit">
-			 						<strong>황금주말 바베큐파티</strong>
+			 						<strong>황금연휴 바베큐파티</strong>
 			 					</div>
 			 					<div class="recruitv">
 					 				<p>모집완료</p>

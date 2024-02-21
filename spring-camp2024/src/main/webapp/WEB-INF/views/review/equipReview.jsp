@@ -97,7 +97,7 @@
 							
 					
 						<!-- 카드형 리스트 -->
-						<div class="list_wrap" style="height: 1300px;  border-top: 3px solid #009223; border-bottom: 3px solid #009223;">
+						<div class="list_wrap" style="height: 1180px;  border-top: 3px solid #009223; border-bottom: 3px solid #009223;">
 							<ul>
 								<li class="item item1">
 									<div class="image">										
@@ -202,31 +202,31 @@
 
 						<!-- 하단 페이징 & 버튼 -->
 						<div class="bbs-btm">
+						
+						<div>
+							<ul class="page-num-review">
+								<li class="first-num"></li>
+								<li class="prev-num"></li>
+								<li class="num-review">1</li>
+								<li class="num-review">2</li>
+								<li class="num-review">3</li>
+								<li class="num-review">4</li>
+								<li class="num-review">5</li>
+								<li class="num-review">6</li>
+								<li class="num-review">7</li>
+								<li class="num-review">8</li>
+								<li class="num-review">9</li>
+								<li class="num-review">10</li>
+								<li class="next-num"></li>
+								<li class="last-num"></li>
+							</ul>
+						</div>
+							<!-- //하단 페이징 & 버튼 -->
+						
 							<div class="bbs-link">
-								<a
-									href="#"
+								<a href="#"
 									class="CSSbuttonWhite">글쓰기</a>
 							</div>
-
-							<div>
-								<ul class="page-num-review">
-									<li class="first-num"></li>
-									<li class="prev-num"></li>
-									<li class="num-review">1</li>
-									<li class="num-review">2</li>
-									<li class="num-review">3</li>
-									<li class="num-review">4</li>
-									<li class="num-review">5</li>
-									<li class="num-review">6</li>
-									<li class="num-review">7</li>
-									<li class="num-review">8</li>
-									<li class="num-review">9</li>
-									<li class="num-review">10</li>
-									<li class="next-num"></li>
-									<li class="last-num"></li>
-								</ul>
-							</div>
-							<!-- //하단 페이징 & 버튼 -->
 
 						</div>
 						<!-- //하단 페이징 & 버튼 -->

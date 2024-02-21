@@ -48,7 +48,82 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
+<style>
+#main{width:1500px; margin:20px auto; text-align: center; }
+#body{width:1600px; height:700px; margin:20px auto; border:3px solid black; }
+table{width:1400px; margin:0 auto; }
+table,th,td{border:1px solid black; border-collapse: collapse;}
+th{height:40px; }
+td{height:35px; }
+td img{width:50%;}
+.swiper-slide.event-item {
+width: 800px; height: 600px;
+background-size: cover; /* 이미지를 확장 또는 축소하여 가득 채우도록 설정 */
+background-position: center; /* 이미지를 가운데 정렬 */
+margin: 2px;
+margin-right: 10px; /* 간격 조절을 위한 마진 값 설정 */
+}
 
+.baroBtn{
+width: 100px;
+border-color: transparent;
+color: black;
+display: inline-block;
+margin-top: 10px;
+margin-left: 170px;
+padding: 5px 10px;
+font-size: 13px;
+letter-spacing: -1px;
+background: #ffce32;
+font-weight: 700;
+border-radius: 3px;
+transition: all 1s ease;
+opacity: 0.8; /* 바로가기 버튼의 투명도 조절 */
+}
+
+.baroBtn:hover{
+background: #009223; color: #fff; font-weight: 700;
+}
+
+.review_moredetail{
+border-color: transparent;
+color:black; display: inline-block;
+margin-top: 10px; 
+padding: 5px 10px; font-size: 13px; 
+letter-spacing: -1px; background: #FFCE32; 
+font-weight: 700; border-radius: 3px; transition: all 1s ease;
+}
+
+.review_moredetail:hover{
+background: #009223; color: #fff; font-weight: 700;
+}
+
+.swiper-slide.event-item {
+    position: relative;
+}
+
+.swiper-slide.event-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, -0); /* 사진의 투명도 조절 */
+    filter: contrast(200%); /* 컨트라스트를 150%로 조절, 필요에 따라 값 조절 가능 */
+    margin-right: 20px; /* 간격 조절을 위한 마진 값 설정 */
+}
+
+.swiper-slide.event-item:hover h3,
+.swiper-slide.event-item:hover .price {
+    color: #ffce32; /* 커서를 갖다 대었을 때 글꼴 색상 설정 */
+}
+
+.button {
+    text-align: center;
+}
+
+</style>
 <body>
 <!-- ======= Header ======= -->
 <%@include file="include/header.jsp" %>
@@ -58,7 +133,7 @@
 
   
       <!-- ======= 추천 캠핑 Section (Events Section) ======= -->
-    <section id="events" class="events">
+	<section id="events" class="events">
       <div class="container-fluid" data-aos="fade-up">
 
         <div class="section-header">
@@ -69,41 +144,193 @@
         <div id="search_go_top">
         <p class="search_go"><a href="#">더보기</a></p>  
         </div>
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(assets/img/main/events-1.jpg)">
-              <h3>(주)아웃오브파크</h3>
-              <div class="price align-self-start">강원도</div>
-              <p class="description">
-             이국적인 캐러밴과 알찬 부대시설
-              </p>
-            </div><!-- End Event item -->
-
-            <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(assets/img/main/events-2.jpg)">
-              <h3>동강전망휴양림오토캠핑장</h3>
-              <div class="price align-self-start">강원도</div>
-              <p class="description">
-              운해와 야경이 일품인 휴양림 속 야영장
-              </p>
-            </div><!-- End Event item -->
-
-            <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="background-image: url(assets/img/main/events-3.jpg)">
-              <h3>충주카누캠핑장</h3>
-              <div class="price align-self-start">충청북도</div>
-              <p class="description">
-               아름다운 충주호가 눈앞에 펼쳐지는 오토캠핑장
-              </p>
-            </div><!-- End Event item -->
-
+          <div class="swiper-wrapper" id="content">
+          <br>
+   			<!-- <form action="/search/campsearch_view" method="get" > -->
+         	<div class="swiper-slide event-item d-flex flex-column justify-content-end" style="width: 488px; height: 600px;background-image: ">
+               <h3></h3>
+               <div class="price align-self-start"></div>
+               <div class="price align-self-start"></div>
+               <button class="baroBtn">바로가기</button>
+            </div>
+         	 <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="width: 488px; height: 600px;background-image: ">
+              <h3></h3>
+              <div class="price align-self-start"></div>
+              <div class="price align-self-start"></div>
+              <button class="baroBtn">바로가기</button>
+            </div>
+         	 <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="width: 488px; height: 600px;background-image: ">
+              <h3></h3>
+              <div class="price align-self-start"></div>
+              <div class="price align-self-start"></div>
+               <button class="baroBtn">바로가기</button>   
+            </div>
+         	 <div class="swiper-slide event-item d-flex flex-column justify-content-end" style="width: 488px; height: 600px;background-image: ">
+              <h3></h3>
+              <div class="price align-self-start"></div>
+              <div class="price align-self-start"></div> 
+             <button class="baroBtn">바로가기</button>             
+            </div>
+           <!--  </form> -->
           </div>
           <div class="swiper-pagination"></div>
-          
         </div>
-
       </div>
-    </section><!-- End 추천캠핑 Section -->
-   
-  
+    </section>
+    		
+ 			<script>
+ 			//메인 상단 캠프장 추천 랜덤 출력 파트
+   			$(function () {      	
+	        	let _xml;
+	        	let _firstImageUrl = [];
+	        	let  _facltNm = [];
+	        	let _addr1 = [];
+	        	let _lineIntro = [];
+	        	let _tel = [];
+	        	let _lctCl = [];
+	        	let _facltDivNm = [];
+	        	let _induty = [];
+	        	let _tourEraCl = [];
+	        	let _operDeCl = [];
+	        	let _homepage = [];
+	        	let _sbrsEtc = [];
+	        	let _intro = [];
+	        	let _posblFcltyCl = [];
+	        	let _allar = [];
+	        	let _direction = [];
+	        	let _tooltip = [];
+	        	let _gnrlSiteCo = [];
+	        	let _autoSiteCo = [];
+	        	let _glampSiteCo = [];
+	        	let _caravSiteCo = [];
+	        	let _indvdlCaravSiteCo = [];
+	        	let _sbrsCl = [];
+	        	let _sitedStnc = [];
+	        	let _siteBottomCl1 = [];
+	        	let _siteBottomCl2 = [];
+	        	let _siteBottomCl3 = [];
+	        	let _siteBottomCl4 = [];
+	        	let _siteBottomCl5 = [];
+	        	let _siteMg1Width = [];
+	        	let _siteMg1Vrticl = [];
+	        	let _siteMg1Co = [];
+	        	let _eqpmnLendCl = [];
+	        	let _brazierCl = [];
+	        	let _extshrCo = [];
+	        	let _frprvtWrppCo = [];
+	        	let _frprvtSandCo = [];
+	        	let _fireSensorCo = []; 
+	        	let hdata = "";
+	        	
+	            $.ajax({
+	                url: '/searchCamp', 
+	                type: 'get',        
+	                data: {txt: 'txt'}, 
+	                dataType: 'xml',
+	                success: function (data) {
+	                    var _xml = $(data).find("items");
+	                    var len = _xml.find("item").length;
+	                    for (var i = 0; i < len; i++) {
+	                        _firstImageUrl[i] = _xml.find('item').eq(i).find('firstImageUrl').text();
+	                        _facltNm[i] = _xml.find('item').eq(i).find('facltNm').text();
+	                        _addr1[i] = _xml.find('item').eq(i).find('addr1').text();
+	                        _lineIntro[i] = _xml.find('item').eq(i).find('lineIntro').text();
+	                        _tel[i] = _xml.find('item').eq(i).find('tel').text();
+	                        _lctCl[i] = _xml.find('item').eq(i).find('lctCl').text();
+	                        _facltDivNm[i] = _xml.find('item').eq(i).find('facltDivNm').text();
+	                        _induty[i] = _xml.find('item').eq(i).find('induty').text();
+	                        _tourEraCl[i] = _xml.find('item').eq(i).find('tourEraCl').text();
+	                        _operDeCl[i] = _xml.find('item').eq(i).find('operDeCl').text();
+	                        _homepage[i] = _xml.find('item').eq(i).find('homepage').text();
+	                        _sbrsEtc[i] = _xml.find('item').eq(i).find('sbrsEtc').text();
+	                        _intro[i] = _xml.find('item').eq(i).find('intro').text();
+	                        _posblFcltyCl[i] = _xml.find('item').eq(i).find('posblFcltyCl').text();
+	                        _allar[i] = _xml.find('item').eq(i).find('allar').text();
+	                        _direction[i] = _xml.find('item').eq(i).find('direction').text();
+	                        _tooltip[i] = _xml.find('item').eq(i).find('tooltip').text();
+	                        _gnrlSiteCo[i] = _xml.find('item').eq(i).find('gnrlSiteCo').text();
+	                        _autoSiteCo[i] = _xml.find('item').eq(i).find('autoSiteCo').text();
+	                        _glampSiteCo[i] = _xml.find('item').eq(i).find('glampSiteCo').text();
+	                        _caravSiteCo[i] = _xml.find('item').eq(i).find('caravSiteCo').text();
+	                        _indvdlCaravSiteCo[i] = _xml.find('item').eq(i).find('indvdlCaravSiteCo').text();
+	                        _sbrsCl[i] = _xml.find('item').eq(i).find('sbrsCl').text();
+	                        _sitedStnc[i] = _xml.find('item').eq(i).find('sitedStnc').text();
+	                        _siteBottomCl1[i] = _xml.find('item').eq(i).find('siteBottomCl1').text();
+	                        _siteBottomCl2[i] = _xml.find('item').eq(i).find('siteBottomCl2').text();
+	                        _siteBottomCl3[i] = _xml.find('item').eq(i).find('siteBottomCl3').text();
+	                        _siteBottomCl4[i] = _xml.find('item').eq(i).find('siteBottomCl4').text();
+	                        _siteBottomCl5[i] = _xml.find('item').eq(i).find('siteBottomCl5').text();
+	                        _siteMg1Width[i] = _xml.find('item').eq(i).find('siteMg1Width').text();
+	                        _siteMg1Vrticl[i] = _xml.find('item').eq(i).find('siteMg1Vrticl').text();
+	                        _siteMg1Co[i] = _xml.find('item').eq(i).find('siteMg1Co').text();
+	                        _eqpmnLendCl[i] = _xml.find('item').eq(i).find('eqpmnLendCl').text();
+	                        _brazierCl[i] = _xml.find('item').eq(i).find('brazierCl').text();
+	                        _extshrCo[i] = _xml.find('item').eq(i).find('extshrCo').text();
+	                        _frprvtWrppCo[i] = _xml.find('item').eq(i).find('frprvtWrppCo').text();
+	                        _frprvtSandCo[i] = _xml.find('item').eq(i).find('frprvtSandCo').text();
+	                        _fireSensorCo[i] = _xml.find('item').eq(i).find('fireSensorCo').text(); 
+	                        console.log("이름 : " + _facltNm[i]);  
+	                        console.log("사진 : " + _firstImageUrl[i]);  
+	                        console.log("주소 : " + _addr1[i]);
+	                        console.log("소개 : " + _lineIntro[i]);
+	                       	 //폼 형태로 fc컨트롤러 searchCamp 와 campsearch_view 에 공공데이터 정보를 보냄
+	                         hdata += '<form action="/campsearch_view" method="get" >'
+                         	 hdata += '<input type="hidden" name="_firstImageUrl" value="'+_firstImageUrl[i]+'" >' 
+                             hdata += '<input type="hidden" name="_addr1" value="'+_addr1[i]+'" >' 
+                             hdata += '<input type="hidden" name="_tel" value="'+_tel[i]+'" >' 
+                             hdata += '<input type="hidden" name="_lctCl " value="'+_lctCl[i]+'" >' 
+                             hdata += '<input type="hidden" name="_facltDivNm" value="'+_facltDivNm[i]+'" >' 
+                             hdata += '<input type="hidden" name="_induty" value="'+_induty[i]+'" >' 
+                             hdata += '<input type="hidden" name="_tourEraCl" value="'+_tourEraCl[i]+'" >' 
+                             hdata += '<input type="hidden" name="_operDeCl" value="'+_operDeCl[i]+'" >' 
+                             hdata += '<input type="hidden" name="_homepage" value="'+_homepage[i]+'" >' 
+                             hdata += '<input type="hidden" name="_sbrsEtc" value="'+_sbrsEtc[i]+'" >' 
+                             hdata += '<input type="hidden" name="_intro" value="'+_intro[i]+'" >' 
+                             hdata += '<input type="hidden" name="_posblFcltyCl" value="'+_posblFcltyCl[i]+'" >' 
+                             hdata += '<input type="hidden" name="_allar" value="'+_allar[i]+'" >' 
+                             hdata += '<input type="hidden" name="_direction" value="'+_direction[i]+'" >' 
+                             hdata += '<input type="hidden" name="_tooltip" value="'+_tooltip[i]+'" >' 
+                             hdata += '<input type="hidden" name="_gnrlSiteCo" value="'+_gnrlSiteCo[i]+'" >' 
+                             hdata += '<input type="hidden" name="_autoSiteCo" value="'+_autoSiteCo[i]+'" >' 
+                             hdata += '<input type="hidden" name="_glampSiteCo" value="'+_glampSiteCo[i]+'" >' 
+                             hdata += '<input type="hidden" name="_caravSiteCo" value="'+_caravSiteCo[i]+'" >' 
+                             hdata += '<input type="hidden" name="_indvdlCaravSiteCo" value="'+_indvdlCaravSiteCo[i]+'" >' 
+                             hdata += '<input type="hidden" name="_sbrsCl" value="'+_sbrsCl[i]+'" >' 
+                             hdata += '<input type="hidden" name="_sitedStnc" value="'+_sitedStnc[i]+'" >' 
+                             hdata += '<input type="hidden" name="_siteBottomCl1" value="'+_siteBottomCl1[i]+'" >' 
+                             hdata += '<input type="hidden" name="_siteBottomCl2" value="'+_siteBottomCl2[i]+'" >' 
+                             hdata += '<input type="hidden" name="_siteBottomCl3" value="'+_siteBottomCl3[i]+'" >' 
+                             hdata += '<input type="hidden" name="_siteBottomCl4" value="'+_siteBottomCl4[i]+'" >' 
+                             hdata += '<input type="hidden" name="_siteBottomCl5" value="'+_siteBottomCl5[i]+'" >' 
+                             hdata += '<input type="hidden" name="_siteMg1Width" value="'+_siteMg1Width[i]+'" >' 
+                             hdata += '<input type="hidden" name="_siteMg1Vrticl" value="'+_siteMg1Vrticl[i]+'" >' 
+                             hdata += '<input type="hidden" name="_siteMg1Co" value="'+_siteMg1Co[i]+'" >' 
+                             hdata += '<input type="hidden" name="_eqpmnLendCl" value="'+_eqpmnLendCl[i]+'" >' 
+                             hdata += '<input type="hidden" name="_brazierCl" value="'+_brazierCl[i]+'" >' 
+                             hdata += '<input type="hidden" name="_extshrCo" value="'+_extshrCo[i]+'" >' 
+                             hdata += '<input type="hidden" name="_frprvtWrppCo" value="'+_frprvtWrppCo[i]+'" >' 
+                             hdata += '<input type="hidden" name="_frprvtSandCo" value="'+_frprvtSandCo[i]+'" >' 
+                             hdata += '<input type="hidden" name="_fireSensorCo" value="'+_fireSensorCo[i]+'" >'  
+	                         hdata += '<div class="swiper-slide event-item d-flex flex-column justify-content-end" style="width: 488px; height: 600px; background-image: url(' + _firstImageUrl[i] + ')">';
+	                         hdata += '<h3>' +  _facltNm[i] + '</h3>';
+	                         hdata += '<div class="price align-self-start">' + _addr1[i] + '</div>';
+	                         hdata += '<div class="price align-self-start">' + _lineIntro[i] + '</div>';
+	                         hdata += '<button class="baroBtn">바로가기</button>';    
+	                         hdata += '</div>';  
+	                         hdata += '</form>';       
+	                    }
+	                    console.log(hdata);
+	                    $("#content").html(hdata);
+	                },
+	                error: function (xhr) {
+	                    console.error(xhr);
+	                }
+	            });
+	            });
+   	
+	            </script> 
+	                     
+	
  <!-- ======= review Section(Swiper) ======= -->
 		 <div class="section-header">
        	 <h2>Review</h2>
@@ -112,18 +339,18 @@
         
   	<section class="review_all">
 		<div class="swiper mySwiper container">
-			<div class="swiper-wrapper content1">
+			<div class="swiper-wrapper content1" id="reviewContent">
 				<!--  카드형 반복 -->
-				<div class="swiper-slide card1"> 
+				<!-- <form action="/review/review_equip" method="get" > -->
+				<div class="swiper-slide card1" style="width:300px; height:600px;">
 					<div class="box1"></div>
 					<div class="card-content">
-						<div class="image"> 
-						<img src="/assets/img/main/review_img01.jpg" alt="" >
+						<div class="image" style="width: 100%;"> 
+						<img src="" alt="" >
 						</div>
 					</div>
 					<div class="name_profession">
-						<span class="main_name">리뷰제목</span>
-						<span class="main_profession">작성자</span>
+						<span class="main_name"></span>
 					</div>
 					<div class="main_rating">
 						<i class="fa-solid fa-star"></i>
@@ -132,131 +359,124 @@
 						<i class="fa-solid fa-star"></i>
 						<i class="fa-solid fa-star"></i>
 					</div>
-					<div class="main_about">
-						<p>여기는 너무 좋고 좋아서 좋지만 좋으니 사랑해서 다시 사랑할 때!여기는 너무 좋고 좋아서 좋지만 좋으니 사랑해서 다시 사랑할 때!여기는 너무 좋고 좋아서 좋지만 좋으니 사랑해서 다시 사랑할 때!여기는 너무 좋고 좋아서 좋지만 좋으니 사랑해서 다시 사랑할 때!여기는 너무 좋고 좋아서 좋지만 좋으니 사랑해서 다시 사랑할 때!여기는 너무 좋고 좋아서 좋지만 좋으니 사랑해서 다시 사랑할 때!여기는 너무 좋고 좋아서 좋지만 좋으니 사랑해서 다시 사랑할 때!여기는 너무 좋고 좋아서 좋지만 좋으니 사랑해서 다시 사랑할 때!여기는 너무 좋고 좋아서 좋지만 좋으니 사랑해서 다시 사랑할 때!여기는 너무 좋고 좋아서 좋지만 좋으니 사랑해서 다시 사랑할 때!</p>
-					</div>
-					<div class="button b1">
-						<button class="review_moredetail">더보기</button>
+					<p style="margin-top: 20px;"></p>
+							<div class="main_about">
+							<p></p>
+							</div>
+							<div style="margin-top: -70px;">
+							<p style="position: relative; top:5px;"></p>
+							</div>
+							<div class="button b1">
+								<button class="review_moredetail">더보기</button>
+							</div>
 					</div>
 				</div>
+				<!-- </form> -->
 				<!-- 반복 끝 -->
-				
-				<div class="swiper-slide card1">
-					<div class="box1"></div>
-					<div class="card-content">
-						<div class="image">
-						<img src="/assets/img/main/review_img02.jpg" alt="" >
-						</div>
-					</div>
-					<div class="name_profession">
-						<span class="main_name">리뷰제목</span>
-						<span class="main_profession">작성자</span>
-					</div>
-					<div class="main_rating">
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-					</div>
-					<div class="main_about">
-						<p>여기는 너무 좋고 좋아서 좋지만 좋으니 사랑해서 다시 사랑할 때!</p>
-					</div>
-					<div class="button b1">
-						<button class="review_moredetail">더보기</button>
-					</div>
-				</div>
-				
-				
-				<div class="swiper-slide card1">
-					<div class="box1"></div>
-					<div class="card-content">
-						<div class="image">
-						<img src="/assets/img/main/review_img03.jpg" alt="" >
-						</div>
-					</div>
-					<div class="name_profession">
-						<span class="main_name">리뷰제목</span>
-						<span class="main_profession">작성자</span>
-					</div>
-					<div class="main_rating">
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-					</div>
-					<div class="main_about">
-						<p>여기는 너무 좋고 좋아서 좋지만 좋으니 사랑해서 다시 사랑할 때!</p>
-					</div>
-					<div class="button b1">
-						<button class="review_moredetail">더보기</button>
-					</div>
-				</div>
-				
-				<div class="swiper-slide card1">
-					<div class="box1"></div>
-					<div class="card-content">
-						<div class="image">
-						<img src="/assets/img/main/review_img04.jpg" alt="" >
-						</div>
-					</div>
-					<div class="name_profession">
-						<span class="main_name">리뷰제목</span>
-						<span class="main_profession">작성자</span>
-					</div>
-					<div class="main_rating">
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-regular fa-star"></i>
-						<i class="fa-regular fa-star"></i>
-					</div>
-					<div class="main_about">
-						<p>졸려서 졸립고 졸립다</p>
-					</div>
-					<div class="button b1">
-						<button class="review_moredetail">더보기</button>
-					</div>
-				</div>
-				<div class="swiper-slide card1">
-					<div class="box1"></div>
-					<div class="card-content">
-						<div class="image">
-						<img src="/assets/img/main/review_img05.jpg" alt="" >
-						</div>
-					</div>
-					<div class="name_profession">
-						<span class="main_name">리뷰제목</span>
-						<span class="main_profession">작성자</span>
-					</div>
-					<div class="main_rating">
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-solid fa-star"></i>
-						<i class="fa-regular fa-star"></i>
-					</div>
-					<div class="main_about">
-						<p>여기가 좋으니깐 좋다고 이야기를 하죠!</p>
-					</div>
-					<div class="button b1">
-						<button class="review_moredetail">더보기</button>
-					</div>
-				</div>
-				
 			</div>
-		</div>
 		<div class="swiper-button-next"></div>
 		<div class="swiper-button-prev"></div>
 		<div class="swiper-pagination"></div>
 	</section><!-- End Review section  -->
+		       
+	       <script>
+	       //메인 캠핑장 리뷰 랜덤 출력 파트
+	       $(function () {  
+	    	let _xml;
+            let _firstImageUrl = [];
+            let _facltNm = [];
+            let _lineIntro = [];
+            let _tooltip = [];    
+            let _addr1 = [];    
+            let _createdtime = [];    
+            let _direction = [];    
+            let _featureNm = [];    
+            let hdata = "";
+	            
+	            $.ajax({
+	                url: '/reviewCamp', 
+	                type: 'get',        
+	                data: {txt: '제주'}, 
+	                dataType: 'xml',
+	                success: function (data) {
+	                    var _xml = $(data).find("items");
+	                    var len = _xml.find("item").length;   
+	                    var hdata = ''; // hdata 변수를 이 위치로 이동
+
+	                    for (var i = 0; i < len; i++) {
+	                        _firstImageUrl[i] = _xml.find('item').eq(i).find('firstImageUrl').text();
+	                        _facltNm[i] = _xml.find('item').eq(i).find('facltNm').text();
+	                        _lineIntro[i] = _xml.find('item').eq(i).find('lineIntro').text() || '정보없음';
+	                        _tooltip[i] = _xml.find('item').eq(i).find('tooltip').text();   
+	                        _addr1[i] = _xml.find('item').eq(i).find('addr1').text();   
+	                        _createdtime[i] = _xml.find('item').eq(i).find('createdtime').text();   
+	                        _direction[i] = _xml.find('item').eq(i).find('direction').text();  
+	                        _featureNm[i] = _xml.find('item').eq(i).find('featureNm').text();  
+	                        console.log("사진 : " + _firstImageUrl[i]);  
+	                        console.log("제목 : " + _facltNm[i]);  
+	                        console.log("소개 : " + _lineIntro[i]);                        
+	                        console.log("리뷰 : " + _tooltip[i]);                        
+	                        console.log("리뷰 : " + _addr1[i]);                        
+	                        console.log("리뷰 : " + _createdtime[i]);                        
+	                        console.log("리뷰 : " + _direction[i])                                            
+	                        // 랜덤 별점 생성
+	                        let randomRating = Math.floor(Math.random() * 5) + 1;
+	                        //폼 형태로 reviewCamp 와 review_site 에 정보를 보냄(나중에 site로 고쳐야함!!)
+	                        hdata += '<div class="swiper mySwiper container">';
+	                        hdata += '<div class="swiper-wrapper content1" id="reviewContent">';
+	                        hdata += '<form action="/review_site2" method="get" >';
+	                        hdata += '<input type="hidden" name="_firstImageUrl" value="'+_firstImageUrl[i]+'" >' 
+	                        hdata += '<input type="hidden" name="_facltNm" value="'+_facltNm[i]+'" >' 
+	                        hdata += '<input type="hidden" name="_lineIntro" value="'+_lineIntro[i]+'" >' 
+	                        hdata += '<input type="hidden" name="_tooltip" value="'+_tooltip[i]+'" >' 
+	                        hdata += '<input type="hidden" name="_addr1" value="'+_addr1[i]+'" >' 
+	                        hdata += '<input type="hidden" name="_createdtime" value="'+_createdtime[i]+'" >'     
+	                        hdata += '<input type="hidden" name="_direction" value="'+_direction[i]+'" >'     
+	                        hdata += '<div class="swiper-slide card1" style="width:300px; height:600px;">';
+	                        hdata += '<div class="box1"></div>';
+	                        hdata += '<div class="card-content">';
+	                        hdata += '<div class="image" style="width: 100%;">';
+	                        hdata += '<img src="'+_firstImageUrl[i]+'" alt="">';
+	                        hdata += '</div>';
+	                        hdata += '</div>';
+	                        hdata += '<div class="name_profession">';
+	                        hdata += '<span class="main_name">'+_facltNm[i]+'</span>';
+	                        hdata += '</div>';
+	                        hdata += '<div class="main_rating">';
+	                        
+	                        // 랜덤 별점 적용
+	                        for(let j = 0; j < randomRating; j++) {
+	                            hdata += '<i class="fa-solid fa-star"></i>';
+	                        }
+	                        hdata += '</div>';
+	                        hdata += '<p style="margin-top: 20px;">'+_addr1[i]+'</p>';
+	                        hdata += '<div class="main_about">';
+	                        hdata += '<p>' + (_featureNm[i] ? _featureNm[i] : _lineIntro[i]) + '</p>';
+	                        hdata += '</div>';                     	                               
+	                        hdata += '<div class="button b1" style="position:relative; bottom:20px;">';    
+	                        hdata += '<button class="review_moredetail">더보기</button>';    
+	                        hdata += '</div>';            
+	                        hdata += '</div>';    
+	                        hdata += '</div>'; 
+	                        hdata += '</form>'; 
+	                        hdata += '</div>';           
+	                    }
+	                    console.log(hdata);
+	                    $("#reviewContent").html(hdata);
+	                },
+	                error: function (xhr) {
+	                    console.error(xhr);
+	                }
+	            });       
+	        });
+	          
+   		 </script> 	
 
   <!-- 날씨 Section -->
-      <section id="hero1">
+      <section id="hero1" style="position:relative; right: 150px;">
   		<div class="section-header">
           <h2>Weather</h2>
-          <p><i class="fa-solid fa-sun"></i><span> CampBridge</span> 날씨 </p>
+          <p style="position:relative; left: 150px;"><i class="fa-solid fa-sun"></i><span> CampBridge</span> 날씨 </p>
         </div>
 		<div id="weather_bg"><div id="id47f855e105530" a='{"t":"r","v":"1.2","lang":"ko","locs":[295],"ssot":"c","sics":"ds","cbkg":"rgb(69,90,100)","cfnt":"#FFFFFF","codd":"rgb(84,110,122)","cont":"#E0E0E0"}'>날씨 데이터 소스: <a href="https://sharpweather.com/weather_south_korea/30_days/">weather South Korea 30 days</a></div>
         </div>
@@ -315,34 +535,34 @@
             <div class="row gy-5">
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/main/bedding1.jpg"  class="glightbox"><img src="assets/img/main/bedding1.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>침낭</h4>
+                <a href="assets/img/main/sleepingbag.PNG"  class="glightbox"><img src="assets/img/main/sleepingbag.PNG" class="menu-img img-fluid" alt=""></a>
+                <h4>슬링핑백</h4>
                 <p class="price">
-                 1,000원
+                 10,000원
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/main/bedding2.jpg"  class="glightbox"><img src="assets/img/main/bedding2.jpg"class="menu-img img-fluid" alt=""></a>
+                <a href="assets/img/main/pillow.PNG"  class="glightbox"><img src="assets/img/main/pillow.PNG"class="menu-img img-fluid" alt=""></a>
+                <h4>필로우침구세트</h4>
+                <p class="price">
+                  15,000원
+                </p>
+              </div><!-- Menu Item -->
+
+              <div class="col-lg-4 menu-item">
+                <a href="assets/img/main/mat.PNG"  class="glightbox"><img src="assets/img/main/mat.PNG" class="menu-img img-fluid" alt=""></a>
                 <h4>발포매트</h4>
                 <p class="price">
-                  1,000원
+                  10,000원
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="assets/img/main/bedding3.jpg"  class="glightbox"><img src="assets/img/main/bedding3.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>전기장판</h4>
+                <a href="assets/img/main/blanket.PNG"  class="glightbox"><img src="assets/img/main/blanket.PNG" class="menu-img img-fluid" alt=""></a>
+                <h4>블랭켓</h4>
                 <p class="price">
-                  1,000원
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="assets/img/main/bedding4.jpg"  class="glightbox"><img src="assets/img/main/bedding4.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>베개</h4>
-                <p class="price">
-                  1,000원
+                  10,000원
                 </p>
               </div><!-- Menu Item -->
             </div>
@@ -358,27 +578,27 @@
             <div class="row gy-5">
 
               <div class="col-lg-4 menu-item">
-                <a href="#"><img src="assets/img/main/funiture1.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>의자</h4>
+                <a href="assets/img/main/chair.PNG"><img src="assets/img/main/chair.PNG" class="menu-img img-fluid" alt=""></a>
+                <h4>캠핑의자</h4>
                
                 <p class="price">
-                  1,000원
+                  59,000원
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="#"><img src="assets/img/main/funiture2.jpg" class="menu-img img-fluid" alt=""></a>
-                <h4>테이블</h4>
+                <a href="assets/img/main/table.PNG"><img src="assets/img/main/table.PNG" class="menu-img img-fluid" alt=""></a>
+                <h4>캠핑테이블</h4>
                 <p class="price">
-                  1,000원
+                  158,000원
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="#"><img src="assets/img/main/funiture3.jpg" class="menu-img img-fluid" alt=""></a>
+                <a href="assets/img/main/fieldbed.PNG"><img src="assets/img/main/fieldbed.PNG" class="menu-img img-fluid" alt=""></a>
                 <h4>야전침대</h4>
                 <p class="price">
-                  1,000원
+                  250,000원
                 </p>
               </div><!-- Menu Item -->
 
@@ -395,34 +615,34 @@
             <div class="row gy-5">
 
               <div class="col-lg-4 menu-item">
-                <a href="#"><img src="assets/img/main/tableware1.jpg" class="menu-img img-fluid" alt=""></a>
+                <a href="assets/img/main/coppell2.PNG"><img src="assets/img/main/coppell2.PNG" class="menu-img img-fluid" alt=""></a>
                 <h4>코펠2인</h4>
                 <p class="price">
-                 1,000원
+                 25,000원
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="#"><img src="assets/img/main/tableware2.jpg" class="menu-img img-fluid" alt=""></a>
+                <a href="assets/img/main/coppell4.PNG"><img src="assets/img/main/coppell4.PNG" class="menu-img img-fluid" alt=""></a>
                 <h4>코펠4인</h4>
                 <p class="price">
-                  1,000원
+                  30,000원
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="#"><img src="assets/img/main/tableware3.jpg" class="menu-img img-fluid" alt=""></a>
+                <a href="assets/img/main/iecboxsmall.PNG"><img src="assets/img/main/iecboxsmall.PNG" class="menu-img img-fluid" alt=""></a>
                 <h4>아이스박스28L</h4>
                 <p class="price">
-                  1,000원
+                  50,000원
                 </p>
               </div><!-- Menu Item -->
-
+              
               <div class="col-lg-4 menu-item">
-                <a href="#"><img src="assets/img/main/tableware4.jpg" class="menu-img img-fluid" alt=""></a>
+                <a href="assets/img/main/iecboxbig.PNG"><img src="assets/img/main/iecboxbig.PNG" class="menu-img img-fluid" alt=""></a>
                 <h4>아이스박스40L</h4>
                 <p class="price">
-                  1,000원
+                  70,000원
                 </p>
               </div><!-- Menu Item -->
 
@@ -440,47 +660,47 @@
             <div class="row gy-5">
 
               <div class="col-lg-4 menu-item">
-                <a href="#"><img src="assets/img/main/other1.jpg" class="menu-img img-fluid" alt=""></a>
+                <a href="assets/img/main/tarp.PNG"><img src="assets/img/main/tarp.PNG" class="menu-img img-fluid" alt=""></a>
                 <h4>타프</h4>
             
                 <p class="price">
-                  1,000원
+                  500,000원
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="#"><img src="assets/img/main/other2.jpg" class="menu-img img-fluid" alt=""></a>
+                <a href="assets/img/main/burner.PNG"><img src="assets/img/main/burner.PNG" class="menu-img img-fluid" alt=""></a>
                 <h4>버너</h4>
            
                 <p class="price">
-                  1,000원
+                  25,000원
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="#"><img src="assets/img/main/other3.jpg" class="menu-img img-fluid" alt=""></a>
+                <a href="assets/img/main/lantern.PNG"><img src="assets/img/main/lantern.PNG" class="menu-img img-fluid" alt=""></a>
                 <h4>랜턴</h4>
           
                 <p class="price">
-                 1,000원
+                 30,000원
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="#"><img src="assets/img/main/other4.jpg" class="menu-img img-fluid" alt=""></a>
+                <a href="assets/img/main/brazier.PNG"><img src="assets/img/main/brazier.PNG" class="menu-img img-fluid" alt=""></a>
                 <h4>화로대</h4>
            
                 <p class="price">
-                 1,000원
+                 45,000원
                 </p>
               </div><!-- Menu Item -->
 
               <div class="col-lg-4 menu-item">
-                <a href="#"><img src="assets/img/main/other5.jpg" class="menu-img img-fluid" alt=""></a>
+                <a href="assets/img/main/electricwire.PNG"><img src="assets/img/main/electricwire.PNG" class="menu-img img-fluid" alt=""></a>
                 <h4>전기릴선</h4>
           
                 <p class="price">
-                  1,000원
+                  200,000원
                 </p>
               </div><!-- Menu Item -->
 
@@ -657,8 +877,7 @@
           </div><!-- End Info Item -->
 
         </div>
-
-
+     
       </div>
     </section><!-- End Contact Section -->
 
@@ -672,7 +891,6 @@
   <!-- End Footer -->
 
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
   <div id="preloader"></div>
 
   <!-- Vendor JS Files -->

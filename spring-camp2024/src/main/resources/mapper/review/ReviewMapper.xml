@@ -1,0 +1,95 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- MemberMapper.java(InterFace) 연결 -->
+<mapper namespace="com.java.www.mapper.ReviewMapper">
+	
+	<!-- //캠핑리뷰 - 리스트(캠핑장)    전체글가져오기 -->
+	<select id="Cps_selectAll" resultType="com.java.www.dto.Cps_reviewDto">
+		select * from (select rownum rnum, a.* from(select * from Cps_review
+		
+			<if test="re_category == 'cps_sitename' or re_category == 'cps_btitle' or re_category == 'cps_bcontent'">
+				where ${re_category} like '%'||#{re_searchWord}||'%'
+			</if>
+			<if test="re_category == 're_all'">
+				where cps_sitename like '%'||#{re_searchWord}||'%' or cps_btitle like '%'||#{re_searchWord}||'%' or cps_bcontent like '%'||#{re_searchWord}||'%'
+			</if>
+			
+		order by cps_bno desc) a) where rnum between #{re_StartRow} and #{re_endRow}
+	</select>
+	<!-- //캠핑리뷰 - 리스트(캠핑장)    게시글 검색개수(null, all, btitle, bcontent가 넘어옴) -->
+	<select id="Cps_selectcountAll" resultType="int">
+		select count(*) from Cps_review
+		
+		<if test="re_category == 'cps_sitename' or re_category == 'cps_btitle' or re_category == 'cps_bcontent'">
+			where ${re_category} like '%'||#{re_searchWord}||'%'
+		</if>
+		<if test="re_category == 're_all'">
+			where cps_sitename like '%'||#{re_searchWord}||'%' or cps_btitle like '%'||#{re_searchWord}||'%' or cps_bcontent like '%'||#{re_searchWord}||'%'
+		</if>
+	</select>
+	
+	
+	<!-- 캠핑리뷰 - 뷰(캠핑장)    게시글 1개 가져오기(현재글) -->
+	<select id="Cps_selectOne" resultType="com.java.www.dto.Cps_reviewDto">
+		select * from Cps_review where cps_bno=#{cps_bno}
+	</select>
+	<!-- 캠핑리뷰 - 뷰(캠핑장)    게시글 1개 가져오기(이전글) -->
+	<select id="Cps_selectOneprev" resultType="com.java.www.dto.Cps_reviewDto">
+		select * from (select row_number() over(order by cps_bno desc) rnum, a.* from Cps_review a) where rnum = 
+		(select rnum from (select row_number() over(order by cps_bno desc) rnum, a.* from Cps_review a) where cps_bno = #{cps_bno})+1
+	</select>
+	<!-- 캠핑리뷰 - 뷰(캠핑장)    게시글 1개 가져오기(다음글) -->
+	<select id="Cps_selectOnenext" resultType="com.java.www.dto.Cps_reviewDto">
+		select * from (select row_number() over(order by cps_bno desc) rnum, a.* from Cps_review a) where rnum = 
+		(select rnum from (select row_number() over(order by cps_bno desc) rnum, a.* from Cps_review a) where cps_bno = #{cps_bno})-1
+	</select>
+	
+	<!-- 캠핑리뷰 - 뷰(캠핑장)    게시글 조회수 1증가 -->
+	<update id="Cps_bhitUp">
+		update Cps_review set Cps_bhit=Cps_bhit+1 where cps_bno=#{cps_bno}
+	</update>
+	
+	<!-- 캠핑리뷰 - 리스트(캠핑장)    게시글 글작성 -->
+	<insert id="siteWrite">
+		insert into cps_review values(cps_review_seq.nextval,#{id},#{cps_btitle},#{cps_bcontent},#{cps_sitename},sysdate,#{cps_bfile},#{cps_bhit},#{cps_blike})
+	</insert>
+	
+	<!-- 캠핑리뷰 - 리스트(캠핑장)    게시글 수정 -->
+	<update id="site_doUpdate">
+		update cps_review set cps_btitle=#{cps_btitle}, cps_bcontent=#{cps_bcontent}, cps_sitename=#{cps_sitename}, cps_bfile=#{cps_bfile} where cps_bno=#{cps_bno}
+	</update>
+	
+	<!-- 캠핑리뷰 - 리스트(캠핑장)    게시글 삭제 -->
+	<delete id="siteDelete">
+		delete cps_review where cps_bno=#{cps_bno}
+	</delete>
+	
+	<!-- 캠핑리뷰 - 뷰(캠핑장)    게시글 1개 가져오기 - 댓글 모두 가져오기 -->
+	<select id="Cps_commentSelectAll" resultType="com.java.www.dto.Cps_commentDto">
+		select * from Cps_comment where cps_bno=#{cps_bno} order by cps_cno desc
+	</select>
+	
+	<!-- 캠핑리뷰 - 리스트(캠핑장)    댓글 1개 저장후 댓글 1개 가져오기(ajax) -->
+	<insert id="Cps_commentInsert">
+		<selectKey resultType="com.java.www.dto.Cps_commentDto" keyProperty="cps_cno,cps_cdate" order="BEFORE">
+			select cps_comment_seq.nextval cps_cno,sysdate cps_cdate from dual
+		</selectKey>
+			insert into cps_comment values(#{cps_cno},#{cps_bno},#{id},#{cps_cpw},#{cps_ccontent},sysdate)
+	</insert>
+	<select id="Cps_commentSelectOne" resultType="com.java.www.dto.Cps_commentDto">
+		select * from Cps_comment where cps_cno=#{cps_cno}
+	</select>
+	
+	<!-- 캠핑리뷰 - 리스트(캠핑장)    댓글 1개 삭제하기(ajax) -->
+	<delete id="Cps_commentDelete">
+		delete from Cps_comment where cps_cno=#{cps_cno}
+	</delete>
+	
+	<!-- //캠핑리뷰 - 리스트(캠핑장)    댓글 1개 수정저장 -->
+	<update id="Cps_commentUpdate">
+		update Cps_comment set cps_ccontent=#{cps_ccontent}, cps_cdate=sysdate where cps_cno=#{cps_cno}
+	</update>
+	
+</mapper>

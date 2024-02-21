@@ -30,8 +30,17 @@
 	    <!-- Template Main CSS File -->
  		<link href="../assets/css/main2.css" rel="stylesheet">
        	<link href="../assets/css/header.css" rel="stylesheet">
-		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
 		<link href="../assets/css/community/viewStyle.css" rel="stylesheet">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+	  
+	    <!--  JS File -->
+	    <script>
+	    	var id = "${session_id}";
+	    </script>
+	    <script src="../assets/js/community/nView.js"></script>
+	    <link href="../assets/css/community/nstyle.css" rel="stylesheet">
+	    
+	    
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
@@ -42,40 +51,66 @@
 		
 			<!-- 공지사항 글보기 -->
 	    	<h1 style="float: left; margin: 40px 0 0 700px; font-weight: 700; position: relative; left:50px;">공지사항 게시글</h1>
-		    <table>
+		    <table class="view_table">
 		     <colgroup>
-		        <col width="10%">
-		        <col width="63%">
 		        <col width="15%">
-		        <col width="12%">
+		        <col width="55%">
+		        <col width="15%">
+		        <col width="15%">
    			</colgroup>
-		     <tr>
-		        <th style="text-align: center;"><strong>1007</strong></th>
-		        <th style="text-align: left;"><span>게시글 제목이 들어갑니다.</span></th>
+		     <tr id="notice_top">
+		        <th style="text-align: center;"><strong>${map.nbdto.n_bno}</strong></th>
+		        
+		        <c:if test="${map.nbdto.n_btype=='instapayment'}">
+		        <th style="text-align: left;"><span>[공지사항]&nbsp${map.nbdto.n_btitle}</span></th>
+		        </c:if>
+		        
+		        <c:if test="${map.nbdto.n_btype=='event'}">
+		        <th style="text-align: left;"><span>[이벤트]&nbsp${map.nbdto.n_btitle}</span></th>
+		        </c:if>
+		        
 		        <th style="text-align: right;"><strong>작성일</strong></th>
-		        <th>2019-12-11</th>
+		        <th>
+				<fmt:formatDate value="${map.nbdto.n_bdate}" pattern="yyyy-MM-dd"/>
+				</th>
 		      </tr>
-		      <tr style="border-bottom: 2px solid #009223">
-		        <td style="text-align: center;"><strong>작성자</strong style="text-align: center;"></td>
-		        <td>관리자</td>
+		      <tr id="notice_top2">
+		        <td style="text-align: center;"><strong>작성자</strong ></td>
+		        <td>${map.nbdto.id}</td>
 		        <td style="text-align: right;"><strong>조회수</strong></td>
-		        <td>123</td>
+		        <td>${map.nbdto.n_bhit}</td>
 		      </tr>
 		      <tr>
-		        <td colspan="4" class="article">게시글 내용이 들어갑니다.<br><br><br><br><br></td>
+		        <td colspan="4" class="article notice_content" >${map.nbdto.n_bcontent}</td>
 		      </tr>
-		       <tr style="border-bottom: 2px solid #009223;">
-		        <td class="article" style="text-align: center;"><strong>첨부파일 </strong>
+		       <tr id="notice_bfile">
+		        <td class="article" style="text-align: center;"><strong>첨부파일</strong>
 		        </td>
-		        <td colspan="3">※첨부파일 없음</td>
+		      
+		        <c:if test="${map.nbdto.n_bfile!=null}">
+		        <td colspan="3">${map.nbdto.n_bfile}</td>
+		         <tr style="border-bottom: 2px solid #009223;">
+		      	<td class="notice_noimgfile"><strong>이미지</strong></td>
+		      	<td colspan="3" class="notice_img" ><img src="/upload/${map.nbdto.n_bfile} "></td>
+		      	</tr>
+		        </c:if>
+		        
+		        <c:if test="${map.nbdto.n_bfile==null}">
+		        <td colspan="3">※첨부파일 없음※</td>
+		          <tr style="border-bottom: 2px solid #009223;">
+		      	<td class="notice_noimgfile"><strong>이미지</strong></td>
+		      	<td colspan="3" class="notice_noimg"><img src="../assets/img/nView/noImage.png "></td>
 		      </tr>
-		    </table>
+		        </c:if>
+		      </tr>
 		    
+		    </table>
 		    <!-- 버튼 -->
 		    <div class="listBtn">
-		    	<button class="list">삭제</button>
-		    	<a href="nUpdate"><button class="list">수정</button></a>
 		    	<a href="nList"><button class="list">목록</button></a>
+		    	<a href="nDelete?n_bno=${map.nbdto.n_bno}" class="n_deleteBtn" data-userid="${map.nbdto.id}"><button class="list" id="n_deleteBtn">삭제</button></a>
+		    	<a href="nUpdate?n_bno=${map.nbdto.n_bno}" class="n_updateBtn" data-userid="${map.nbdto.id}" ><button class="list" id="n_updateBtn">수정</button></a>
+		    	
 		    </div>
 		    
 		     <!-- 댓글입력-->
@@ -89,71 +124,79 @@
 			 <table style="position: relative; bottom: 200px;">
 			  <tr>
 			  	<td style="display: flex; border: 1px solid white; margin: -80px 0 0 -20px;">
-				  	<textarea placeholder=" ※ 댓글을 입력하세요. (타인을 향한 욕설 및 비방은 무통보 삭제됩니다.)" style="width: 1200px; "></textarea>
-				  	<button id="replybtn">등록</button>
+				  	<textarea id="reply_ncontent" placeholder=" ※ 댓글을 입력하세요. (타인을 향한 욕설 및 비방은 무통보 삭제됩니다.)" style="width: 1200px; "></textarea>
+				  	<button id="replybtn" data-userid="${map.nbdto.n_bno}">등록</button>
 			  	</td>
 			  </tr>
 		   	</table>
+		   	
 		    <!-- 이전글/다음글-->
-		    <table style="margin-top: -150px; ">
+		    <table id="view_title">
 		      <tr>
-		        <td colspan="4"><strong>다음글</strong> <span class="separator">|</span><a href="#"> [키즈잼] 2월 프로그램 안내</a></td>
+		        <td colspan="4">
+			        <strong>이전글</strong> <span class="separator">|</span>
+			        <c:if test="${map.nextdto!=null}">
+			        <a href="nView?n_bno=${map.nextdto.n_bno}"><strong class="pre_next">${map.nextdto.n_bno} || ${map.nextdto.n_btitle}</strong></a>
+			        </c:if>
+			        <c:if test="${map.nextdto ==null}">
+			        다음글 없습니다.
+			        </c:if>
+		        </td>
 		      </tr>
 		      <tr>
-		        <td colspan="4"><strong>이전글</strong> <span class="separator">|</span><a href="#"> [키즈잼] 2020년 1분기 정기 휴관일 안내</a></td>
+		        <td colspan="4">
+			        <strong>다음글</strong> <span class="separator">|</span>
+			        <c:if test="${map.predto!=null}">
+			        <a href="nView?bno=${map.predto.n_bno}"><storng class="pre_next">${map.predto.n_bno} ||${map.predto.n_btitle}</strong></a>
+					</c:if>      
+			     	 <c:if test="${map.predto ==null}">
+			        다음글 없습니다.
+					</c:if>      
+		        </td>
 		      </tr>
 		    </table>
 		    <!-- 이전글/다음글 끝-->
 		    
 		    <!-- 댓글보기-->
 		    <table style="margin-top: 70px;">
-		      <td style="font-weight: 700">총<strong style="color: #009223">&nbsp;&nbsp;5</strong>&nbsp;개의 댓글이 등록되었습니다.</td>
-			  <tr>
-				<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12 15:27:23:00]</span>
-				<li id="replyTxt">&nbsp;&nbsp;댓글내1용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
+		      <td style="font-weight: 700">총<strong class="n_Count"style="color: #009223">&nbsp;&nbsp;${map.n_list.size()}</strong>&nbsp;개의 댓글이 등록되었습니다.</td>
+			
+			<tbody class="replyBox">
+			
+			<c:forEach var="ncomment" items="${map.n_list}">
+			  <tr id="${ncomment.n_cno}">
+				<td><strong>댓글 작성자</strong> | <strong style="color: blue;">${ncomment.id}</strong>&nbsp;&nbsp;[<span>${ncomment.n_cdate}</span>]
+				<li id="replyTxt">&nbsp;&nbsp;${ncomment.n_ccontent}</li>
+				<c:if test="${session_id == ncomment.id}">
 				<li id="replyBtn">
-					<button id="rDelBtn">삭제</button>
-					<button id="rUBtn">수정</button>
+					<button class="rDelBtn">삭제</button>
+					<button class="rUBtn">수정</button>
 				</li>
-				</td>			
-			  </tr>
-			  <tr>
-				<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12 15:27:23:00]</span>
-				<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
+				</c:if>
+				<c:if test="${session_id != ncomment.id}">
 				<li id="replyBtn">
-					<button id="rDelBtn">삭제</button>
-					<button id="rUBtn">수정</button>
+
 				</li>
-				</td>			
-			  </tr>
-			  <tr>
-				<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12 15:27:23:00]</span>
-				<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
-				<li id="replyBtn">
-					<button id="rDelBtn">삭제</button>
-					<button id="rUBtn">수정</button>
-				</li>
-				</td>			
-			  </tr>
-			  <tr>
-				<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12 15:27:23:00]</span>
-				<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
-				<li id="replyBtn">
-					<button id="rDelBtn">삭제</button>
-					<button id="rUBtn">수정</button>
-				</li>
-				</td>			
-			  </tr>
-			  <tr>
-				<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12 15:27:23:00]</span>
-				<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트 너무 좋아요! 꼭 참여해서 혜택받아볼게요!</li>
-				<li id="replyBtn">
-					<button id="rDelBtn">삭제</button>
-					<button id="rUBtn">수정</button>
-				</li>
+				</c:if>
 				</td>			
 			  </tr>
 			  
+			   <!-- 댓글 수정입력창  
+			   <tr id="${ncomment.n_cno}"> //수정할 댓글의 위치점(n_cno)
+				<td><strong style="color: navy;">댓글 작성자</strong> | <strong style="color: #009223;" class="f_cid">aaa</strong>&nbsp;&nbsp;<span class="f_cdate">[2024-12-31 ]</span>
+				<li style="list-style: none; float: right; line-height: 27px;"><strong>비밀번호 |<strong><input type="text" value="1234" placeholder=" ※입력시 비밀글로 저장" class="f_cpw"></li>
+				<li id="replyTxt"><textarea cols="145%">댓글 수정내용 입력</textarea></li>
+				<li id="replyBtn">
+					<button class="rCanBtn">취소</button>
+					<button class="rSaveBtn">저장</button>
+				</li>
+				</td>			
+			  </tr>
+					-->
+			  
+			</c:forEach>
+			</tbody>
+			
 		    </table>
 		    <!-- 댓글보기 끝-->
  		 </section>

@@ -10,6 +10,11 @@ import com.java.www.dto.FCommentDto;
 @Mapper
 public interface FBoardMapper {
 
+	//게시글 검색개수, 하단넘버링
+	int FSelectSearchCount(String searchTitle, String searchWord);
+	//게시글 전체개수, 하단넘버링
+	int FlistSelectCountAll(String searchTitle, String searchWord);
+
 	// 4. 자유게시판 전체가져오기
 	ArrayList<FBoardDto> fselectAll(int startRow, int endRow, String searchTitle, String searchWord);
 

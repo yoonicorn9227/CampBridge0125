@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,198 +49,147 @@
 			<div id="content">
 				<div id="bbsData">
 					<div class="page-body">
-						<div class="camp-img-div">
-							<img src="../assets/img/campReview/free-icon-forest-8856738.png"
-								alt="캠핑리뷰이미지" style="position: relative; left: 475px;">
-							<h1 style="text-align: center;">리뷰</h1>
-						</div>
-						<br> <br> <br>
-								<div class="bbs-sch">
-									<form action="#" name="form1">
-										<input type="hidden" name="s_id" value=""> <input
-											type="hidden" name="code" value="ocamall_image1"> <input
-											type="hidden" name="page" value="1"> <input
-											type="hidden" name="type" value="s"> <input
-											type="hidden" name="board_cate" value=""> <input
-											type="hidden" name="review_type" value="">
-										<!-- .검색 폼시작 -->
-										<fieldset>
-											<legend>게시판 검색 폼</legend>
-											<label> 
-											<input type="checkbox" name="shname" value="ok" onclick="change(1);" class="MS_input_radio">이름</label> 
-											<label> <input type="checkbox" name="ssubject" value="ok" onclick="change(2);" checked="checked"
-												class="MS_input_checkbox"> 제목</label> 
-											<label> <input type="checkbox" name="scontent" value="ok" onclick="change(3);" class="MS_input_checkbox">내용</label> 
-											<span class="key-wrap"> 
-											<input type="text" name="stext" value="" class="MS_input_txt"> <a href="javascript:document.form1.submit();"> 
-											<img src="https://image.makeshop.co.kr/makeshop/d3/basic_simple/bbs/btn_bbs_sch.gif" alt="검색" title="검색"></a>
-											</span>
-										</fieldset>
-									</form>
-								<!-- .검색 폼 끝 -->
-								</div>
-								
-							<div class="bbs-tit">
-								<div class="viewtab-review">
-									<input type="radio" name="tabreview" id="tabreview1" checked>
-									<label for="tabreview1">캠핑장리뷰</label> 
-									<input type="radio" name="tabreview" id="tabreview2"> 
-									<label for="tabreview2">캠핑용품리뷰</label>
-								</div>
-						<div class="reviewbox1">
-							</div> 
-							
-						</div>
-							<!-- bbs-tit  -->
-							
 					
-						<!-- 카드형 리스트 -->
-						<div class="list_wrap" style="height: 1300px;  border-top: 3px solid #009223; border-bottom: 3px solid #009223;">
+						<!-- 상단 캠핑장 리뷰 시작 -->
+						<div class="camp-img-div">
+							<img src="../assets/img/campReview/free-icon-forest-8856738.png" alt="캠핑리뷰이미지" style="position: relative; left: 475px;">
+							<h1 style="text-align: center; margin-bottom: 40px;">캠핑장 리뷰</h1>
+						</div>
+						<!-- 상단 캠핑장 리뷰 끝 -->
+						
+						<div class="bbs-sch">
+						   <!-- .검색 폼시작 -->
+						  <form action="siteReview" name="re_search" method="get" id="searchForm">
+						    <fieldset>
+						      <legend>게시판 검색 폼</legend>
+						      <label><input type="checkbox" name="re_category" value="re_all" checked onclick="update_Check('re_all')">전체</label>
+						      <label><input type="checkbox" name="re_category" value="cps_sitename" onclick="update_Check('cps_sitename')">지역</label>
+						      <label><input type="checkbox" name="re_category" value="cps_btitle" onclick="update_Check('cps_btitle')">제목</label>
+						      <label><input type="checkbox" name="re_category" value="cps_bcontent" onclick="update_Check('cps_bcontent')">내용</label>
+						      <span class="key-wrap"> 
+						        <input type="text" name="re_searchWord" id="re_searchWord" class="MS_input_txt">
+						        <button type="button" onclick="submitForm()" style="width: 28px; height: 28px; border: none; background: none;">
+						          <img src="https://image.makeshop.co.kr/makeshop/d3/basic_simple/bbs/btn_bbs_sch.gif" alt="검색" title="검색">
+						        </button>
+						      </span>
+						    </fieldset>
+						  </form>
+						  <script>
+						    // JavaScript 코드
+						    function update_Check(clickedValue) {
+						      // 클릭한 체크박스의 값을 확인
+						      var clicked = clickedValue;
+						
+						      // 전체 체크박스가 클릭되었을 경우 다른 체크박스의 선택을 초기화
+						      if (clicked === 're_all') {
+						        var checkboxes = document.querySelectorAll('input[name="re_category"]');
+						        checkboxes.forEach(function(checkbox) {
+						          if (checkbox.value !== 're_all') {
+						            checkbox.checked = false;
+						          }
+						        });
+						      } else {
+						        // 다른 체크박스가 클릭되었을 경우 전체 체크박스의 선택을 해제
+						        var allCheckbox = document.querySelector('input[value="re_all"]');
+						        allCheckbox.checked = false;
+						      }
+						      
+						    }
+						  </script>
+						   <!-- .검색 폼 끝 -->
+						</div> <!-- bbs-sch -->
+								
+						<!-- 탭 시작 -->
+						<div class="bbs-tit">
+							<div class="viewtab-review">
+								<input type="radio" name="tabreview" id="tabreview1" checked>
+								<label for="tabreview1">캠핑장리뷰</label> 
+								<input type="radio" name="tabreview" id="tabreview2"> 
+								<label for="tabreview2">캠핑용품리뷰</label>
+							</div>
+							<div class="reviewbox1"></div> 
+						</div>
+						<!-- 탭 끝  -->
+						
+					
+						<!-- 카드형 리스트 시작 -->
+						<div class="list_wrap">
 							<ul>
+								<c:forEach var="redto" items="${map.list}">
+						        
 								<li class="item item1">
 									<div class="image">										
-										<img src="../assets/img/campReview/campReview.jpg"
-											style="width: 100%; height: 200px; border-radius: 10px;" />
+										<c:if test="${redto.cps_bfile != null}">
+										<img src="/upload/${redto.cps_bfile}" style="width: 100%; height: 100%; border-radius: 10px; background-size: cover;"/>
+										</c:if>
+										<c:if test="${redto.cps_bfile == null}">
+										<img src="../assets/img/noPhoto_s.jpg" style="width: 100%; height: 100%; border-radius: 10px; background-size: cover;"/>
+										</c:if>
 									</div>
 									<div class="cont">
-										<strong>카라반캠핑장추천해요</strong>
-										<p>뿌라빠파님</p>
-										<p>경기용인카라반</p>
-										<p>
-											안녕하세요. 경기카라반 <br>캠핑장 입니다. 저희...
-										</p>
+										<strong class="brief_title">${redto.cps_btitle}</strong>
+										<p>${redto.id}</p>
+										<p>지역&nbsp&nbsp&nbsp ${redto.cps_sitename}</p>
+										<p class="brief_description" id="txt">${redto.cps_bcontent}</p>
+										<span class="date"><i class="fa fa-clock-o" aria-hidden="true"></i><fmt:formatDate value="${redto.cps_bdate}" pattern="yyyy-MM-dd"/></span>
 										<div class="heartwrap">
-											<span class="date"><i class="fa fa-clock-o"
-												aria-hidden="true"></i> 1년 전</span> <span class="reviewhit">269</span>
-											<img
-												src="https://www.5gcamp.com/modules/usemarket/theme/_pc/default/image/heart-o.svg"
-												alt="" width="20" class="heart1">
+											 <span class="reviewhit">${redto.cps_bhit}</span>
+											 <img src="https://www.5gcamp.com/modules/usemarket/theme/_pc/default/image/heart-o.svg" alt="" width="20" class="heart1">
 										</div>
-										<a href="review_site">바로가기</a>
+										<a href="review_site?cps_bno=${redto.cps_bno}">바로가기</a>
 									</div>
 								</li>
-								<li class="item item1">
-									<div class="image">
-										<img src="../assets/img/campReview/campReview.jpg"
-											style="width: 260px; height: 200px; border-radius: 10px;" />
-									</div>
-									<div class="cont">
-										<strong>카라반캠핑장</strong>
-										<p>경기도 > 용인시 > 동막골</p>
-										<p>010-****-****</p>
-										<p>
-											안녕하세요. 경기카라반 <br>캠핑장 입니다. 저희...
-										</p>
-										<div class="heartwrap">
-											<span class="date"><i class="fa fa-clock-o"
-												aria-hidden="true"></i> 1년 전</span> <span class="reviewhit">269</span>
-											<img
-												src="https://www.5gcamp.com/modules/usemarket/theme/_pc/default/image/heart-o.svg"
-												alt="" width="20" class="heart1">
-										</div>
-										<a href="siteReview">바로가기</a>
-									</div>
-								</li>
-								<li class="item item1">
-									<div class="image">
-										<img src="../assets/img/campReview/campReview.jpg"
-											style="width: 260px; height: 200px; border-radius: 10px;" />
-									</div>
-									<div class="cont">
-										<strong>카라반캠핑장</strong>
-										<p>경기도 > 용인시 > 동막골</p>
-										<p>010-****-****</p>
-										<p>
-											안녕하세요. 경기카라반 <br>캠핑장 입니다. 저희...
-										</p>
-										<div class="heartwrap">
-											<span class="date"><i class="fa fa-clock-o"
-												aria-hidden="true"></i> 1년 전</span> <span class="reviewhit">269</span>
-											<img
-												src="https://www.5gcamp.com/modules/usemarket/theme/_pc/default/image/heart-o.svg"
-												alt="" width="20" class="heart1">
-										</div>
-										<a href="siteReview">바로가기</a>
-									</div>
-								</li>
-								<li class="item item4">
-									<div class="image">사진</div>
-									<div class="cont">
-										<strong>캠핑장이름</strong>
-										<p>캠핑장주소</p>
-										<p>캠핑장연락처</p>
-										<p>캠핑장소개내용</p>
-										<a href="#">바로가기</a>
-									</div>
-								</li>
-								<li class="item item5">
-									<div class="image">사진</div>
-									<div class="cont">
-										<strong>캠핑장이름</strong>
-										<p>캠핑장주소</p>
-										<p>캠핑장연락처</p>
-										<p>캠핑장소개내용</p>
-										<a href="siteReview">바로가기</a>
-									</div>
-								</li>
-								<li class="item item6">
-									<div class="image">사진</div>
-									<div class="cont">
-										<strong>캠핑장이름</strong>
-										<p>캠핑장주소</p>
-										<p>캠핑장연락처</p>
-										<p>캠핑장소개내용</p>
-										<a href="siteReview">바로가기</a>
-									</div>
-								</li>
+								</c:forEach>
 							</ul>
-						</div>
-					</div>
+						</div><!-- list_wrap -->
+						<!-- 카드형 리스트 끝 -->
+						
+					</div><!-- page-body -->
+				</div><!-- bbsData -->
+
+				<!-- 하단 페이징 & 버튼 시작 -->
+				<div class="bbs-btm">
+				
+				<div>
+					<ul class="page-num-review">
+						<a href="siteReview?page=1"><li class="first-num"></li></a>
+						<c:if test="${map.page > 1}">
+							<a href="siteReview?page=${map.page-1}"><li class="prev-num"></li></a>
+						</c:if>
+						<c:if test="${map.page <= 1}">
+							<li class="prev-num"></li>
+						</c:if>
+						
+						<c:forEach var="i" begin="${map.re_startPage}" end="${map.re_endPage}" step="1">
+							<c:if test="${map.page == i}">
+								<li class="num-review on">${i}</li>
+							</c:if>
+							<c:if test="${map.page != i}">
+								<a href="siteReview?page=${i}"><li class="num-review">${i}</li></a>
+							</c:if>
+						</c:forEach>
+						
+						<c:if test="${map.page < map.re_maxPage}">
+							<a href="siteReview?page=${map.page+1}"><li class="next-num"></li></a>
+						</c:if>
+						<c:if test="${map.page >= map.re_maxPage}">
+							<li class="next-num"></li>
+						</c:if>
+						<a href="siteReview?page=${map.re_maxPage}"><li class="last-num"></li></a>
+					</ul>
 				</div>
-
-						<!-- 하단 페이징 & 버튼 -->
-						<div class="bbs-btm">
-							<div class="bbs-link">
-								<a href="#"
-									class="CSSbuttonWhite">글쓰기</a>
-							</div>
-
-							<div>
-								<ul class="page-num-review">
-									<li class="first-num"></li>
-									<li class="prev-num"></li>
-									<li class="num-review">1</li>
-									<li class="num-review">2</li>
-									<li class="num-review">3</li>
-									<li class="num-review">4</li>
-									<li class="num-review">5</li>
-									<li class="num-review">6</li>
-									<li class="num-review">7</li>
-									<li class="num-review">8</li>
-									<li class="num-review">9</li>
-									<li class="num-review">10</li>
-									<li class="next-num"></li>
-									<li class="last-num"></li>
-								</ul>
-							</div>
-							<!-- //하단 페이징 & 버튼 -->
-
-						</div>
-						<!-- //하단 페이징 & 버튼 -->
-
-					</div>
-					<!-- .page-body -->
+				<div class="bbs-link">
+					<a href="siteWrite" class="CSSbuttonWhite">글쓰기</a>
 				</div>
-				<!-- #bbsData -->
-			</div>
-			<!-- #content -->
-		</div>
-		<!-- #contentWrap -->
-	
+				</div>
+				<!-- //하단 페이징 & 버튼 끝 -->
 
+			</div><!-- content -->
+		</div><!-- contentWrap -->
+	</div><!-- contentWrapper -->
 
-		<!-- ======= Footer ======= -->
-		<%@include file="../include/footer.jsp"%>
-		<!-- End Footer -->
+	<!-- ======= Footer ======= -->
+	<%@include file="../include/footer.jsp"%>
+	<!-- End Footer -->
 </body>
 </html>

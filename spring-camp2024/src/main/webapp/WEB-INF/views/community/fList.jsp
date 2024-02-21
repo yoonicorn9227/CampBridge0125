@@ -34,7 +34,7 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		
 		<!-- Template nWrite JS File -->
-  		<script src="../assets/js/fboard/fList.js"></script>
+  		<script src="../assets/js/community/fList.js"></script>
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
@@ -58,7 +58,6 @@
 			  </form>
 			</div>
 		    <!-- 검색창 -->
-		    <!-- 자유게시판 리스트 -->
 			<table>
 		  		<div class="page-title">
 			      <colgroup>
@@ -86,7 +85,7 @@
 				      <tr>
 				        <td id="No"><span style="background: #009223; color: #ffce32; border-radius: 3px; ">${fbdto.f_bno }</span></td>
 				        <td><strong>${fbdto.f_btype }</strong></td>
-				        <td class="table-title"><a href="fView?f_bno=${fbdto.f_bno }">${fbdto.f_btitle}</a></td>
+				        <td class="table-title1"><a href="fView?f_bno=${fbdto.f_bno }">${fbdto.f_btitle}</a></td>
 				        <td>${fbdto. id}</td>
 				        <td>
 				        <fmt:formatDate value="${fbdto.f_bdate }" pattern="yyyy-MM-dd"/></td>

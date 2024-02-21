@@ -30,7 +30,7 @@
 	    <link href="../assets/css/header.css" rel="stylesheet">
 		<link href="../assets/css/my/signUp02.css" rel="stylesheet">
 	    
-	   
+
 	    
 	</head>
 	<body>
@@ -38,11 +38,11 @@
 	<%@include file="../include/header.jsp" %>
 	<!-- End Header -->
 			<section class="signUp_02">
-					<img src="../assets/img/signup_icon.png">
+					<img src="../assets/img/login/signup_icon.png">
 					<h1><span>회원가입</span> 완료 되었습니다!</h1>
 					
 					<div class="amount3">
-						<p>홍길동님 가입을 축하드립니다!<br>캠브릿지에 가입해주셔서 감사합니다.</p>
+						<p>회원가입을 축하드립니다!<br>캠브릿지에 가입해주셔서 감사합니다.</p>
 						<p class="signup_detail">저희 캠브릿지에서 행복한 추억 만드시기 바랍니다.</p>
 						
 					</div>

@@ -35,7 +35,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		
 		<!-- Template nWrite JS File -->
-  		<script src="../assets/js/fboard/pView.js"></script>
+  		<script src="../assets/js/community/pView.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 	</head>
 	 <script>

@@ -133,7 +133,7 @@ dd span {
 }
 
 .photoMI {
-	border: 2px solid #5C8374;
+	border: 2px solid rgb(230, 230, 230);
 	height: 150px;
 	width: 150px;
 	border-radius: 10px;
@@ -214,11 +214,11 @@ dd span {
 }
 
 #join_pw1_dl dt {
-	height: 87px;
+	height: 53px;
 }
 
 #join_pw1_dl dd {
-	height: 87px;
+	height: 53px;
 }
 
 #join_pw1_dl dt div {
@@ -226,7 +226,7 @@ dd span {
 }
 
 #join_pw1_dl dt label {
-	padding-top: 35px;
+	padding-top: 18px;
 	background-position: 38% 90%;
 }
 
@@ -240,11 +240,11 @@ dd span {
 }
 
 #join_pw2_dl dt {
-	height: 51px;
+	height: 80px;
 }
 
 #join_pw2_dl dd {
-	height: 51px;
+	height: 80px;
 }
 
 #join_pw2_dl dt div {
@@ -343,7 +343,7 @@ input[type="checkbox"]:not(old) {
 
 input[type="checkbox"]:not(old)+label {
 	/*display:inline-block;*/
-	background: url(../img/login/radio_off.jpg) no-repeat 0px 2px;
+	background: url(../../img/login/radio_off.jpg) no-repeat 0px 2px;
 	height: 24px;
 	margin-left: -24px;
 	padding-left: 24px;
@@ -351,7 +351,7 @@ input[type="checkbox"]:not(old)+label {
 
 input[type="checkbox"]:not(old):checked+label {
 	/*display:inline-block;*/
-	background: url(../img/login/radio_on.jpg) no-repeat 0px 2px;
+	background: url(../../img/login/radio_on.jpg) no-repeat 0px 2px;
 	height: 24px;
 	margin-left: -24px;
 	padding-left: 24px;
@@ -447,7 +447,7 @@ input[type="checkbox"]:not(old):checked+label {
 #join_address_dl input[type="button"] {
 	width: 80px;
 	height: 30px;
-	background-color: #6f6f6f;
+	background-color: #009223;
 	padding: 0px 10px;
 	border: none;
 	line-height: 5px;
@@ -514,6 +514,5 @@ input[type="checkbox"]:not(old):checked+label {
 }
 
 #info_input_button input:nth-child(2) {
-	color: rgb(255, 255, 255);
-	background: rgb(138, 141, 143);
+	color: #009223;
 }

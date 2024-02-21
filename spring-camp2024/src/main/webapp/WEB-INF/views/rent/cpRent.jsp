@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -200,11 +202,30 @@
 		 		</dl>
 		  </div>
 		  <a href="/"><button>메인으로</button></a> 
-		  <a href="cp_Cart"><button>선택품목 담기</button></a> 
-        
-        
+		<!--   <a href="cp_Cart" onclick="login"><button id="chkBtn">선택품목 담기</button></a> -->
 		
-		  </section>
+				<c:if test="${session_id==null}">
+				    <a href="/my/login">
+				    <button id="chkBtn">선택품목 담기</button></a>
+				    <c:if test="${not empty param.returnUrl}">
+				        <input type="hidden" name="returnUrl" value="${param.returnUrl}" />
+				    </c:if>
+				</c:if>
+				<c:if test="${session_id!=null}">
+				    <a href="cp_Cart"><button>선택품목 담기</button></a>
+				</c:if>
+			
+				<script>
+				$(function(){
+				$("#chkBtn").click(function(){
+				        alert("로그인이 필요합니다.");
+				        window.location.href = "/my/login";
+				    });
+				});
+				</script>
+				
+		</section>
+		
 		<!-- ======= Footer ======= -->
 	  	<%@include file="../include/footer.jsp" %>
 	 	<!-- End Footer -->

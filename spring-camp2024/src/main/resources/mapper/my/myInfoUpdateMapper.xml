@@ -1,0 +1,19 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- 인터페이스 연결 -->    
+<mapper namespace="com.java.www.mapper.MyInfoUpdateMapper">
+	
+	<!-- 내 정보 가져오기 -->
+	<select id="selectOne" resultType="com.java.www.dto.User_campDto">
+		select * from user_camp where id=#{id}
+	</select>
+	
+	<!-- 내 정보 수정 -->
+	<update id="myInfoUpdate">
+		update user_camp set pw=#{pw},nickname=#{nickname},email=#{email},
+		address=#{address},phone=#{phone},local=#{local},m_img=#{m_img} where id=#{id}
+	</update>
+	
+</mapper>

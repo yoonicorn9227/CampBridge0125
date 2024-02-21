@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
@@ -18,8 +19,7 @@
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
 	rel="stylesheet">
 
 <!-- Vendor CSS Files -->
@@ -35,267 +35,219 @@
 <link href="/assets/css/review/siteReview.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/review/listStyle2.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/review/header2.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script src="../assets/js/cps_review/RE_site.js"></script>
 </head>
+<style>
+	.replynum{margin-left: 72px; margin-top: -53px; width: 200px; height: 22px;}
+	.notice_img img{text-align: left; width:50%}
+	.notice_noimgfile {padding: 20px 0 20px 48px;}
+	.notice_noimg img{height:30px;}
+	#notice_bfile{border-top : 1px solid silver; border-bottom : 1px solid silver;}
+	.password{width: 75px; height: 28px; position: relative; top: 45px; left: 20px;}
+</style>
 <body>
 	<!-- ======= Header ======= -->
 	<%@include file="../include/header.jsp"%>
 	<!-- End Header -->
 	<section class="headerCss">
 		<div id="contentWrap">
-			<link type="text/css" rel="stylesheet"
-				href="#" />
+			<link type="text/css" rel="stylesheet" href="#">
 			<div id="content">
 				<div id="bbsData">
 					<div class="page-body">
+					
+						<!-- 캠핑장 리뷰 메뉴 시작 -->
 						<div class="camp-img-div">
-							<img src="../assets/img/campReview/free_icon_icon.png" alt="캠핑용품리뷰"
-								style="position: relative; margin-top: 40px; margin-bottom: 10px;">
+							<img src="../assets/img/campReview/free_icon_icon.png" alt="캠핑용품리뷰" style="position: relative; margin-top: 40px; margin-bottom: 10px;">
 							<h1 style="text-align: center;">캠핑장리뷰</h1>
 						</div>
-						<!-- <div class="bbs-hd">
-							<ul class="link">
-								<li><a href="#">캠핑용품리뷰</a></li> &nbsp &nbsp &nbsp &nbsp
-								<li><a href="#">캠핑장리뷰</a></li>
-							</ul>
-						</div> -->
-						<br> <br> <br>
-						<div class="bbs-tit">
-							<h3>캠핑용품리뷰</h3>
-						</div>
-						<dl class="prd-tinfo">
-							<dt>
-								<a href="#"><img src="../assets/img/campReview/campReview.jpg" /></a>
-							</dt>
-							<dd>
-								<ul>
-									<li class="name"><span class="tit">캠핑장명 :</span> <a
-										href="../assets/img/campReview/campReview.jpg">경기용인카라반캠핑장</a></li>
-									<!-- <li class="price"><span class="tit">판매가 :</span> 100,000원</li> -->
-								</ul>
-							</dd>
-						</dl>
 						<br>
-					<form id="comment_form" name="comment" action="#" method="post" autocomplete="off" 
-					style="height: 1800px; position: relative; top: 100px; left: 270px;">
+						<!-- 캠핑장 리뷰 메뉴 끝 -->
+	
+						<form id="siteUpdateFrm" name="siteUpdateFrm" action="#" method="post" autocomplete="off" style="height: 1800px; position: relative; top: 100px; left: 270px;">
+						<input type="hidden" name="cps_bno" value="${map.c_redto.cps_bno}">
+						
+						<!-- 본문 시작 -->
 						<div class="bbs-table-view">
 							<table summary="게시글 보기">
-								<caption>게시글 보기</caption>
-								<thead>
-									<tr>
-										<th><div class="tb-center">경기용인카라반캠핑장</div></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td class="line">
-											<div class="cont-sub-des">
-												<div>
-													<span><em>Date :</em> 2024.01.17 08:00:58</span>
-												</div>
-												<div>
-													<span class="writer"><em>Name :</em> 뿌라빠파 </span> <span><em>Hits
-															:</em> 2</span>
-												</div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<div class="data-bd-cont">
-												<div id=MS_WritenBySEB>너무 좋았어요</div>
-												<br> <img src="../assets/img/campReview/campReview.jpg"
-													style="width: 400px; height: 400px;">
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<div id="comment_list_0"></div>
 							
-								<input type="hidden" name="page_type" value="board_view" /> <input
-									type="hidden" name="formnum" value="0" /> <input type="hidden"
-									name="code" value="ocamall_board13" /> <input type="hidden"
-									name="num1" value="998627" /> <input type="hidden" name="num2"
-									value="00000" /> <input type="hidden" name="page" value="1" />
-								<input type="hidden" name="lock" value="N" /> <input
-									type="hidden" name="type" value="v" /> <input type="hidden"
-									name="uti" value="1705459911" /> <input type="hidden"
-									name="key"
-									value="aqT3cAkuQhSMdd9t5n0exgHGEMulYxadTSJSwoN5qtPU19Dm/4pWyQ==" />
-								<input type="hidden" name="type2" /> <input type="hidden"
-									name="comnum" /> <input type="hidden" name="comtype" /> <input
-									type="text" name="___DUMMY___" readonly disabled
-									style="display: none;" /><input type="hidden" name="secret"
-									value="N" />
-
-								<div class="bfileUpload"
-									style="border-bottom: 2px solid #009223; height: 81.5px;">
-									<tr style="text-align: center;">
-										<div
-											style="width: 85.88px; height: 81.5; position: relative; left: 10px; top: 25px;">
-											<td class="article" style="position: relative; left: 5px;"><strong>첨부파일
-											</strong></td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										</div>
-										<div
-											style="width: 773.02px; height: 81.5; position: relative; left: 100px; bottom: 21px;">
-											<td colspan="3" style="text-align: center;">※첨부파일 없음</td>
-										</div>
-									</tr>
-								</div>
-
-
-								<!-- 하단 버튼 -->
-								<!-- 버튼 -->
-									<tr>
-										<input type="password" name="replyPw" id="replyIPw"
-										placeholder=" ※ 입력시 비밀글로 저장" style="width: 170px; height: 28px; position: relative; top: 65px;">
+							<colgroup>
+						        <col width="10%">
+						        <col width="70%">
+						        <col width="7%">
+						        <col width="13%">
+				   			</colgroup>
+						    <tr>
+						       <th style="text-align: left;"><strong>글제목</strong></th>
+						       <th style="text-align: left;"><span>${map.c_redto.cps_btitle}</span></th>
+						       <th style="text-align: left;"><strong>DATE</strong></th>
+						       <th><fmt:formatDate value="${map.c_redto.cps_bdate}" pattern="yyyy-MM-dd"/></th>
+						    </tr>
+						    <tr style="border-bottom: 2px solid #009223;">
+						       <td style="text-align: left; font-size: 15px;"><strong>NAME</strong></td>
+						       <td style="font-size: 15px; text-align: left;">${map.c_redto.id}</td>
+						       <td style="text-align: left; font-size: 15px;"><strong>HIT</strong></td>
+						       <td style="font-size: 15px; text-align: left;">${map.c_redto.cps_bhit}</td>
+						    </tr>
+							<tr>
+								<td>
+									<div class="data-bd-cont">
+										<div id="MS_WritenBySEB">${map.c_redto.cps_bcontent}</div>
+										<!-- <br> <img src="../assets/img/campReview/campReview.jpg" style="width: 400px; height: 400px;"> -->
+									</div>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<div id="comment_list_0">
+							<div class="bfileUpload" style="border-bottom: 1px solid #eee; border-top: 1px solid #eee; height: 45px; display: flex; padding: 10px 0 10px 19px;">
+								<tr id="notice_bfile">
+									<td class="article" style="text-align: center;"><strong style="width: 100px">첨부파일</strong></td>
+									<c:if test="${map.c_redto.cps_bfile!=null}">
+										<td colspan="3">${map.c_redto.cps_bfile}</td>
+									</c:if>
+							</div>
+									
+							<div class="bfileUpload" style="border-bottom: 2px solid #009223; border-top: 1px solid #eee; height: 100%; display: flex; padding: 10px 0 10px 19px;">
+									<tr style="border-bottom: 2px solid #009223;">
+										<td class="notice_noimgfile"><strong  style="width: 100px">메인이미지</strong></td>
+										<td colspan="3" class="notice_img" ><img src="/upload/${map.c_redto.cps_bfile}"></td>
 									</tr>
 								
-								<div class="listBtn">
-									<button class="list">삭제</button>
-									<a href="fUpdate"><button class="list">수정</button></a> <a
-										href="fList"><button class="list">목록</button></a>
-								</div>
-
-								<!-- 댓글입력-->
-						<!-- 		<table id="replyPw" style="position: relative; left: 280px; bottom: 10px;">
-									<tr>
-										<tr>
-										<td id="replyBorder" style="width: 100px; height: 22px; position: relative; left: 290px; top: 10px;
-										border: 1px solid white; font-size: 14px;"><strong>댓글 비밀번호</strong>
+									<c:if test="${map.c_redto.cps_bfile==null}">
+										<td colspan="3">※첨부파일 없음※</td>
+										<tr style="border-bottom: 2px solid #009223;">
+											<td class="notice_noimgfile"><strong  style="width: 100px">이미지</strong></td>
+											<td colspan="3" class="notice_noimg"><img src="#"></td>
 										</tr>
-										<tr>
-										<input type="password" name="replyPw" id="replyIPw"
-										placeholder=" ※ 입력시 비밀글로 저장" style="width: 170px; height: 28px; position: relative; left: 820px; top: 180px;">
-										</tr>
-								</table>  -->
-	
-								<table>
-									<tr>
-										<textarea
-											placeholder=" ※ 댓글을 입력하세요. (타인을 향한 욕설 및 비방은 무통보 삭제됩니다.)"
-											style="width: 1000px; height: 88px; position: relative; bottom: 2px;"></textarea>
-										<button id="replybtn" style="width: 84.33px; height: 88px;">등록</button>
-									</tr>
-								</table>
-
-								<!-- 이전글/다음글-->
-								<table
-									style="margin-top: -150px; position: relative; top: 120px; font-size: 14px; width: 1100px;">
-									<tr>
-										<td colspan="4"><strong>다음글</strong> <span
-											class="separator">|</span><a href="#"> [키즈잼] 2월 프로그램 안내</a></td>
-									</tr>
-									<tr>
-										<td colspan="4"><strong>이전글</strong> <span
-											class="separator">|</span><a href="#"> [키즈잼] 2020년 1분기 정기
-												휴관일 안내</a></td>
-									</tr>
-								</table>
-								<!-- 이전글/다음글 끝-->
-
-								<!-- 댓글보기-->
-								<table
-									style="margin-top: 70px; position: relative; top: 120px; font-size: 14px; width: 1100px;">
-									<td style="font-weight: 700">총<strong
-										style="color: #009223">&nbsp;&nbsp;5</strong>&nbsp;개의 댓글이
-										등록되었습니다.
-									</td>
-									<tr>
-										<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12
-												15:27:23:00]</span>
-											<li id="replyTxt">&nbsp;&nbsp;댓글내1용일 들어갑니다. <br>ex)이벤트
-												너무 좋아요! 꼭 참여해서 혜택받아볼게요!
-										</li>
-											<li id="replyBtn">
-												<button id="rDelBtn">삭제</button>
-												<button id="rUBtn">수정</button>
-										</li></td>
-									</tr>
-									<tr>
-										<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12
-												15:27:23:00]</span>
-											<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트
-												너무 좋아요! 꼭 참여해서 혜택받아볼게요!
-										</li>
-											<li id="replyBtn">
-												<button id="rDelBtn">삭제</button>
-												<button id="rUBtn">수정</button>
-										</li></td>
-									</tr>
-									<tr>
-										<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12
-												15:27:23:00]</span>
-											<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트
-												너무 좋아요! 꼭 참여해서 혜택받아볼게요!
-										</li>
-											<li id="replyBtn">
-												<button id="rDelBtn">삭제</button>
-												<button id="rUBtn">수정</button>
-										</li></td>
-									</tr>
-									<tr>
-										<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12
-												15:27:23:00]</span>
-											<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트
-												너무 좋아요! 꼭 참여해서 혜택받아볼게요!
-										</li>
-											<li id="replyBtn">
-												<button id="rDelBtn">삭제</button>
-												<button id="rUBtn">수정</button>
-										</li></td>
-									</tr>
-									<tr>
-										<td><strong>댓글 작성자</strong> | <span style="color: blue;">aaa</span>&nbsp;&nbsp;<span>[2024-12-12
-												15:27:23:00]</span>
-											<li id="replyTxt">&nbsp;&nbsp;댓글내용일 들어갑니다. <br>ex)이벤트
-												너무 좋아요! 꼭 참여해서 혜택받아볼게요!
-										</li>
-											<li id="replyBtn">
-												<button id="rDelBtn">삭제</button>
-												<button id="rUBtn">수정</button>
-										</li></td>
-									</tr>
-
-								</table>
-								<!-- 댓글보기 끝-->
+									</c:if>
+								</tr>
+							</div>
 						</div>
-					</div>
-					<!-- .page-body -->
-				</div>
-				<!-- #bbsData -->
-			</div>
-			<!-- #content -->
-		</div>
-		<!-- #contentWrap -->
-		</div>
-		<!-- #contentWrapper-->
+						<!-- 본문 끝 -->
+						
+						<!-- 이전글/다음글 시작-->
+						<table style="margin-top: -80px; position: relative; top: 120px; font-size: 14px; width: 1100px;">
+							<tr>
+								<td colspan="4" style="border-bottom: 2px solid #eee;"><strong>다음글</strong>
+								<c:if test="${map.next_c_redto != null}">
+									<span class="separator">|</span><a href="review_site?cps_bno=${map.next_c_redto.cps_bno}">${map.next_c_redto.cps_btitle}</a></td>
+								</c:if>
+								<c:if test="${map.next_c_redto == null}">
+									<span class="separator">|</span>다음글이 없습니다.
+								</c:if>
+							</tr>
+							<tr>
+								<td colspan="4"><strong>이전글</strong>
+								<c:if test="${map.prev_c_redto != null}">
+									<span class="separator">|</span><a href="review_site?cps_bno=${map.prev_c_redto.cps_bno}">${map.prev_c_redto.cps_btitle}</a></td>
+								</c:if>
+								<c:if test="${map.prev_c_redto == null}">
+									<span class="separator">|</span>이전글이 없습니다.
+								</c:if>
+							</tr>
+						</table>
+						<!-- 이전글/다음글 끝-->
+						
+						<script>
+					    	var authorId = "${map.c_redto.id}";
+					        var currentUserId = "${session_id}";
+					    </script>
+						
+						<div class="listBtn">
+							<button type="button" class="list site_Delete">삭제</button>
+							<button type="button" class="list site_Update">수정</button>
+							<a href="siteReview"><button type="button" class="list">목록</button></a>
+						</div>
+											
+						<!-- 댓글 입력 시작 -->
+						<tr>
+							<p class="password"><strong>비밀번호&nbsp;&nbsp;</strong><input type="password" class="replynum" placeholder=" ※ 입력시 비밀글로 저장"/></p>
+						</tr>
+						
+						<script type="text/javascript">
+							let temp = 0;
+							let cps_bno = "${map.c_redto.cps_bno}";
+						</script>
+						
+						<table>
+							<tr>
+								<textarea class="review_replyTxt" placeholder=" ※ 댓글을 입력하세요. (타인을 향한 욕설 및 비방은 무통보 삭제됩니다.)" style="width: 1000px; height: 88px; position: relative; bottom: 2px;"></textarea>
+								<button type="button" id="replybtn" style="width: 90px; height: 88px;">등록</button>
+							</tr>
+						</table>
+						<!-- 댓글 입력 끝 -->
+
+						<!-- 댓글보기 시작-->
+						<table style="margin-top: 70px; position: relative; top: -100px; font-size: 14px; width: 1100px; border-collapse: collapse;">
+						    <tr>
+						        <td style="font-weight: 700; border-bottom: 2px solid #eee;">총<strong class="cps_count" style="color: #009223; margin: 0 10px;">${map.Cps_commentlist.size()}</strong>&nbsp;개의 댓글이 등록되었습니다.</td>
+						    </tr>
+						    <tbody class="replyBox">
+					        <c:forEach var="Cps_comment" items="${map.Cps_commentlist}" varStatus="loop">
+						    <tr id="${Cps_comment.cps_cno}">
+				                <td style="border-bottom: 2px solid #eee; padding: 10px;">
+				                    <strong>댓글 작성자</strong> | <strong style="color: blue;"class="cps_id">${Cps_comment.id}</strong>&nbsp;&nbsp;[<span>${Cps_comment.cps_cdate}</span>]
+				                    <li class="review_replyTxt">${Cps_comment.cps_ccontent}</li>
+				                    <c:if test="${session_id == Cps_comment.id}">
+				                    <li id="replyBtn">
+				                        <button type="button" class="rDelBtn">삭제</button>&nbsp;
+				                        <button type="button" class="rUBtn">수정</button>
+				                    </li>
+				                    </c:if>
+				                    <c:if test="${session_id == Cps_comment.id}">
+				                    <li id="replyBtn">
+				                    </li>
+				                    </c:if>
+				                </td>
+						    </tr>
+						    
+						    <!-- 수정창 시작-->
+						    <!--  
+						    <tr id="${Cps_comment.cps_bno}">
+				                <td style="border-bottom: 2px solid #eee; padding: 10px;">
+				                    <strong>댓글 작성자</strong> | <strong style="color: blue;">${Cps_comment.id}</strong>&nbsp;&nbsp;<span><fmt:formatDate value="${Cps_comment.cps_cdate}" pattern="YYYY-MM-DD HH:mm:ss"/></span>
+				                    <li class="review_replyTxt"><textarea cols="145%">${Cps_comment.cps_ccontent}</textarea></li>
+				                    <li id="replyBtn">
+				                        <button type="button" class="cps_cancel">취소</button>&nbsp;
+				                        <button type="button" class="cps_save">저장</button>
+				                    </li>
+				                </td>
+						    </tr>
+						    -->
+							<!-- 수정창 끝-->  
+							 
+							<!-- 비밀댓글 시작 -->
+							<!--  
+							<c:if test="${Cps_comment.cps_cpw !=null || Cps_comment.cps_cpw!='' }">
+								<tr id="${Cps_comment.cps_cno}">
+									<td style="border-bottom: 2px solid #eee; padding: 10px;">
+										<strong>댓글 작성자</strong> | <strong style="color: blue;">${Cps_comment.id}</strong>&nbsp;&nbsp;<span><fmt:formatDate value="${Cps_comment.cps_cdate}" pattern="YYYY-MM-dd HH:mm:ss"/></span>
+										<li class="review_replyTxt">※ 비밀 댓글입니다.</li>
+									</td>			
+								</tr>
+							</c:if>
+							-->
+							<!-- 비밀댓글 끝 -->
+							 
+					        </c:forEach>
+						    </tbody>
+						</table>
+
+						<!-- 댓글보기 끝-->
+						
+						</div> <!-- bbs-table-view 본문 끝 -->
+						</form>
+					</div> <!-- .page-body -->
+				</div> <!-- #bbsData -->
+			</div> <!-- #content -->
+		</div> <!-- #contentWrap -->
 	</section>
-	<!-- 하단 넘버링  -->
-	<!-- <div>
-		<ul class="page-num-used">
-			<li class="first-num"></li>
-			<li class="prev-num"></li>
-			<li class="num-used">1</li>
-			<li class="num-used">2</li>
-			<li class="num-used">3</li>
-			<li class="num-used">4</li>
-			<li class="num-used">5</li>
-			<li class="num-used">6</li>
-			<li class="num-used">7</li>
-			<li class="num-used">8</li>
-			<li class="num-used">9</li>
-			<li class="num-used">10</li>
-			<li class="next-num"></li>
-			<li class="last-num"></li>
-		</ul>
-	</div> -->
-
-
-		<!-- ======= Footer ======= -->
-		<%@include file="../include/footer.jsp"%>
-		<!-- End Footer -->
-</body>
-
+	<!-- ======= Footer ======= -->
+	<%@include file="../include/footer.jsp"%>
+	<!-- End Footer -->
 </body>
 </html>

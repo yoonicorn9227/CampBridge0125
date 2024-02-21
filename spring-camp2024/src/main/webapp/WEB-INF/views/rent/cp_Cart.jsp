@@ -33,10 +33,10 @@
 	    
 	</head>
 	<body>
-	<!-- ======= Header ======= -->
+ 	<!-- ======= Header ======= -->
 	<%@include file="../include/header.jsp" %>
 	<!-- End Header -->
-	
+
 		<section class="cp_cart">
 			<!-- 장바구니에 상품이 있을경우 -->
 					<!-- 장바구니 상품 -->

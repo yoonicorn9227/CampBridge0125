@@ -39,7 +39,7 @@
 		<link href="../assets/css/summernote-lite.css" rel="stylesheet">
 		
 		<!-- Template fUpdate JS File -->
-  		<script src="../assets/js/fboard/fUpdate.js"></script>
+  		<script src="../assets/js/community/fUpdate.js"></script>
 	</head>
 	<body>
 	<!-- ======= Header ======= -->

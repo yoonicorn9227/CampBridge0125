@@ -30,9 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /**
    * Navbar links active state on scroll
-   *  */
+   */
   let navbarlinks = document.querySelectorAll('#navbar a');
-	
+
   function navbarlinksActive() {
     navbarlinks.forEach(navbarlink => {
 
@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   window.addEventListener('load', navbarlinksActive);
   document.addEventListener('scroll', navbarlinksActive);
-
 
   /**
    * Mobile nav toggle
@@ -112,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /**
    * Scroll top button
- **/
+   */
   const scrollTop = document.querySelector('.scroll-top');
   if (scrollTop) {
     const togglescrollTop = function() {
@@ -139,32 +138,6 @@ document.addEventListener('DOMContentLoaded', () => {
   new PureCounter();
 
   /**
-   * Review 
-   */
-  	var swiper = new Swiper(".mySwiper",{
-			slidesPerView : 4,
-			spaceBetween: 30,
-			grabCursor : true,
-			autoplay: {
-				delay:2500,
-				disableOnInteraction : false,
-				pauseOnMouseEnter : true,
-			},
-			slidesPerGroup : 1,
-			loop: true,
-			loopFillGroupWithBlank : true,
-			paginateion: {
-				el:".swiper-pagination",
-				clickable: true,
-				
-			},
-			navigation:{
-				nextEl: ".swiper-button-next",
-				prevEl: ".swiper-button-prev"
-			},
-		});
-  
-  /**
    * Init swiper slider with 1 slide at once in desktop view
    */
   new Swiper('.slides-1', {
@@ -186,9 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /*
+  /**
    * Init swiper slider with 3 slides at once in desktop view
-   **/
+   */
   new Swiper('.slides-3', {
     speed: 600,
     loop: true,
@@ -217,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
-
 
   /**
    * Gallery Slider

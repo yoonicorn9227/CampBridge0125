@@ -13,11 +13,21 @@ public interface User_campMapper {
 	//아이디찾기-name,mail
 	User_campDto idsearch(String name, String email);
 
+	//비밀번호 찾기
+	User_campDto pwsearch(String id, String email);
+	
+	void update_pw(String id, String pwcode);
+	
+	
+	
+	//============================회원가입
 	//회원가입 저장
-	void signUp(User_campDto ucdto);
+	public void signUpinsert(User_campDto ucdto);
 
 	//아이디체크
 	User_campDto idCheck(String id);
+
+
 
 
 

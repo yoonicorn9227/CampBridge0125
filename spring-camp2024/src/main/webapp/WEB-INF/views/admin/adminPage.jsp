@@ -42,6 +42,23 @@
   ======================================================== -->
 </head>
 
+
+			<c:if test="${session_id ne 'admin'}">
+		    <script>
+		        alert('관리자로 로그인이 필요합니다.');
+		        window.location.href = '/my/login';
+		    </script>
+			</c:if>
+			<c:if test="${session_id eq 'admin'}">
+			    <script>
+			        $(document).ready(function () {
+			            $("#adminChk").click(function () {
+			                alert('관리자로 로그인 되었습니다.');
+			                window.location.href = '/admin/adminPage';
+			            });
+			        });
+		    </script>
+			</c:if>
 <body>
 
   <!-- ======= Header ======= -->

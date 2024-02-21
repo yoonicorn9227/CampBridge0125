@@ -45,7 +45,7 @@
 		<link href="../assets/css/summernote-lite.css" rel="stylesheet">
 		
 		<!-- Template nWrite JS File -->
-  		<script src="../assets/js/fboard/pWrite.js"></script>
+  		<script src="../assets/js/community/pWrite.js"></script>
 	</head>
 	<body>
 	<!-- ======= Header ======= -->

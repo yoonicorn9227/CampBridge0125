@@ -33,12 +33,16 @@
 		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
 		<link href="../assets/css/community/viewStyle.css" rel="stylesheet">
 		<link href="../assets/css/community/writeStyle.css" rel="stylesheet">
-        <script src="../assets/js/summernote-lite.js"></script>
-        <script src="../assets/js/summernote/lang/summernote-ko-KR.js"></script>
 		<link href="../assets/css/summernote-lite.css" rel="stylesheet">
+		<link href="../assets/css/community/nstyle.css" rel="stylesheet">
 		
 		<!-- Template nWrite JS File -->
-  		<script src="../assets/js/nWrite.js"></script>
+  		<script src="../assets/js/community/n_total.js"></script>
+  		<script src="../assets/js/summernote.js"></script>
+        <script src="../assets/js/summernote-lite.js"></script>
+        <script src="../assets/js/summernote/lang/summernote-ko-KR.js"></script>
+  		
+ 
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
@@ -49,37 +53,42 @@
 		
 			<!-- 공지사항 글쓰기 -->
 	    	<h1 style="float: left; margin: 40px; font-weight: 700; position: relative; left:235px; top: 30px;">공지사항 작성</h1>
-			<form action="" name="freeFrm" method="post" enctype="multipart/form-data">
+			<form action="nWrite" name="nWriteFrm" method="post" enctype="multipart/form-data">
 			    <table>
 			     <colgroup>
-			        <col width="5%">
-			        <col width="75%">
+			        <col width="10%">
+			        <col width="70%">
 			        <col width="10%">
 			        <col width="10%">
 	   			</colgroup>
 			      <tr>
 			        <th style="text-align: center;">
-		        	 	<select name="bType" id="bType" class="bType">
-					       <option value="nOtice">공지사항</option>
-					       <option value="eVent">이벤트</option>
+		        	 	<select name="n_btype" id="bType" class="bType">
+					       <option value="instapayment">공지사항</option>
+					       <option value="event">이벤트</option>
 					    </select>
 			        </th>
-			        <th colspan="3" style="text-align: left;"><input type="text" id="n_btitle" placeholder=" ※ 게시글 제목을 입력해주세요."> </span></th>
+			        <th colspan="3" style="text-align: left;"><input type="text" id="n_btitle" name="n_btitle" placeholder=" ※ 게시글 제목을 입력해주세요."> </span></th>
 			      </tr>
 			      <tr style="border-bottom: 2px solid #009223">
 			        <td style="text-align: center;"><strong>작성자 | </strong></td>
-			        <td><input type="text" value="관리자" readonly="readonly" style="border: 1px solid transparent;"> </td>
+			        <td><input type="text" value="${session_id}" name="id" readonly="readonly" style="border: 1px solid transparent;"> </td>
 			      </tr>
 			      <tr>
 			        <td colspan="4" class="article"><textarea rows="9" name="n_bcontent" id="summernote" placeholder=" ※ 게시글 내용을 입력해주세요."></textarea> </td>
 			      </tr>
 			      <tr style="border-bottom: 2px solid #009223; line-height: 20px;">
-			        <td colspan="4" class="article"><input type="file" name="n_bfile" id="n_bfile"></td>
+			      	<td><strong>첨부파일</strong></td>
+			        <td colspan="3" class="article1">
+				         <div class="file-preview-container" id="filePreviewContainer"></div>
+				        <input type="file" name="files1" id="n_bfile_write">
+			        </td>
 			      </tr>
 			    </table>
+
 			</form>
 			<div class="listBtn">
-		    	<a href="#"><div class="list" id="saveBtn">저장</div></a>
+		    	<a><div class="list" id="saveBtn">저장</div></a>
 		    	<a href="nList"><div class="list">취소</div></a>
 			</div>
  		 </section>

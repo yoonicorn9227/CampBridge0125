@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- MemberMapper.java 연결  (인터페이스)-->
+<mapper namespace="com.java.www.mapper.NBoardMapper">
+
+	<!-- 게시글 전체 가져오기 -->
+	<select id="selectAll" resultType="com.java.www.dto.NBoardDto">
+		select * from (
+		select row_number() over(order by n_bno desc) rnum , a.* from 
+		(select * from n_board
+		
+		<if test="category == 'n_btitle' or category == 'n_bcontent'">
+			where ${category} like '%'||#{searchWord}||'%'
+		</if>
+		<if test="category == 'all'">
+			where n_btitle like '%'||#{searchWord}||'%' or n_bcontent like '%'||#{searchWord}||'%'
+		</if>
+
+		order by n_bno desc) a)
+		where rnum between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="selectSearch" resultType="com.java.www.dto.NBoardDto">
+			select * from (
+			select row_number() over(order by n_bno desc) rnum , a.* from (
+			select * from n_board
+			<if test="category == 'n_btitle' or category == 'n_bcontent'">
+				where ${category} like '%'||#{searchWord}||'%'
+			</if>
+			<if test="category == 'all'">
+				where n_btitle like '%'||#{searchWord}||'%' or n_bcontent like '%'||#{searchWord}||'%' 
+			</if>
+			order by n_bno desc) a)
+			where rnum between #{startRow} and #{endRow}
+		</select>
+	
+	
+	<select id="selectCountAll" resultType="int">
+		select count(*) from n_board
+		<if test="category == 'n_btitle' or category =='n_bcontent'">
+		where ${category} like '%'||#{searchWord}||'%'
+	</if>
+	<if test="category == 'all'">
+		where n_btitle like '%'||#{searchWord}||'%' or n_bcontent like '%'||#{searchWord}||'%'
+	</if>
+	</select>
+	
+	<!-- 현재글 가져오기 -->
+	<select id="selectOne" resultType="com.java.www.dto.NBoardDto">
+		select * from n_board where n_bno=#{n_bno}
+	</select>
+	
+	<!-- 이전글 가져오기 -->
+	<select id="selectOnePrev" resultType="com.java.www.dto.NBoardDto">
+		select * from(
+		select row_number() over(order by n_bno desc)rnum, a.* from n_board a)
+		where rnum = (select rnum from
+		(select row_number() over(order by n_bno desc)rnum, a.* from n_board a)
+		where n_bno = #{n_bno})+1
+	</select>
+	
+	<!-- 다음글 가져오기  -->
+	<select id="selectOneNext" resultType="com.java.www.dto.NBoardDto">
+		select * from(
+		select row_number() over(order by n_bno desc)rnum, a.* from n_board a)
+		where rnum = (select rnum from
+		(select row_number() over(order by n_bno desc)rnum, a.* from n_board a)
+		where n_bno = #{n_bno})-1
+	</select>
+	
+	<!-- 댓글 전체 가져오기 -->
+	<select id="commentSelectAll" resultType="com.java.www.dto.NCommentDto">
+		select * from n_comment where n_bno=#{n_bno} order by n_cno desc
+	</select>
+	
+	<!-- 댓글 1개 저장하기-->
+	<insert id="NCommnetInsert" >
+		<selectKey resultType="com.java.www.dto.NCommentDto" keyProperty="n_cno,n_cdate" order="BEFORE">
+			select n_comment_seq.nextval n_cno, sysdate n_cdate from dual
+		</selectKey>
+		insert into n_comment values(#{n_cno}, #{n_bno}, #{id}, #{n_cpw}, #{n_ccontent}, #{n_cdate})
+	</insert>
+	
+	<update id="nbhitUp">
+		update n_board set n_bhit = n_bhit+1 where n_bno=#{n_bno}
+	</update>
+	
+	<!-- 댓글 1개 삭제하기 -->
+	<delete id="NCommnetDelete">
+		delete n_comment where n_cno = #{n_cno}
+	</delete>
+	
+	<!-- 댓글 1개 수정하기 -->
+	<update id="NCommentUpdate">
+		update n_comment set n_cpw=#{n_cpw}, n_ccontent = #{n_ccontent}, n_cdate = sysdate where n_cno=#{n_cno}
+	</update>
+	
+	<!-- 댓글 1개 가져오기 -->
+	<select id="nCommentSelectOne" resultType="com.java.www.dto.NCommentDto">
+		select * from n_comment where n_cno=#{n_cno}
+	</select>
+	
+	<insert id="bWrite">
+		insert into n_board values (n_board_seq.nextval,#{id},#{n_btype},#{n_btitle},#{n_bcontent},sysdate,0,#{n_bfile})
+	</insert>
+	
+	<update id="donUpdate">
+		update n_board set n_btype=#{n_btype}, n_btitle=#{n_btitle},n_bcontent=#{n_bcontent},n_bdate=sysdate,
+      n_bfile=#{n_bfile} where n_bno=#{n_bno}
+	</update>
+	
+	<delete id="nDelete">
+		delete n_board where n_bno = #{n_bno}
+	</delete>
+	
+
+</mapper>
+

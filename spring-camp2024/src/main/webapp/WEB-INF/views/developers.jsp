@@ -15,8 +15,8 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="/assets/img/favicon.png" rel="icon">
+  <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,15 +25,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200&family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/main2.css" rel="stylesheet">
-  <link href="assets/css/header.css" rel="stylesheet">
+  <link href="/assets/css/main2.css" rel="stylesheet">
+  <link href="/assets/css/header.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Yummy
@@ -58,7 +58,7 @@
   <section id="hero" class="hero" width="100%">
     <div class="container">
       <div class="row justify-content-between gy-5">
-        <div class="col-lg-5"><img src ="assets/img/developer_text.jpg" style="margin-top:100px; width:1300px; height:800px;"></div>
+        <div class="col-lg-5"><img src ="../assets/img/main/developer_text.jpg" style="margin-top:100px; width:1300px; height:800px;"></div>
           <br><br><br><br>
           <div class="devs" data-aos="fade-up" data-aos-delay="500">
           <br>
@@ -78,7 +78,7 @@
         
         
         <div class="d-flex" data-aos="fade-up" data-aos-delay="200" style="content-align:center"></div>
-        <img src ="assets/img/developers2.png">	
+        <img src ="../assets/img/main/TeamPhoto.jpg">	
 		<br>
 		<br>
 		<br>
@@ -123,15 +123,15 @@
   <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/vendor/aos/aos.js"></script>
+  <script src="/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="/assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="/assets/js/main.js"></script>
 
 </body>
 

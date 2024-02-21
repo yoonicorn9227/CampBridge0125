@@ -58,7 +58,7 @@
   <section id="hero" class="hero d-flex align-items-center ">
     <div class="container">
       <div class="row justify-content-between gy-5">
-        <div class="col-lg-5"><img src="assets/img/Camp+Bridge.png"
+        <div class="col-lg-5"><img src="../assets/img/main/Camp+Bridge.png"
          style="width:1300px; height:700px;">
          </div>
           
@@ -82,7 +82,7 @@
           </div>
             
           <div class="campsite" style="padding:300 0;">
-          <img src ="assets/img/campsite.jpg" style="width:1300px; height:700px;">	
+          <img src ="../assets/img/main/campsite.jpg" style="width:1300px; height:700px;">	
 			<br>
 			<br>
 			<br>

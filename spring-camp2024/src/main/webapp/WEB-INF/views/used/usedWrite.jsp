@@ -48,7 +48,7 @@
 		<section class="notice">
 		
 			<!-- 중고거래&캠핑장양도_글쓰기 -->
-	    	<h1 style="float: left; margin: 40px; font-weight: 700; position: relative; left:235px; top: 30px;">자유게시판 작성</h1>
+	    	<h1 style="float: left; margin: 40px; font-weight: 700; position: relative; left:235px; top: 30px;">중고거래&캠핑장양도_글작성</h1>
 			<form action="" name="freeFrm" method="post" enctype="multipart/form-data">
 			    <table>
 			     <colgroup>

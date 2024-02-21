@@ -10,7 +10,7 @@ section {margin: 150px 50px; text-align: center; background-image: url('../../im
 
 * {padding: 0;	margin: 0 auto;}
 
-.loginback {background-repeat: no-repeat;	background-position: center;	margin-top: 80px;}
+.loginback {background-repeat: no-repeat;	background-position: center;	margin-top: 40px; margin-bottom:50px;}
 .login_wap {margin-top:200px;	background-color:white;	width: 500px;	height: 700px;	border: 5px solid #FFCE32;	border-radius: 20px;	box-sizing: border-box;}
 .login_wap>h2 {padding-top: 40px;	font-size: 40px;	color: #868e96;	margin-bottom: 20px;	text-align: center;	margin-left: 10px;	font-weight: 700;}
 #log_f>input {border: none;	width: 350px;	height: 55px;	padding: 0 10px;	box-sizing: border-box;	margin-bottom: 12px;	border-radius: 13px;	background-color: #F8F8F8;	font-size: 20px;}
@@ -29,7 +29,7 @@ section {margin: 150px 50px; text-align: center; background-image: url('../../im
 #find a {color:#009223;}
 #find a:hover {color: #FFCE32;}
 
-#kakaologinBtn {background-image: url('../../img/login/kakao_login.png');}
+#kakaologinBtn {border: none;	font-size: 30px; border-radius: 30px;	margin-top: 10px;	cursor: pointer;}
 #my-signin2 {border-radius: 10px;	overflow: hidden;	width: 350px;}
 .askSingup {margin-left: 20px;	font-size: 14px;	margin-top: 20px;}
 .suGo {font-size: 24px;	font-weight: 600;}

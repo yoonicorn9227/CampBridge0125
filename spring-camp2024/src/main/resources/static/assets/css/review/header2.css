@@ -11,6 +11,19 @@
   border-bottom: 1px solid #fff;
 }
 
+.nim-name{
+font-size: 16px;
+position: relative; top: 4px; right:2px;
+color:#009223;	
+}
+
+.out-name{
+font-size: 16px; 	
+position: relative; top: 4px; left:1px;
+color:#009223;
+}
+
+
 @media (max-width: 575px) {
   .header {
     height: 70px;

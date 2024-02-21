@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.java.www.dto.FBoardDto;
 import com.java.www.dto.FCommentDto;
-import com.java.www.dto.PCommentDto;
 
 public interface FService {
 
@@ -37,6 +36,5 @@ public interface FService {
 
 	// 4. 자유게시판 - 게시글 답글저장
 	void doFReply(FBoardDto fbdto);
-
 
 }// FService

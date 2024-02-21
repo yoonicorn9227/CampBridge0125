@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>나의 게시물</title>
+		<title>나의 게시글</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	    <meta content="" name="description">
 	    <meta content="" name="keywords">
@@ -39,8 +38,8 @@
 	
 		<section class="myList">
 			<!-- 자유게시판 리스트 -->
-			<img src="../assets/img/myList_icon.png">
-	    	<h1>나의 게시물</h1>
+			<img src="../assets/img/mypage/myList.png">
+	    	<h1>나의 게시글</h1>
 		    <!-- 검색창 -->
 		    <div class="searchDiv">
 			  <form action="" method="get" name="searchFrm">
@@ -54,6 +53,7 @@
 			    	<button type="button" id="searchBtn" class="searchBtn">검색</button>
 			  </form>
 			</div>
+			
 			<table>
 		  		<div class="page-title myList_th">
 			      <colgroup>
@@ -64,6 +64,7 @@
 			        <col width="10%">
 			        <col width="10%">
 			      </colgroup>
+			      
 			      <tr>
 			        <th>No.</th>
 			        <th>게시글 유형</th>
@@ -72,86 +73,62 @@
 			        <th>작성일</th>
 			        <th>조회수</th>
 			      </tr>
+			      
+			      <c:forEach var="fdto" items="${list}">
 			      <tr>
-			        <td id="No">1</td>
-			        <td style="color:red; font-weight: bold;">[자유게시판]</td>
-			        <td class="table-title"><a href="fView">게시글 내용이 들어갑니다.</a></td>
-			        <td>aaa</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td id="No">${fdto.f_bno}</td>
+			        <td style="color: purple; font-weight: bold;">[자유게시판]
+			        <!--<c:if test="${fdto.f_btype=='instapayment'}">[자유게시판]</c:if>-->
+			        </td>
+			        <td class="table-title"><a href="../community/fView">${fdto.f_btitle}</a></td>
+			        <td>${fdto.id}</td>
+			        <td>
+			        <fmt:formatDate value="${fdto.f_bdate}" pattern="yyyy-MM-dd"/>
+			        </td>
+			        <td>${fdto.f_bhit}</td>
 			      </tr>
+			      </c:forEach>
+			      
+			      <c:forEach var="cpsRdto" items="${list2}">
 			      <tr>
-			        <td id="No">2</td>
-			          <td style="color:red; font-weight: bold;">[자유게시판]</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>aaa</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">3</td>
-			          <td style="color:red; font-weight: bold;">[자유게시판]</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>aaa</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">4</td>
+			        <td id="No">${cpsRdto.cps_bno}</td>
 			        <td style="color:green; font-weight: bold;">[캠핑장리뷰]</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>aaa</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td class="table-title"><a href="../review/review_site">${cpsRdto.cps_btitle}</a></td>
+			        <td>${cpsRdto.id}</td>
+			        <td>
+			        <fmt:formatDate value="${cpsRdto.cps_bdate}" pattern="yyyy-MM-dd"/>
+			        </td>
+			        <td>${cpsRdto.cps_bhit}</td>
 			      </tr>
+			      </c:forEach>
+			      
+			      <c:forEach var="tdto" items="${list3}">
 			      <tr>
-			        <td id="No">5</td>
-			        <td style="color:green; font-weight: bold;">[캠핑장리뷰]</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>aaa</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td id="No">${tdto.t_bno}</td>
+			        <td style="color:darkorange; font-weight: bold;">[캠핑꿀팁]</td>
+			        <td class="table-title"><a href="../review/review_site">${tdto.t_btitle}</a></td>
+			        <td>${tdto.id}</td>
+			        <td>
+			        <fmt:formatDate value="${tdto.t_bdate}" pattern="yyyy-MM-dd"/>
+			        </td>
+			        <td>${tdto.t_bhit}</td>
 			      </tr>
+			      </c:forEach>
+			      
+			      <c:forEach var="cppRdto" items="${list4}">
 			      <tr>
-			        <td id="No">6</td>
-			        <td style="color:red; font-weight: bold;">[자유게시판]</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>aaa</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td id="No">${cppRdto.cpp_bno}</td>
+			        <td style="color:navy; font-weight: bold;">[캠핑용품리뷰]</td>
+			        <td class="table-title"><a href="../review/review_equip">${cppRdto.cpp_btitle}</a></td>
+			        <td>${cppRdto.id}</td>
+			        <td>
+			        <fmt:formatDate value="${cppRdto.cpp_bdate}" pattern="yyyy-MM-dd"/>
+			        </td>
+			        <td>${cppRdto.cpp_bhit}</td>
 			      </tr>
-			      <tr>
-			        <td id="No">7</td>
-			        <td style="color:Orange; font-weight: bold;">[캠핑꿀팁]</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>aaa</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">8</td>
-			        <td style="color:red; font-weight: bold;">[자유게시판]</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>aaa</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">9</td>
-			        <td style="color:red; font-weight: bold;">[자유게시판]</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>aaa</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">10</td>
-			        <td style="color:blue; font-weight: bold;">[캠핌용품리뷰]</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>aaa</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
+			      </c:forEach>
+			      
+			      
 		  		</div>
 		    </table>
 			 
@@ -162,15 +139,6 @@
 			      <li class="first"></li>
 			      <li class="prev"></li>
 			      <li class="num">1</li>
-			      <li class="num">2</li>
-			      <li class="num">3</li>
-			      <li class="num">4</li>
-			      <li class="num">5</li>
-			      <li class="num">6</li>
-			      <li class="num">7</li>
-			      <li class="num">8</li>
-			      <li class="num">9</li>
-			      <li class="num">10</li>
 			      <li class="next"></li>
 			      <li class="last"></li>
    			 </ul>

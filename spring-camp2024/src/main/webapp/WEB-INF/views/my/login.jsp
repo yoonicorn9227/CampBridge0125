@@ -34,6 +34,10 @@
 	    <link href="../assets/css/header.css" rel="stylesheet">
         <link href="../assets/css/my/login.css" rel="stylesheet">
         
+        <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+        
+        
+        
     	<script>
 			$(function(){
 				
@@ -41,7 +45,7 @@
 				
 				$("#signUpBtn").click(function(){
 					alert("회원가입 페이지로 이동합니다.")
-					location.href="a_signUp.do";
+					location.href="signUp";
 				});//#회원가입
 		    //----------------아이디 저장하기--------------------
 				var savedId = localStorage.getItem("rememberedId");
@@ -96,8 +100,9 @@
 			      });
 			    }			
 		</script>
-		 <!--Google login  -->
+		 <!--Google login 
        	<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+       	 -->
     </head>
     <body>
     <!-- ======= Header ======= -->
@@ -119,7 +124,21 @@
                 <div id="find">
                 	<span><a href="idpw_search" >아이디/비밀번호 찾기</a></span>
                 </div>
-                <input type="button" id="kakaologinBtn" >
+                <script>
+                	$(function(){
+                		$("#kakaologinBtn").click(function(){
+                			alert("카카오로그인");
+                			location.href="https://kauth.kakao.com/oauth/authorize?client_id=6a62d12451f24681e508a5652789bd95&redirect_uri=http://localhost:8000/kakao/oauth&response_type=code";
+                		});
+                		
+                		
+                		
+                		
+                	});//j
+                </script>
+                <button type="button" id="kakaologinBtn">
+                <img src="/assets/img/login/kakao_login.png">
+                 </button>
               	 <div id="my-signin2"></div>
               	<div class="ex_join">
                 <p class="askSingup">아직 계정이 없나요? &nbsp<span class="suGo"><a href="signUp">회원가입</a></span></p>

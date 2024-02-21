@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -27,10 +28,14 @@
 	    <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 	    <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 	
+	    <!-- JS File -->
+	    <script src="../assets/js/community/n_total.js"></script>
+	    
 	    <!-- Template Main CSS File -->
 	    <link href="../assets/css/main2.css" rel="stylesheet">
 		<link href="../assets/css/header.css" rel="stylesheet">
 		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
+		<link href="../assets/css/community/nstyle.css" rel="stylesheet">
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
@@ -42,18 +47,18 @@
 		<h1 style="margin: 10px; font-weight: 700; position: relative; top: 40px; left: -600px; ">공지사항</h1>
 		    <!-- 검색창 -->
 		    <div class="searchDiv">
-			  <form action="" method="get" name="searchFrm">
-			    <select name="searchTitle" id="searchTitle" class="searchTitle">
+			  <form action="nList" method="get" name="nListSearchFrm">
+			    <select name="category" id="searchTitle" class="searchTitle">
 			       <option value="all">전체</option>
-			       <option value="btitle">제목</option>
-			       <option value="bcontent">내용</option>
-			       <option value="id">작성자</option>
+			       <option value="n_btitle">제목</option>
+			       <option value="n_bcontent">내용</option>
 			    </select>
 			    	<input type="text" name="searchWord" id="searchWord" class="searchWord" placeholder=" 검색어를 입력해주세요.">
-			    	<button type="button" onclick="searchBtn()" id="searchBtn" class="searchBtn">검색</button>
+			    	<button type="button" id="searchBtn" class="searchBtn">검색</button>
 			  </form>
+
 			</div>
-			<table>
+			<table class="nList_table">
 		  		<div class="page-title">
 			      <colgroup>
 			        <col width="8%">
@@ -71,108 +76,68 @@
 			        <th>작성일</th>
 			        <th>조회수</th>
 			      </tr>
+			  
+			      <c:forEach var="n_bdto" items="${map.list}">
 			      <tr>
-			        <td id="No">1</td>
-			        <td>공지사항</td>
-			        <td class="table-title"><a href="nView">게시글 내용이 들어갑니다.</a></td>
-			        <td>관리자</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
+			        <td id="No">${n_bdto.n_bno }</td>
+			        <c:if test="${n_bdto.n_btype=='instapayment'}">
+			       	 <td>공지사항</td>
+			        </c:if> 
+			        
+			        <c:if test="${n_bdto.n_btype=='event'}">
+			        	<td>이벤트</td>
+			        </c:if> 
+				
+			        <td class="table-title1">
+			        <a href="nView?n_bno=${n_bdto.n_bno}">${n_bdto.n_btitle}</a>
+			        </td>
+			    
+
+			        <td>${n_bdto.id }</td>
+			        <td>
+			        <fmt:formatDate value="${n_bdto.n_bdate}" pattern="yyyy-MM-dd"/>
+			        </td>
+			        <td>${n_bdto.n_bhit}</td>
 			      </tr>
-			      <tr>
-			        <td id="No">2</td>
-			        <td>공지사항</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">3</td>
-			        <td>공지사항</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">4</td>
-			        <td>공지사항</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">5</td>
-			        <td>공지사항</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">6</td>
-			        <td>공지사항</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">7</td>
-			        <td>공지사항</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">8</td>
-			        <td>공지사항</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">9</td>
-			        <td>공지사항</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
-			      <tr>
-			        <td id="No">10</td>
-			        <td>공지사항</td>
-			        <td class="table-title">게시글 내용이 들어갑니다.</td>
-			        <td>관리자</td>
-			        <td>2024-12-31</td>
-			        <td>111</td>
-			      </tr>
+			      </c:forEach>
 		  		</div>
 		    </table>
-			 	<a href="nWrite"><button class="write">글쓰기</button></a>
+		   
+		    <!-- 로그인 안되어 있을 경우, 글쓰기 금지 -->
+			 	<a href="nWrite" id="n_write"><button class="write" >글쓰기</button></a>
   			 	<button class="write" onclick="location.href='/'">메인홈</button>
 	    	
 	    	<!-- 하단넘버링 시작 -->
 		     <ul class="page-num">
-			      <li class="first"></li>
-			      <li class="prev"></li>
-			      <li class="num">1</li>
-			      <li class="num">2</li>
-			      <li class="num">3</li>
-			      <li class="num">4</li>
-			      <li class="num">5</li>
-			      <li class="num">6</li>
-			      <li class="num">7</li>
-			      <li class="num">8</li>
-			      <li class="num">9</li>
-			      <li class="num">10</li>
-			      <li class="next"></li>
-			      <li class="last"></li>
+		     
+			      <a href="nList?page=1&category=${map.category}&searchWord=${map.searchWord}"><li class="first"></li></a>
+			      <c:if test="${map.page>1 }">
+			      	<a href="nList?page=${map.page-1}&category=${map.category}&searchWord=${map.searchWord}"><li class="prev"></li></a>
+			      </c:if>
+					<c:if test="${map.page<=1 }">
+			       	<li class="prev"></li>
+			       </c:if>
+			       
+			       <c:forEach var="i" begin="${map.startPage}" end="${map.endPage}">
+			       	<c:if test="${map.page==i}">
+			       		<li class="num on"><div>${i}</div></li>
+			       	</c:if>
+			       	<c:if test="${map.page!=i}">
+			       		<a href="nList?page=${i}&category=${map.category}&searchWord=${map.searchWord}">
+			       			<li class="num"><div>${i}</div></li>
+			       		</a>
+			       	</c:if>
+			     </c:forEach>
+			     
+			     <c:if test="${map.page<map.maxPage }">
+			     	<a href="nList?page=${map.page+1}&category=${map.category}&searchWord=${map.searchWord}"><li class="next"></li></a>
+			     </c:if>
+			     <c:if test="${map.page>=map.maxPage}">
+			     	<li class="next"></li>
+			     </c:if>
+			      <a href="nList?page=${map.maxPage}&category=${map.category}&searchWord=${map.searchWord}"><li class="last"></li></a>
    			 </ul>
+   			 
    			 <!-- 하단넘버링 끝 -->
 		</section>
 		

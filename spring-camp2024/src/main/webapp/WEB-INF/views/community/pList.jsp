@@ -39,7 +39,7 @@
 		<link href="../assets/css/community/listStyle.css" rel="stylesheet">
 		
 		<!-- Template nWrite JS File -->
-  		<script src="../assets/js/fboard/pLists.js"></script>
+  		<script src="../assets/js/community/pList.js"></script>
 	</head>
 	<body>
 	<!-- ======= Header ======= -->
